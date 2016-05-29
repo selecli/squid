@@ -1,0 +1,38 @@
+monitor version: 1.4
+
+2006-09-14 :
+	1. added squid orignal response detect  monitoring feature.
+		oids are as follows: 
+		SNMPv2-SMI::enterprises.25337.30.1.101.53 = STRING: "-1"
+		SNMPv2-SMI::enterprises.25337.30.1.101.54 = STRING: "-1"
+		SNMPv2-SMI::enterprises.25337.30.1.101.55 = STRING: "-1"
+		SNMPv2-SMI::enterprises.25337.30.1.101.56 = STRING: "-1"
+
+
+2006-06-12 :
+        1. fixed config item "ntp_timeout" in monitor.conf, fixed item name in
+	   timeNtpChkMon.c
+           (fixed by LuoJun.Zeng)      
+                    
+2006-05-22 :
+        1. change log_dir in the monitor.conf .
+                /proclog/log/squid/archive ---->
+		/data/proclog/log/squid/archive
+           (changed by LuoJun.Zeng)
+
+
+2006-04-27 :
+	1. fix the "checkUpdateTime" bug in the squidResponseReader.pl  ;
+	   (fixed by Qingrong.Jiang)
+
+	2. fix the "errDiff" bug in the netStatusMon ; 
+	   (fixed by Luojun.Zeng)
+
+	3. change  the response  time' unit of squid and original server in
+	   the squidResponseMon.pl and squidOriginalResponseMon.pl , 
+		time unit : second --> milliseconds ; 
+	   (fix by Qingrong.Jiang)  
+
+        4. fix the "file not found" bug in netBandwidthMon.c
+           (fixed by LuoJun.Zeng)
+

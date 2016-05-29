@@ -1,0 +1,6 @@
+log_level 1
+cache_processes 4
+watch_interval 300
+watch_timeout 1000
+lb_type lscs
+lb_path /usr/local/squid/bin/lscs/sbin/nginx

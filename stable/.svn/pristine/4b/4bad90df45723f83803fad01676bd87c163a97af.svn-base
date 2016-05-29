@@ -1,0 +1,172 @@
+#!/usr/bin/perl
+
+# Author: xin.yao
+# Version: 1.0.2
+# Function:
+# 	reload named service,if failed, restart named.
+# History:
+# 	2013/09/05   xin.yao        create
+# 	2014/03/11   fangfang.yang  optimize the condition of reload success
+
+use strict;
+use warnings;
+
+use POSIX qw(strftime);
+use POSIX ":sys_wait_h";
+
+sub logMsg {
+    my ($outputFH, $msg) = @_;
+    my $t = strftime("%Y-%m-%d %H:%M:%S\n", localtime(time));
+    print $outputFH "$t $msg";
+}
+
+my $VERSION = "named_reload 1.0.2";
+
+if(@ARGV >= 1){
+    if($ARGV[0] eq "-v" or $ARGV[0] eq '-V'){
+	    print "$VERSION\n";
+		exit 0;
+	}
+	elsif($ARGV[0] eq '-h' or $ARGV[0] eq '--help'){
+	    print "  -v|V    show version infomation\n"; 
+	    print "  -h      show usage\n";
+		exit 0;
+	}
+	else {
+	    print "error parameters\n";
+	}
+}
+
+# check if exists the same process
+my $cmd = 'pidof named_reload';
+my $output = `$cmd`;
+if($output =~ /\d+/){
+    print "same process exists,exit!\n";
+    exit 1;
+}
+
+my @info;
+my $fh;
+my $logFH;
+
+# do log rotate
+if( -e "/var/log/chinacache/named_reload.log" ){
+    my $size = (stat("/var/log/chinacache/named_reload.log"))[7];
+    # need rotate
+    if($size > 50 * 1024 * 1024){
+        if( -e "/var/log/chinacache/named_reload.log.1.gz"){
+            unlink "/var/log/chinacache/named_reload.log.5.gz";
+            my $cnt = 4;
+            my $lastCnt = 5;
+            while($cnt > 0){
+                if( -e "/var/log/chinacache/named_reload.log.$cnt.gz" ){
+                    rename "/var/log/chinacache/named_reload.log.$cnt.gz", "/var/log/chinacache/named_reload.log.$lastCnt.gz";
+                }
+                $lastCnt = $cnt;
+                $cnt -= 1;
+            }
+            $cnt = 1 if $cnt == 0;
+            rename "/var/log/chinacache/named_reload.log", "/var/log/chinacache/named_reload.log.$cnt";
+            $cmd = "/bin/gzip /var/log/chinacache/named_reload.log.$cnt";
+            `$cmd`;
+        }
+        else {
+            my $cnt = 5;
+            while($cnt > 0){
+                if( ! -e "/var/log/chinacache/named_reload.log.$cnt.gz" ){
+                    last;
+                }
+                $cnt -= 1;
+            }
+            $cnt = 1 if $cnt == 0;
+            rename "/var/log/chinacache/named_reload.log", "/var/log/chinacache/named_reload.log.$cnt";
+            $cmd = "/bin/gzip /var/log/chinacache/named_reload.log.$cnt";
+            `$cmd`;
+        }
+    }
+}
+
+open $logFH, '>>', '/var/log/chinacache/named_reload.log' or do {
+    print STDERR "open log file failed:$!\n";
+    exit 1;
+};
+
+open $fh, '<', '/var/named/anyhost' or do {
+    logMsg($logFH, "open anyhost fail:$!\n");
+    close $logFH;
+    exit 1;
+};
+
+# get the timestamp line in anyhost
+my $timestamp;
+sub getTimestamp
+{
+	my $line;
+	#set flag if next line is timestamp 
+	my $flag = 0;
+	while($line = <$fh>){
+		if($line =~ /SOA/){
+			$flag = 1;
+			next;
+		}
+		if($flag == 1){
+			$timestamp = $line;
+			last;
+		}
+	}
+	close $fh;
+
+	$timestamp =~ s/[^\d]//g;
+}
+
+# try to reload named
+getTimestamp();
+`/etc/init.d/named reload`;
+sleep 6;
+$cmd = '/usr/bin/dig -p 53 @127.0.0.1 . soa +norec +short 2>/dev/null';
+$output = `$cmd`;
+@info = split /\s+/, $output;
+
+if(@info > 3 and $info[2] eq $timestamp){
+	logMsg($logFH, "named reload OK\n");
+	close $logFH;
+	exit 0;
+}
+
+
+# restart named. 
+# if failed, retry 3 times.
+for (my $i = 0; $i < 3; $i++)
+{
+	`pkill -9 -x named`;
+	`pkill -9 -x named`;
+	`pkill -9 -x named`;
+
+	sleep 3;
+
+	getTimestamp();
+
+	#start named
+	`/etc/init.d/named start`;
+	sleep 6;
+
+	$cmd = '/usr/bin/dig -p 53 @127.0.0.1 . soa +norec +short 2>/dev/null';
+	$output = `$cmd`;
+	@info = split /\s+/, $output;
+	#check if timestamp format is normal
+	if(@info <= 3 or $info[2] !~ /^\d+$/){
+		logMsg($logFH, "After named restart,timestamp result is un-normal, output: [$output]\n");
+		next;
+	}
+	#check if the two timpstamp is equal or not
+	if($info[2] ne $timestamp){
+		logMsg($logFH, "After named restart,two timestamps is not match, output: [$output]\n");
+		next;
+	}
+	logMsg($logFH, "named restart OK\n");
+	close $logFH;
+	exit 0;
+}
+close $logFH;
+exit 1;
+

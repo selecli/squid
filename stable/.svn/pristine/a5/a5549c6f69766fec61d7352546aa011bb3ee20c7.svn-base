@@ -1,0 +1,13 @@
+#Host Info Detect Times WarnTime(S) good_time(s) Len(Byte) Good_Ip Modify Backup Method Code  Ip
+*.          N  N  2  0.001  0.6 20000  2   Y  wild GET   2**|3**|404 0.0.0.0  
+*.cn.       N  N  2  0.001  0.6 20000  2   Y  wild GET   2**|3**|404 0.0.0.0 
+*.com.      N  N  2  0.001  0.6 20000  2   Y  wild GET   2**|3**|404 0.0.0.0 
+*.com.cn.   N  N  2  0.001  0.6 20000  2   Y  wild GET   2**|3**|404 0.0.0.0 
+*.gov.      N  N  2  0.001  0.6 20000  2   Y  wild GET   2**|3**|404 0.0.0.0 
+*.gov.cn.   N  N  2  0.001  0.6 20000  2   Y  wild GET   2**|3**|404 0.0.0.0 
+*.edu.      N  N  2  0.001  0.6 20000  2   Y  wild GET   2**|3**|404 0.0.0.0     
+*.edu.cn.   N  N  2  0.001  0.6 20000  2   Y  wild GET   2**|3**|404 0.0.0.0
+#CNC
+wild.       N  Y  2  0.001  0.6 20000  2   Y  no   GET:images.sohu.com/uiue/sohu_logo/beijing2008/sohu.gif     2**|3**|404     60.31.184.67|218.61.35.185
+#CHN 
+#wild.       N  Y  2  0.001  0.6 20000  2   Y  no   GET:images.sohu.com/uiue/sohu_logo/beijing2008/sohu.gif     2**|3**|404     218.30.70.107|222.73.243.9

@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# Chinacache SquidDevTeam
+# $Id$
+
+cat /monitor/pool/purgeGetoptMon.pool

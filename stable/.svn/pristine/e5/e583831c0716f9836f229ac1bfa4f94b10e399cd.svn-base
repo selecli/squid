@@ -1,0 +1,325 @@
+#!/bin/bash
+# squid		This shell script takes care of starting and stopping
+#		Squid Internet Object Cache
+# Chinacache R&D Dept. FlexiCache Team Alex Yu
+#
+# Modified by Yang Nan at 2008-08-20
+#
+# chkconfig: - 90 25
+# description: Squid - Internet Object Cache. Internet object caching is \
+# 	a way to store requested Internet objects (i.e., data available \
+# 	via the HTTP, FTP, and gopher protocols) on a system closer to the \
+#	requesting site than to the source. Web browsers can then use the \
+#	local Squid cache as a proxy HTTP server, reducing access time as \
+#	well as bandwidth consumption.
+
+# pidfile: /var/run/squid.pid
+# config: /usr/local/squid/etc/squid.conf
+
+REDIRECT="/usr/local/squid/bin/redirect"
+RedirectConfFile="/usr/local/squid/etc/redirect.conf"
+DETECTORIG="/usr/local/detectorig/sbin/detectorig"
+DIGRUN="/usr/local/detectorig/sbin/digRun"
+RedirectConfigErrorFile="/data/proclog/log/squid/redirectConfError.log"
+DomainConfigErrorFile="/var/log/chinacache/detectorigConfigError.log"
+OrigdomainConfigErrorFile="/var/log/chinacache/digRunConfigError.log"
+FCConfigErrorFile="/data/proclog/log/squid/squidConfError.log"
+TotalConfigErrorFile="/tmp/commonte.err"
+ConfFile=/usr/local/squid/etc/squid.conf
+WarningFile=/usr/local/squid/var/squid.conf.warn
+WarningFileRedirect=/usr/local/squid/var/redirect.conf.warn
+WarningFileDetectorig=/usr/local/squid/var/domain.conf.warn
+WarningFileDigRun=/usr/local/squid/var/origdomain.conf.warn
+ConfReload=/usr/local/squid/var/squid.conf.reload
+PATH=/usr/local/squid/sbin/:/usr/bin:/sbin:/bin:/usr/sbin
+export PurgeExt=/usr/local/squid/var/purge.ext
+export PATH
+RedirectStatus=`[ -f $ConfFile ] && sed -e 's/#.*//g' $ConfFile | egrep "(redirect_program)|(url_rewrite_program)"`
+
+# Source function library.
+. /etc/rc.d/init.d/functions
+
+# Source networking configuration.
+. /etc/sysconfig/network
+
+# Check that networking is up.
+[ ${NETWORKING} = "no" ] && exit 0
+
+# check if the squid conf file is present
+[ -f "$ConfFile" ] || exit 0
+
+if [ -f /etc/sysconfig/squid ]; then
+  . /etc/sysconfig/squid
+fi
+
+# don't raise an error if the config file is incomplete 
+# set defaults instead:
+SQUID_OPTS=${SQUID_OPTS:-"-D"}
+SQUID_PIDFILE_TIMEOUT=${SQUID_PIDFILE_TIMEOUT:-20}
+SQUID_SHUTDOWN_TIMEOUT=${SQUID_SHUTDOWN_TIMEOUT:-120}
+
+ulimit -n 500000
+#------------------------------------------------------
+purgeExtAnalysis()
+{
+	  Combined=`egrep -e 'cc_url_(header|cookie)_combination' $ConfFile|grep -v '^#'` 
+	  if [ -n "$Combined" ];then
+	    echo "1" > "$PurgeExt"
+	  else
+	    echo "0" > "$PurgeExt"
+	  fi
+}
+backupConfig()
+{
+	yes|cp  $ConfFile $ConfReload
+}
+#------------------------------------------------------
+# determine the name of the squid binary
+[ -f /usr/local/squid/sbin/squid ] && SQUID=/usr/local/squid/sbin/squid
+[ -z "$SQUID" ] && exit 0
+
+prog="$SQUID"
+
+# determine which one is the cache_swap directory
+CACHE_SWAP=`sed -e 's/#.*//g' /usr/local/squid/etc/squid.conf | \
+	grep cache_dir |  awk '{ print $3 }'`
+[ -z "$CACHE_SWAP" ] 
+
+RETVAL=0
+
+start() {
+    for adir in $CACHE_SWAP; do
+        if [ ! -d $adir/00 ]; then 
+	     echo -n "init_cache_dir $adir... "
+	     $SQUID -z -F -D 2>/dev/null
+	fi
+    done
+    echo -n $"Starting $prog: "
+	[ -f /usr/local/squid/bin/syntime.sh ]&& /usr/local/squid/bin/syntime.sh
+	$SQUID -D 2> /dev/null
+########################################################
+#    sed -i 's/http_port/#&/g' $ConfFile
+#    $SQUID 2> /dev/null
+#    sleep 5
+#    for DIR in $CACHE_SWAP
+#     do
+#      echo -n "$DIR is rebuilding......"
+#      REBUILDING=`ls $DIR/swap.state.new 2>/dev/null`
+#      while [ -n "$REBUILDING" ]
+#       do
+#        REBUILDING=`ls $DIR/swap.state.new 2>/dev/null`
+#       done
+#      echo "[Done]"
+#     done
+#    sed -i 's/#http_port/http_port/g' $ConfFile
+#    $SQUID -k reconfigure
+########################################################
+    RETVAL=$?
+    if [ $RETVAL -eq 0 ]; then 
+       timeout=0;
+       while : ; do
+          [ ! -f /var/run/squid.pid ] || break
+	  if [ $timeout -ge $SQUID_PIDFILE_TIMEOUT ]; then
+	     RETVAL=1
+	     break
+	  fi
+	  sleep 1 && echo -n "."
+	  timeout=$((timeout+1))
+       done
+    fi
+    [ $RETVAL -eq 0 ] && touch /var/lock/subsys/squid
+    #[ $RETVAL -eq 0 ] && /usr/local/squid/sbin/squid -k delete  >/dev/null 2>&1
+    [ $RETVAL -eq 0 ] && echo_success
+    [ $RETVAL -ne 0 ] && echo_failure
+    [ $RETVAL -ne 0 ] && purgeExtAnalysis 
+    [ $RETVAL -ne 0 ] && backupConfig 
+    echo
+    return $RETVAL
+}
+
+stop() {
+    echo -n  $"Stopping $prog: "
+    $SQUID -k check >/dev/null 2>&1
+    RETVAL=$?
+    if [ $RETVAL -eq 0 ] ; then
+        $SQUID -k shutdown &
+    	rm -f /var/lock/subsys/squid
+	timeout=0
+ 	while : ; do
+		[ -f /var/run/squid.pid ] || break
+		if [ $timeout -ge $SQUID_SHUTDOWN_TIMEOUT ]; then
+		    echo
+		    return 1
+		fi
+		sleep 2 && echo -n "." 
+		timeout=$((timeout+2))
+    	done
+	echo_success
+	echo 
+    else
+    	echo_failure
+	echo
+    fi
+    return $RETVAL
+}    
+
+mergefiles() {
+	if [ -f $FCConfigErrorFile ]; then
+		`cat $FCConfigErrorFile >> $TotalConfigErrorFile`
+	fi
+	if [ -f $RedirectConfigErrorFile ]; then
+		`cat $RedirectConfigErrorFile >> $TotalConfigErrorFile`
+	fi
+	if [ -f $DomainConfigErrorFile ]; then
+		`cat $DomainConfigErrorFile >> $TotalConfigErrorFile`
+	fi
+	if [ -f $OrigdomainConfigErrorFile ]; then
+		`cat $OrigdomainConfigErrorFile >> $TotalConfigErrorFile`
+	fi
+}
+
+removefiles() {
+	if [ -f $FCConfigErrorFile ]; then
+		`rm -rf $FCConfigErrorFile`
+	fi
+	if [ -f $RedirectConfigErrorFile ]; then
+		`rm -rf $RedirectConfigErrorFile`
+	fi
+	if [ -f $DomainConfigErrorFile ]; then
+		`rm -rf $DomainConfigErrorFile`
+	fi
+	if [ -f $OrigdomainConfigErrorFile ]; then
+		`rm -rf $OrigdomainConfigErrorFile`
+	fi
+	if [ -f $TotalConfigErrorFile ]; then
+		`rm -rf $TotalConfigErrorFile`
+	fi
+	if [ -f $WarningFile ]; then
+		`rm -rf $WarningFile`
+	fi
+	if [ -f $WarningFileRedirect ]; then
+		`rm -rf $WarningFileRedirect`
+	fi
+	if [ -f $WarningFileDetectorig ]; then
+		`rm -rf $WarningFileDetectorig`
+	fi
+	if [ -f $WarningFileDigRun ]; then
+		`rm -rf $WarningFileDigRun`
+	fi
+}
+
+reload() {
+	removefiles
+
+	$SQUID -k check 2>&1|tee $WarningFile 1>/dev/null
+    Status=`test -r "$WarningFile"&&cat "$WarningFile"`
+    if [[ ! -z "$Status" ]]; then
+        echo "squid.conf:$Status\n"
+	fi  
+	if [[ ! -z "$RedirectStatus" ]]; then
+		$REDIRECT $RedirectConfFile check 2>&1 | tee $WarningFileRedirect 1>/dev/null
+		StatusRedirect=`test -r "$WarningFileRedirect"&&cat "$WarningFileRedirect"`
+		if [[ ! -z "$StatusRedirect" ]]; then
+			echo "redirect.conf:$StatusRedirect\n"
+		fi
+	fi
+
+	$DETECTORIG -M check 2>&1 | tee $WarningFileDetectorig 1>/dev/null
+	StatusDeterctorig=`test -r "$WarningFileDetectorig"&&cat "$WarningFileDetectorig"`
+	if [[ ! -z "$StatusDeterctorig" ]]; then
+		echo "domain.conf:$StatusDeterctorig\n"
+	fi  
+
+	$DIGRUN -k check 2>&1|tee $WarningFileDigRun 1>/dev/null
+	StatusDigRun=`test -r "$WarningFileDigRun"&&cat "$WarningFileDigRun"`
+	if [[ ! -z "$StatusDigRun" ]]; then
+		echo "origdomain.conf:$StatusDigRun\n"
+	fi 
+
+	mergefiles
+
+	#if [[ ! -z $Status ]]; then
+	#	return 1;
+	#fi  
+	#if [[ ! -z $StatusRedirect ]]; then
+	#	return 1;
+	#fi 
+
+	#echo "begin check redirect conf..."
+	if [[ ! -z "$RedirectStatus" ]]; then
+		$REDIRECT $RedirectConfFile check
+		ret=$?
+		if [ $ret -ne 0 ] 
+		then
+			echo -n "check redirect confi done..."
+			echo_failure
+			return 1
+		fi
+	fi
+    #echo -n "check redirect conf done..."
+    #echo_success
+
+
+    $SQUID -k reconfigure 2>&1|tee $WarningFile
+    Status=`test -r "$WarningFile"&&cat "$WarningFile"`
+    [ -z "$Status" ] &&purgeExtAnalysis
+    [ -z "$Status" ] && backupConfig
+}
+
+restart() {
+    stop
+    start
+}    
+
+rotate() {
+        $SQUID -k rotate >/dev/null 2>&1
+	echo_success
+}
+
+rhstatus() {
+    pid=$(pidof squid)
+    echo "fc (pid $pid) is running..."
+    $SQUID -k check
+    exit $RETVAL
+}
+
+probe() {
+    return 0
+}    
+
+case "$1" in
+start)
+    start
+    ;;
+
+stop)
+    stop
+    ;;
+
+reload)
+    reload
+    ;;
+
+rotate)
+    rotate
+    ;;
+
+restart)
+    restart
+    ;;
+
+
+status)
+    rhstatus
+    ;;
+
+probe)
+    exit 0
+    ;;
+
+*)
+    echo $"Usage: $0 {start|stop|status|reload|restart|rotate}"
+    exit 1
+esac
+
+exit $?

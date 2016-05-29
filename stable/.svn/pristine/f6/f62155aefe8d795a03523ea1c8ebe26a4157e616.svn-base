@@ -1,0 +1,128 @@
+#include <stdbool.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <assert.h>
+#include <stdarg.h>
+#include <string.h>
+#include <time.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+//#include "refresh_header.h"
+
+FILE* debug_log = NULL;
+//#define	DEBUG_LOG_FILE		"/data/proclog/log/refreshd/refreshd.log"
+
+#define DEBUG_LOG_FILE "/var/log/chinacache/check_db.log"
+#ifdef  __THREAD_SAFE__
+static pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+#endif
+#define LOG_ROTATE_NUMBER 3
+
+static void open_log()
+{
+	struct stat sb;
+	char log_path[256];
+	strcpy(log_path,DEBUG_LOG_FILE);
+	char *p = log_path + strlen(log_path);
+	while(*p != '/') p--;
+	*p = '\0';
+
+
+	if (stat(log_path, &sb) != 0){
+		mkdir(log_path, S_IRWXU);
+	}
+
+	if( debug_log == NULL ) {
+		debug_log = fopen(DEBUG_LOG_FILE, "a+");
+	}
+}
+
+
+void close_log()
+{
+	if( debug_log ) {
+		fclose(debug_log);
+		debug_log = NULL;
+	}
+
+}
+
+void scs_log(int level,char* file, int line, char *Format, ...)
+{
+/*	if(level > config.log_level){
+		return;
+	}
+*/
+
+#ifdef	__THREAD_SAFE__
+	pthread_mutex_lock(&mutex);
+#endif
+	va_list arg;
+	time_t	local;
+	struct	tm *t;
+	int	len;
+	int	sp = 0;
+
+	static char buff[1024];
+	static char buff2[1024];
+
+	memset(buff, 0, 1024);
+	memset(buff2, 0, 1024);
+
+	time(&local);
+	t = (struct tm*)localtime(&local);
+	sp += sprintf(buff+sp, "[%4d-%02d-%02d %02d:%02d:%02d][%s:%d]", t->tm_year+1900, t->tm_mon+1,
+			t->tm_mday, t->tm_hour, t->tm_min, t->tm_sec, file, line);
+
+
+	snprintf(buff+sp, 1024-sp, ":%s",Format);
+
+	va_start(arg, Format);
+	len = vsnprintf(buff2, 1024-1, buff, arg);
+	va_end (arg);
+
+	len += sprintf(buff2 + len ,"\n");
+
+
+	if( (debug_log == NULL) )
+		open_log();
+
+	assert(debug_log);
+
+	fwrite(buff2, 1, len, debug_log);
+	fflush(debug_log);
+
+#ifdef	__THREAD_SAFE__
+	pthread_mutex_unlock(&mutex);
+#endif
+}
+
+
+void scs_log_rotate()
+{
+	static char from[256];
+	static char to[256];
+
+	memset(from,0,256);
+	memset(to,0,256);
+
+	int i = LOG_ROTATE_NUMBER;
+	while(i){
+		snprintf(from, 256, "%s.%d", DEBUG_LOG_FILE, i - 1);
+		snprintf(to, 256, "%s.%d", DEBUG_LOG_FILE, i);
+		rename(from, to);
+		i--;
+	}
+
+#ifdef	__THREAD_SAFE__
+	pthread_mutex_lock(&mutex);
+#endif
+	close_log();
+	rename(DEBUG_LOG_FILE, from);
+	open_log();
+
+#ifdef	__THREAD_SAFE__
+	pthread_mutex_unlock(&mutex);
+#endif
+}

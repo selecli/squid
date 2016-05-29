@@ -1,0 +1,6 @@
+#ip				port	type	filename	host				length	header
+59.151.18.18	80		GET		/			www.love21cn.com	300		Connection:close
+
+#ip				port	type	filename							host				length	header				content
+59.151.18.18	80		POST	/index.php?mod=login&act=dologin	www.love21cn.com	6000	Connection:close	name=shaogangwang2003@yahoo.com.cn&password=123456&action=%E7%99%BB+%E5%BD%95
+

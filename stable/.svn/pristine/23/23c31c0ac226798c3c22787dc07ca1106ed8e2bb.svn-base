@@ -1,0 +1,229 @@
+#!/bin/bash
+
+# Author: zhaobin
+# Version: 1.0.0
+# Function: 
+#     1 provide useful command to debug fc status
+#     2 provide APIs for NG to monitor fc status
+# History:
+#     2013/05/31  zhaobin create
+
+# import useful functions
+source /usr/local/squid/bin/functions
+
+########################## functions ##########################
+# brief:
+#     show usage infomation
+# params:
+#     null
+# return:
+#     null
+Usage()
+{
+    echo "Usage: $0 [-csvh]"
+    echo "    -c [TYPE]   check fc runnning status according to the logs etc"
+    echo "        syslog      examine syslog"
+    echo "        lscs        examine lscs error log"
+    echo "        flexicache  examine flexicache log"
+    echo "        cache       examine cache log"
+    echo "        access      examine access log"
+    echo "        billingd    examine billingd running status"
+    echo "        port        examine port status"
+    echo "        refresh     examine refreshd status"
+    echo "        swaplog     examine swaplog file size"
+    echo "    -s [TYPE]   get statistics infomation"
+    echo "        request     compute request infomation in last 5 min"
+    echo "        cpu         compute cpu percent used by fc"
+    echo "        memory      compute virtual memory used by fc"
+    echo "        response    compute response time"
+    echo "    -v          verbose mode"
+    echo "    -h          show usage infomation"
+}
+
+# brief:
+#     check fc running status according to the params
+# params:
+#     $1     [syslog|lscs|flexicache|cache|access|billingd|port|refresh]
+# return:
+#     null
+fcCheck()
+{
+    case "$chkType" in
+        refresh ) chkRefresh;;
+        syslog | lscs | flexicache | cache | access | billingd | port | swaplog) 
+            if [ -e "/tmp/fc_$chkType" ] && [ $verbose -eq 0 ]
+            then
+                echo "0"
+            else
+                [ $verbose -eq 0 ] && touch "/tmp/fc_$chkType"
+                /usr/local/squid/bin/fcCheck $1 $verbose $fcMode
+                [ $verbose -eq 0 ] && rm -ff "/tmp/fc_$chkType"
+            fi
+            ;;
+        * ) echo "Unknow type to check";;
+    esac 
+}
+
+# brief:
+#     check refresh is okay
+# params:
+#     null
+# return:
+#     null
+chkRefresh()
+{
+    if [ "$verbose" -eq 1 ]
+    then
+        /usr/local/squid/bin/refresh_cli -f http://127.0.0.1/
+    else
+        /usr/local/squid/bin/refresh_cli -f http://127.0.0.1/ 2>&1 |awk 'BEGIN{ret=2;} /url_ret.*200/{ret = 1;}END{print ret;}'
+    fi
+}
+
+# brief:
+#     get fc statistics infomation 
+# params:
+#     $1     [request|cpu|memory|response]
+# return:
+#     null
+fcStat()
+{
+    case "$statType" in
+        request ) statReq;;
+        cpu ) statCPU;;
+        memory ) statMemory;;
+        response ) statResp;;
+        * ) echo "Unknow type to stat";;
+    esac 
+}
+
+# brief:
+#     get fc request infomation 
+# params:
+#     null
+# return:
+#     null
+statReq()
+{
+    getFCVersion
+    ver=$?
+    if [ $ver -eq 5 ]
+    then
+        $SQUIDCLIENT -p 80 mgr:5min 2>/dev/null | perl -lne '$sum += $1 if /client_http.requests\s+=\s+(.*)\/sec/; END { print $sum }'
+    elif [ $ver -eq 6 ] || [ $ver -eq 7 ]
+    then
+        if [ $fcMode -eq 1 ]
+        then
+            $SQUIDCLIENT -p 80 mgr:5min 2>/dev/null | perl -lne '$sum += $1 if /client_http.requests\s+=\s+(.*)\/sec/; END { print $sum }'
+        elif [ $fcMode -eq 2 ]
+        then
+            lscs_port=$(awk 'BEGIN{FS="[ ;]"}/listen/{print $(NF-1)}' /usr/local/squid/bin/lscs/conf/nginx.conf)
+            cnt=1
+            for p in lscs_port
+            do
+                cnt=1
+                while [ $cnt -le $SQUID_NUM ]
+                do
+                    port=$((p+cnt))
+                    $SQUIDCLIENT -p $port mgr:5min 2>/dev/null
+                    ((cnt++))
+                done
+            done | perl -lne '$sum += $1 if /client_http.requests\s+=\s+(.*)\/sec/; END { print $sum }'
+        else
+            echo "-1"
+        fi
+    fi
+}
+
+# brief:
+#     get fc response time
+# params:
+#     null
+# return:
+#     null
+statResp()
+{
+    awk 'BEGIN{rt=-1;time=0;} {if(/^squidResponseTime/){rt=$2;}else if(/^squidResponseUpdateTime/){time=$2;}}END{if(systime()-time >=68){print "-1";}else{print rt;}}' /monitor/pool/squidResponseMon.pool 2>/dev/null || echo "-1"
+}
+
+# brief:
+#     get fc cpu usage
+# params:
+#     null
+# return:
+#     null
+statCPU()
+{
+
+    if [ $fcMode -eq 1 ]
+    then
+        pid=$(pidof squid)
+        ps --ppid $pid -p $pid -o pid=,pcpu= | awk '{a+=$NF}END{print a}'
+    elif [ $fcMode -eq 2 ] 
+    then
+        pid=$(pidof flexicache)
+        ps --ppid $pid -p $pid -o pid=,pcpu= | awk '{a+=$NF}END{print a}'
+    else
+        echo "0"
+    fi
+}
+
+# brief:
+#     get fc memory usage
+# params:
+#     null
+# return:
+#     null
+statMemory()
+{
+    if [ $fcMode -eq 1 ]
+    then
+        pid=$(pidof squid)
+        ps --ppid $pid -p $pid -o pid=,vsz= | awk '{a+=$NF}END{print a}'
+    elif [ $fcMode -eq 2 ]
+    then
+        pid=$(pidof flexicache)
+        ps --ppid $pid -p $pid -o pid=,vsz= | awk '{a+=$NF}END{print a}'
+    else
+        echo "0"
+    fi
+}
+##################### main ###########################
+NO_ARGS=0 
+E_OPTERROR=85
+verbose=0
+chkType=''
+statType=''
+
+if [ $# -eq "$NO_ARGS" ] # Script invoked with no command-line args?
+then
+    Usage
+    exit $E_OPTERROR
+fi 
+
+# get fc running mode
+getFCMode
+fcMode=$?
+
+while getopts "c:s:vh" Option
+do
+    case $Option in
+        v ) verbose=1;;
+        h ) Usage;;
+        c ) chkType=$OPTARG;;
+        s ) statType=$OPTARG;;
+        * ) Usage;exit $E_OPTERROR;;
+    esac
+
+    if [ -n "$chkType" ]
+    then
+        fcCheck $chkType
+    fi
+    
+    if [ -n "$statType" ]
+    then
+        fcStat $statType
+    fi
+
+done
+

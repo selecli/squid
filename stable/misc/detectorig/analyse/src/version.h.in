@@ -1,0 +1,22 @@
+/*
+ * =====================================================================================
+ *
+ *       Filename:  version.h
+ *
+ *    Description:  Declare version
+ *
+ *        Created:  04/17/2012 09:57:32 AM
+ *       Compiler:  gcc
+ *         Author:  Xu Jian (XJ), xujian@chinacache.com
+ *        COMPANY:  ChinaCache
+ *
+ * =====================================================================================
+ */
+#ifndef VERSION
+#define VERSION_MAJOR       "@ANALYSE_VERSION_MAJOR@"
+#define VERSION_MINOR       "@ANALYSE_VERSION_MINOR@"
+#define CMAKE_VERSION       "@CMAKE_VERSION@"
+#define CMAKE_SYSTEM        "@CMAKE_SYSTEM@"
+#define CMAKE_BUILD_TYPE    "@CMAKE_BUILD_TYPE@"
+#define OS_TYPE             @OS_TYPE@
+#endif /* not VERSION */

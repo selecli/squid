@@ -1,0 +1,22 @@
+;-----
+$TTL 60
+$ORIGIN .
+@ IN SOA ns1. root.localhost. (
+        20051213;
+        7000;
+        3000;
+        15000;
+        86400;
+);
+
+@  86400         IN NS   ns1
+ns1 86400       IN A    127.0.0.1
+
+;-----
+
+;For the CHN subnet
+*                       IN  A       218.30.70.107 
+                        IN  A       221.174.17.78
+;For CNC subnet
+;*                      IN  A       60.31.184.67
+;                       IN  A       221.174.17.78

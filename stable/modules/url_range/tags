@@ -1,0 +1,21 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.5.4	//
+HeaderAddEntry	mod_url_range.c	/^void HeaderAddEntry(HttpHeader * hdr, HttpHeaderEntry * e)$/;"	f
+MOD_NAME	Makefile	/^MOD_NAME = mod_url_range.so$/;"	m
+free_callback	mod_url_range.c	/^static int free_callback(void* param)$/;"	f	file:
+func_http_req_parsed	mod_url_range.c	/^int func_http_req_parsed(clientHttpRequest *http)$/;"	f
+func_sys_parse_param	mod_url_range.c	/^static int func_sys_parse_param(char* cfg_line)$/;"	f	file:
+get_param_num	mod_url_range.c	/^int get_param_num(char* strBase, char* strParam)$/;"	f
+hook_cleanup	mod_url_range.c	/^static int hook_cleanup(cc_module *module)$/;"	f	file:
+mod	mod_url_range.c	/^static cc_module* mod = NULL;$/;"	v	file:
+mod_conf_param	mod_url_range.c	/^struct mod_conf_param {$/;"	s	file:
+mod_config_pool	mod_url_range.c	/^static MemPool *  mod_config_pool = NULL;$/;"	v	file:
+mod_config_pool_alloc	mod_url_range.c	/^static void * mod_config_pool_alloc(void)$/;"	f	file:
+mod_register	mod_url_range.c	/^int mod_register(cc_module *module)$/;"	f
+range_set	mod_url_range.c	/^bool range_set(clientHttpRequest *http, mod_conf_param *param)$/;"	f
+strEnd	mod_url_range.c	/^	char*	strEnd;$/;"	m	struct:mod_conf_param	file:
+strStart	mod_url_range.c	/^	char*  	strStart;$/;"	m	struct:mod_conf_param	file:

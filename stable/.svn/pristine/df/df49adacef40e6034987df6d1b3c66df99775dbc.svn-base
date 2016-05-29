@@ -1,0 +1,4 @@
+1 程序安装路径：/usr/local/squid/bin/moov_generator_for_pplive
+2 安装方法： tar xvfz moov_gene_for_pplive.tar.tgz
+			 make install
+3 版本号：1.0

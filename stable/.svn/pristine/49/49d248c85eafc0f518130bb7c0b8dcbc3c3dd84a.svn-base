@@ -1,0 +1,79 @@
+该tta-domain.conf的配置说明，主要是参照以下文件所书
+svn://192.168.100.165/doc/03 产品开发/DetectOrig/源站探测重构/源站探测说明文档.docx r13473
+
+    参考模板：
+<hostname> N Y <detect_times> <warning_time> <good_time> 0 0 N <backup> GET 2**|3**|404 <ip> GET <port> N 100:0 0 <sortIp> 1 0 <timeout_time>
+
+    配置行规则：
+	每个配置行表示一个要探测的源站；
+	各字段之间可以使用空格或Tab分隔；
+	‘#‘开头的行作为注释行；
+	空行忽略；
+
+    配置行字段：
+	1）hostname——域名。对应anyhost文件的域名；
+	4）detect_times——探测次数。对一个ip探测的次数，最后结果取平均值；
+	5）warning_time——告警时间（秒）。如果探测时间超过该告警值，anyhost里对应报 警项写Y，否则写N；
+	6）good_time——好的响应时间（秒）。响应时间小于这个时间的ip认为是好的ip，否则认为是坏的ip；
+	10）backup——失败处理。backup中可以填写需要探测的backup_ip。可以配置多个IP，可以使用：或|分隔。如果ip为0.0.0.0，则直接认为这个ip是不通的（优先级高于detect和modify）。
+	13）ip——要探测的IP。可以配置多个IP，可以使用：或|分隔。如果ip为0.0.0.0，则直接认为这个ip是不通的（优先级高于detect和modify）。
+	15) port――探测端口号。可以配置不同的探测端口（范围：0－65535）。
+	19）sortIp――是否对源站的多个ip的探测结果进行排序。如果使用外部DNS解析得到的ip则无条件排序，如果使用配置中的ip，则根据此选项决定是否排序。Y:排序，N：不排序；
+	22) timeout_time--探测的超时时间（秒），推荐配置成3.0。
+
+    参考模板（同前）：
+<hostname> N Y <detect_times> <warning_time> <good_time> 0 0 N <backup> GET 2**|3**|404 <ip> GET <port> N 100:0 0 <sortIp> 1 0 <timeout_time>
+
+    范例
+#tta_domain.conf中配置
+test N Y 4 0.01 0.6 0 0 N 127.0.0.1 GET 2**|3**|404 192.168.100.194|192.168.100.196|23.15.247.48 GET 80 N 100:0 0 N 1 0 3.001
+
+#haproxy.cfg中配置
+global
+    daemon
+    nbproc 1
+    pidfile /var/run/haproxy.pid
+    maxconn 65000
+    description TTA1.0
+    log 127.0.0.1 local0
+
+listen test
+     mode tcp
+     bind  *:80
+     option tcplog
+     log 127.0.0.1 local0# debug
+     tta-detect #必须，表示使能探测修改功能
+     option tcpka
+
+     timeout connect 5h
+     timeout client 5h
+     timeout server 5h
+     balance roundrobin
+        server test_80        0.0.0.0:80 tta-channel tta-www.gsp.com
+        server test_80_backup 0.0.0.0:80 backup tta-channel tta-www.gsp.com
+
+    运行后，在测试用机上haproxy.cfg变为了
+global
+    daemon
+    nbproc 1
+    pidfile /var/run/haproxy.pid
+    maxconn 65000
+    description TTA1.0
+    log 127.0.0.1 local0
+
+listen test
+     mode tcp
+     bind  *:80
+     option tcplog
+     log 127.0.0.1 local0# debug
+     tta-detect #必须，表示使能探测修改功能
+     option tcpka
+
+     timeout connect 5h
+     timeout client 5h
+     timeout server 5h
+     balance roundrobin
+        server test_80        192.168.100.196:80 tta-channel tta-www.gsp.com
+        server test_80_backup 127.0.0.1:80 backup tta-channel tta-www.gsp.com
+
+

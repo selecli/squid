@@ -1,0 +1,49 @@
+#!/bin/bash
+
+# Author: zhaobin@chinacache.com
+# Function: merge crontab item between /etc/cron.d/fc-USER-all and /var/spool/cron/USER
+# History:
+#     2013/09/12   zhaobin  create
+
+# brief:
+#     merge crontab item as required user
+# params:
+#     $1     username
+# return:
+#     null
+merge_crontab ()
+{
+    user=$1
+    crontab -l -u $user | sed 's/  */ /g' > /tmp/cron_${user}.$$
+    awk 'NF<=6{next;}NF>6{$6="";NF=NF;}1' /etc/cron.d/fc-${user}-all | sed 's/  */ /g' >> /tmp/cron_${user}.$$
+    awk '!a[$0]++' /tmp/cron_${user}.$$ > /tmp/cron_${user}_res.$$
+    /usr/bin/crontab -u $user /tmp/cron_${user}_res.$$
+    rm -rf /tmp/cron_${user}_res.$$
+    rm -rf /tmp/cron_${user}.$$
+}
+
+source /usr/local/squid/bin/functions
+tryLockProcess $0
+if [ $? -ne 0 ] ;then exit 0;fi
+
+lastTimestamp=$(awk '/^#/ && NF == 2{print $NF}' /etc/cron.d/fc-root-all)
+nowTimestamp=$(stat -c %Y /var/spool/cron/root)
+if [ "$lastTimestamp" != "$nowTimestamp" ]
+then
+    merge_crontab root
+    awk -v ts=${nowTimestamp} 'NF>2{print}END{print "# "ts}' /etc/cron.d/fc-root-all > /tmp/fc-root.$$
+    rm -rf /etc/cron.d/fc-root-all
+    mv /tmp/fc-root.$$ /etc/cron.d/fc-root-all
+fi 
+
+lastTimestamp=$(awk '/^#/ && NF == 2{print $NF}' /etc/cron.d/fc-root-all)
+nowTimestamp=$(stat -c %Y /var/spool/cron/squid)
+if [ "$lastTimestamp" != "$nowTimestamp" ]
+then
+    merge_crontab squid
+    awk -v ts=${nowTimestamp} 'NF>2{print}END{print "# "ts}' /etc/cron.d/fc-squid-all > /tmp/fc-squid.$$
+    rm -rf /etc/cron.d/fc-squid-all
+    mv /tmp/fc-squid.$$ /etc/cron.d/fc-squid-all
+fi 
+
+unlockProcess $0

@@ -1,0 +1,53 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.6	//
+CHRP	mod_pplive_vod.c	/^typedef void CHRP(clientHttpRequest *);$/;"	t	file:
+MOD_NAME	Makefile	/^MOD_NAME = mod_pplive_vod.so$/;"	m
+_media_prefetch_state_data	mod_pplive_vod.c	/^typedef struct _media_prefetch_state_data{$/;"	s	file:
+_range_struct	mod_pplive_vod.c	/^typedef struct _range_struct$/;"	s	file:
+_request_param	mod_pplive_vod.c	/^typedef struct _request_param$/;"	s	file:
+add_private_data_for_http	mod_pplive_vod.c	/^static void add_private_data_for_http(clientHttpRequest *http)$/;"	f	file:
+add_range_for_request	mod_pplive_vod.c	/^static void add_range_for_request(clientHttpRequest *http, int start_value, int end_value)$/;"	f	file:
+add_store_url	mod_pplive_vod.c	/^static void add_store_url(clientHttpRequest *http)$/;"	f	file:
+callback	mod_pplive_vod.c	/^        CHRP *callback;$/;"	m	struct:_media_prefetch_state_data	file:
+change_url	mod_pplive_vod.c	/^static char * change_url(char *url)$/;"	f	file:
+check_if_range_ok	mod_pplive_vod.c	/^static int check_if_range_ok(range_struct *range_pair)$/;"	f	file:
+drop_startend	mod_pplive_vod.c	/^static void drop_startend(char* url)$/;"	f	file:
+end	mod_pplive_vod.c	/^        size_t end;$/;"	m	struct:_range_struct	file:
+free_request_param	mod_pplive_vod.c	/^static int free_request_param(void* data)$/;"	f	file:
+func_sys_parse_param	mod_pplive_vod.c	/^static int func_sys_parse_param(char *cfg_line)$/;"	f	file:
+get_and_drop_segno	mod_pplive_vod.c	/^static char * get_and_drop_segno(char* url, char* segno)$/;"	f	file:
+get_range_pair	mod_pplive_vod.c	/^static int get_range_pair(char *in_url)$/;"	f	file:
+get_segno_url	mod_pplive_vod.c	/^static char * get_segno_url(char *url, char *segno_keyword)$/;"	f	file:
+helper_proc_num	mod_pplive_vod.c	/^static int helper_proc_num = 60;$/;"	v	file:
+hook_before_sys_init	mod_pplive_vod.c	/^static void hook_before_sys_init()$/;"	f	file:
+hook_cleanup	mod_pplive_vod.c	/^static int hook_cleanup(cc_module *module)$/;"	f	file:
+hook_init	mod_pplive_vod.c	/^static int hook_init()$/;"	f	file:
+http	mod_pplive_vod.c	/^        clientHttpRequest * http;$/;"	m	struct:_media_prefetch_state_data	file:
+httpHeaderCheckExistByName	mod_pplive_vod.c	/^static int httpHeaderCheckExistByName(HttpHeader *h, char *name)$/;"	f	file:
+is_all_digit	mod_pplive_vod.c	/^static int is_all_digit(char *str)$/;"	f	file:
+is_disable_sendfile	mod_pplive_vod.c	/^static int is_disable_sendfile(store_client *sc, int fd)$/;"	f	file:
+is_range_request	mod_pplive_vod.c	/^	int is_range_request;$/;"	m	struct:_request_param	file:
+is_start_helper	mod_pplive_vod.c	/^static int is_start_helper = 0;$/;"	v	file:
+make_416_response	mod_pplive_vod.c	/^static void make_416_response(clientHttpRequest * http)$/;"	f	file:
+mediaPrefetchHandleReplyForMissStart	mod_pplive_vod.c	/^static void mediaPrefetchHandleReplyForMissStart(void *data, char *reply)$/;"	f	file:
+media_prefetch_state_data	mod_pplive_vod.c	/^CBDATA_TYPE(media_prefetch_state_data);$/;"	v
+media_prefetch_state_data	mod_pplive_vod.c	/^}media_prefetch_state_data;$/;"	t	typeref:struct:_media_prefetch_state_data	file:
+media_prefetchers	mod_pplive_vod.c	/^static helper *media_prefetchers = NULL;$/;"	v	file:
+mod	mod_pplive_vod.c	/^static cc_module *mod = NULL;$/;"	v	file:
+mod_f4v_http_req_process	mod_pplive_vod.c	/^static int mod_f4v_http_req_process(clientHttpRequest *http){$/;"	f	file:
+mod_f4v_release_incomplete_entry	mod_pplive_vod.c	/^static int mod_f4v_release_incomplete_entry(clientHttpRequest * http, MemBuf *mb,char *buf, ssize_t size)$/;"	f	file:
+mod_register	mod_pplive_vod.c	/^int mod_register(cc_module *module)$/;"	f
+modify_request	mod_pplive_vod.c	/^static inline void modify_request(clientHttpRequest * http)$/;"	f	file:
+parse_programline	mod_pplive_vod.c	/^static void parse_programline(wordlist ** line)$/;"	f	file:
+process_url_and_add_range_or_storeurl	mod_pplive_vod.c	/^static int process_url_and_add_range_or_storeurl(clientHttpRequest *http)$/;"	f	file:
+range_pair	mod_pplive_vod.c	/^static range_struct range_pair;$/;"	v	file:
+range_struct	mod_pplive_vod.c	/^} range_struct;$/;"	t	typeref:struct:_range_struct	file:
+request_param	mod_pplive_vod.c	/^} request_param;$/;"	t	typeref:struct:_request_param	file:
+request_param_pool	mod_pplive_vod.c	/^static MemPool * request_param_pool = NULL;$/;"	v	file:
+request_param_pool_alloc	mod_pplive_vod.c	/^static void * request_param_pool_alloc(void)$/;"	f	file:
+restore_http	mod_pplive_vod.c	/^static void restore_http(clientHttpRequest *http){$/;"	f	file:
+start	mod_pplive_vod.c	/^        size_t start;$/;"	m	struct:_range_struct	file:

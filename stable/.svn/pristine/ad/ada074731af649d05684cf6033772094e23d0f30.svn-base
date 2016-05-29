@@ -1,0 +1,279 @@
+#ACL#
+acl all src 0.0.0.0/0.0.0.0
+acl manager proto cache_object
+acl localhost src 127.0.0.1/255.255.255.255
+acl to_localhost dst 127.0.0.0/8
+acl SSL_ports port 443 563
+acl Safe_ports port 80          # http
+acl Safe_ports port 800         # http1
+acl Safe_ports port 21          # ftp
+acl Safe_ports port 443 563     # https, snews
+acl Safe_ports port 70          # gopher
+acl Safe_ports port 210         # wais
+acl Safe_ports port 1025-65535  # unregistered ports
+acl Safe_ports port 280         # http-mgmt
+acl Safe_ports port 488         # gss-http
+acl Safe_ports port 591         # filemaker
+acl Safe_ports port 777         # multiling http
+acl CONNECT method CONNECT
+acl monitor src 192.168.1.0/255.255.255.0 127.0.0.1
+#http_access allow manager  
+http_access allow manager monitor
+http_access deny manager 
+acl PURGE method PURGE
+http_access allow PURGE localhost
+http_access deny purge
+acl snmppublic snmp_community public
+snmp_access allow snmppublic localhost
+http_access deny !Safe_ports
+http_access deny CONNECT !SSL_ports
+acl ip_in_fqdn url_regex -i ^http://[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/.*
+acl top100_redirect url_regex -i ^http://[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/.*top100.cn/.*
+acl deny_ssl url_regex -i ^https://
+#http access acl defination
+http_access allow top100_redirect
+http_access deny ip_in_fqdn
+http_access deny deny_ssl
+###################################################################################################
+visible_hostname CMN-HF-1-3d3
+cache_dir aufs /data/cache1   360000 128 128
+cache_dir aufs /data/cache2   360000 128 128
+cache_dir aufs /data/cache3   360000 128 128
+cache_dir aufs /data/cache4   360000 128 128
+cache_dir aufs /data/cache5   360000 128 128
+cache_dir aufs /data/cache6   360000 128 128
+cache_dir aufs /data/cache7   360000 128 128
+cache_dir aufs /data/cache8   360000 128 128
+cache_dir aufs /data/cache9   360000 128 128
+cache_dir aufs /data/cache10  360000 128 128
+cache_dir aufs /data/cache11  360000 128 128
+cache_dir aufs /data/cache12  360000 128 128
+maximum_object_size 10240000 KB
+minimum_object_size 0 KB
+store_dir_select_algorithm round-robin
+cache_replacement_policy lru
+cache_swap_low 90
+cache_swap_high 95
+reload_into_ims on
+via off
+mod_header 3 del X-Cache-Lookup allow all
+mod_header 3 del X-Squid-Error allow all
+dns_timeout 2 minute
+dns_retransmit_interval 10 seconds
+negative_dns_ttl 1 minute
+refresh_stale_hit 0 minute
+vary_ignore_expire on
+request_timeout 30 seconds
+persistent_request_timeout 10 seconds
+connect_timeout 30 seconds
+read_timeout 15 minutes
+server_persistent_connections off
+collapsed_forwarding on
+maximum_object_size_in_memory 8 KB
+cache_mem 256 MB
+memory_replacement_policy lru
+logformat squid_custom_log %ts.%03tu %6tr %>a %Ss/%03Hs %<st %rm %ru  %un %Sh/%<A %mt "%{Referer}>h" "%{User-Agent}>h" %{Cookie}>h
+cache_access_log /data/proclog/log/squid/access.log squid_custom_log
+strip_query_terms off
+logfile_rotate 0
+cache_log /data/proclog/log/squid/cache.log
+cache_store_log none
+http_port 80 accel vhost vport allow-direct
+icp_port 0
+snmp_port 3401
+cache_effective_user squid 
+cache_effective_group squid
+pid_filename /var/run/squid.pid
+diskd_program /usr/local/squid/libexec/diskd
+unlinkd_program /usr/local/squid/libexec/unlinkd
+acl noc_pic url_regex -i ^http://.*\/do_not_delete\/noc.gif
+no_cache deny noc_pic
+acl noc_acl req_header User-Agent ChinaCache-NOC
+no_cache deny noc_acl
+half_closed_clients off
+server_http11 on
+mod_errorpage on
+mod_httpversion Accept-Encoding allow all
+mod_refresh on
+#mod_billing on
+#mod_billing sub_mod billingd path /data/proclog/log/squid/
+#mod_billing sub_mod billingd interval 300
+#mod_billing sub_mod billingd except_localhost on
+#mod_billing sub_mod billingd except_chinacache on
+dns_nameservers 127.0.0.1
+hosts_file /usr/local/squid/etc/hosts
+client_db off
+cachemgr_passwd test4squid config
+cache_mgr support@chinacache.com
+dns_testnames original1.chinacache.com original2.chinacache.com
+mod_no_cache_if_reply_header name ETag value INET allow all
+header_access X-Real-IP deny all
+header_access X-Forwarded-For deny all
+
+acl CBN_JN_tudou dstdomain ccflvcache.ccgslb.net cpis.qiyi.ccgslb.net cpis.ku6.ccgslb.net cpis.56.ccgslb.net cpis.6room.ccgslb.net cpis.cctv.ccgslb.net  video.uusee.ccgslb.net v2.tudou.com data.video.qiyi.com back.gslb.ku6.com main.gslb.ku6.com barcelona.6rooms.com nantes.6rooms.com v.cctv.com f0.r.56.com f1.r.56.com f2.r.56.com f3.r.56.com f4.r.56.com f5.r.56.com f6.r.56.com f7.r.56.com f8.r.56.com f9.r.56.com f.youku.com ccflvcache.yk.ccgslb.net .v.iask.com  flv.sina.fastwebcdn.com v1.uusee.com v.kumi.cn cpis.qqvideo.ccgslb.net video.store.qq.com vhotlx.video.qq.com vkpws.video.qq.com
+http_access allow CBN_JN_tudou
+
+acl NO_CACHE_CPIS url_regex ^http://.*/crossdomain.xml http://i2.sinaimg.cn/dy/deco/2009/1026/titPic1.png http://img.bimg.126.net/photo/Od60EdQA27-vnZ9RoicQ-w==/2005227734087683955.jpg
+cache deny NO_CACHE_CPIS
+cache allow all
+
+###CPIS video conf
+#6rooms 56 cctv location conf
+location_rewrite_children 60
+location_rewrite_concurrency 5
+location_rewrite_program /usr/local/squid/bin/locationadd_cpisvideo.pl
+acl CPISvideo_location url_regex ^http://f[0-9].r.56.com/.*
+acl CPISvideo_location url_regex ^http://barcelona.6rooms.com/
+acl CPISvideo_location url_regex ^http://nantes.6rooms.com/
+acl CPISvideo_location url_regex ^http://v.cctv.com/
+acl CPISvideo_location url_regex ^http://f.youku.com/.*
+acl CPISvideo_location url_regex ^http://.*video.qq.com/.*
+acl CPISvideo_location url_regex ^http://cpis.qiyi.ccgslb.net/.*
+acl CPISvideo_location url_regex ^http://main.gslb.ku6.com/.*
+acl CPISvideo_location url_regex ^http://back.gslb.ku6.com/.*
+location_rewrite_access allow CPISvideo_location
+#6rooms 56 cctv location End
+
+#youku tudou 6room cctv uusee kumi videoconf
+acl range_header req_header Range .+
+acl CPIS_video url_regex ^http://[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/.*
+acl qiyi_storeurl url_regex ^http://[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/.*\?key=.*&v=.*
+acl ku6_storeurl url_regex ^http://[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/.*id=ku6_vod.*
+acl sina_storeurl url_regex ^http://[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/.*str=.*&pid=.*
+acl 56_storeurl url_regex ^http://[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/.*flvdownload/.*
+acl CPIS_video url_regex  ^http://.*/youku/.*
+acl CPIS_video url_regex -i video.uusee.ccgslb.net/.*\.(mp4|f4v)
+acl CPIS_video url_regex -i v1.uusee.com/.*\.(mp4|f4v)
+acl CPIS_video url_regex -i v.kumi.cn/.*\.(mp4|f4v)
+storeurl_rewrite_program /usr/local/squid/bin/storeurl_cpisvideo.pl
+storeurl_rewrite_children 60
+storeurl_rewrite_concurrency 5
+storeurl_access allow !range_header CPIS_video !qiyi_storeurl !ku6_storeurl !sina_storeurl
+#tudou 56 6room cctv sina video end
+
+#youku video conf
+acl youku_removedomain url_regex -i ^http://ccflvcache.yk.ccgslb.net/[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/.*
+mod_url_rewrite http://ccflvcache.yk.ccgslb.net/(.*)  http://'1 allow youku_removedomain
+acl youku_removelocalip url_regex -i ^http://127.0.0.1:8909/ccflvcache.yk.ccgslb.net/.*
+mod_url_rewrite http://127.0.0.1:8909/ccflvcache.yk.ccgslb.net/(.*) http://'1 allow youku_removelocalip
+acl removeip_ykiku url_regex -i ^http://[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/.*
+mod_url_rewrite http://[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/(.*)  http://'1 allow removeip_ykiku
+mod_cpis_iku ns nk allow youku_removedomain !range_header
+acl youku_pull_mp4 url_regex ^http://ccflvcache.yk.ccgslb.net/.*/youku/.*/.*.mp4.*
+acl youku_pull_flv url_regex ^http://ccflvcache.yk.ccgslb.net/.*/youku/.*/.*.flv.*
+mod_header 2 update Cache-Control max-age=31536000 allow youku_pull_mp4 youku_pull_flv
+mod_f4v start end 1 allow youku_pull_flv
+mod_mp4 start end allow youku_pull_mp4
+#youku video End
+
+#sina video conf
+acl sinavideo url_regex ^http://.*\.v\.iask\.com/.*\.(hlv|flv) ^http://cpis\.sina\.ccgslb\.net
+acl sinavideo url_regex ^http://flv.sina.fastwebcdn.com/.*
+cache allow sinavideo
+acl sina_body url_regex http://v.iask.com/ ^http://video.sina.com.cn/
+mod_cpis_body_modify http:// cpis.sina.ccgslb.net/ allow sina_body
+mod_f4v start end  allow sinavideo
+mod_header 2 update Cache-Control public allow sinavideo
+mod_header 0 del Accept-Encoding allow sina_body
+acl sina_removedomain url_regex -i ^http://cpis\.sina\.ccgslb\.net/.*
+mod_url_rewrite http://cpis.sina.ccgslb.net/(.*) http://'1 allow sina_removedomain
+#sina video end
+
+#tudou flv conf
+acl crossadmin url_regex ^http://ccflvcache.ccgslb.net/crossdomain.xml
+http_access deny crossadmin
+acl tudou_pos url_regex ^http://[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/pos.*
+cache deny tudou_pos
+acl tudou_video url_regex ^http://ccflvcache.ccgslb.net/.*id=tudou.*
+mod_f4v tflvbegin tflvend 0 right_auto allow tudou_video
+acl tudou_body url_regex ^http://v2.tudou.com/v.*
+mod_tudou_body_modify ccflvcache.ccgslb.net/ allow tudou_body
+acl tudou_monitor_url url_regex -i ^http://ccflvcache.ccgslb.net/pos\?f=[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/.*
+mod_url_rewrite http://(ccflvcache.ccgslb.net/)(pos\?f=)([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/)(.*) http://'3'2'4 allow tudou_monitor_url
+acl tudou_removedomain url_regex -i ^http://ccflvcache\.ccgslb\.net/[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/.*
+mod_url_rewrite http://ccflvcache.ccgslb.net/(.*) http://'1 allow tudou_removedomain
+acl tudou_removelocalip url_regex -i ^http://ccflvcache.ccgslb.net/127.0.0.1:8909/.*
+mod_url_rewrite http://ccflvcache.ccgslb.net/127.0.0.1:8909/(.*) http://'1 allow tudou_removelocalip
+mod_store_range allow tudou_removedomain
+cache allow range_header tudou_removedomain
+#tudou flv End
+
+#qiyi video conf
+acl qiyi_body url_regex http://data.video.qiyi.com/videos.*
+mod_cpis_body_modify "http:// cpis.qiyi.ccgslb.net/ allow qiyi_body
+acl qiyi_shipin url_regex http://cpis.qiyi.ccgslb.net/[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/.*
+acl qiyi_shipin url_regex http://cpis.qiyi.ccgslb.net/video.qiyi.lxdns.com/.*
+acl qiyi_miss_wait url_regex http://[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/.*\?key=.*&v=.*
+mod_f4v start end 0 90 miss_wait ku6 allow qiyi_shipin
+mod_f4v start end 0 90 miss_wait ku6 allow qiyi_miss_wait
+acl qiyi_ip url_regex -i ^http://cpis.qiyi.ccgslb.net/[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/.*
+acl qiyi_ip url_regex -i ^http://cpis.qiyi.ccgslb.net/video.qiyi.lxdns.com/.*
+mod_url_rewrite http://cpis.qiyi.ccgslb.net/(.*)  http://'1  allow qiyi_ip
+mod_header 2 update Cache-Control max-age=31536000 allow qiyi_shipin
+#qiyi video End
+
+
+#ku6 video conf
+acl ku6_body url_regex ^http://main.gslb.ku6.com/.*
+acl ku6_body url_regex ^http://back.gslb.ku6.com/.*
+mod_header 1 del Accept-Encoding allow ku6_body
+mod_cpis_body_modify http:// cpis.ku6.ccgslb.net/ allow ku6_body
+cache deny ku6_body
+acl ku6_video url_regex ^http://cpis.ku6.ccgslb.net/[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/.*
+mod_f4v start end 1 allow ku6_video
+acl ku6_ip url_regex -i ^http://cpis.ku6.ccgslb.net/[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/.*
+mod_url_rewrite http://cpis.ku6.ccgslb.net/(.*)  http://'1  allow ku6_ip
+# ku6 end
+
+#56 video conf
+acl 56_pull url_regex ^http://cpis.56.ccgslb.net/.*
+mod_f4v start end 0 56video allow 56_pull
+acl removedomain_56 url_regex -i ^http://cpis.56.ccgslb.net/.*
+mod_url_rewrite http://cpis.56.ccgslb.net/(.*)  http://'1  allow removedomain_56
+
+#56 video end
+
+#cctv video conf
+acl cctv_pull url_regex ^http://cpis.cctv.ccgslb.net/.*
+mod_mp4 start end allow cctv_pull
+acl removedomain_cctv url_regex -i ^http://cpis.cctv.ccgslb.net/[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/.*
+mod_url_rewrite http://cpis.cctv.ccgslb.net/(.*)  http://'1  allow removedomain_cctv
+mod_header 2 update Cache-Control max-age=31536000 allow cctv_pull
+#cctv video end
+
+#6rooms video conf
+acl removedomain_6room url_regex -i ^http://cpis.6room.ccgslb.net/[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/.*
+mod_url_rewrite http://cpis.6room.ccgslb.net/(.*)  http://'1 allow removedomain_6room
+mod_header 2 update Cache-Control max-age=31536000 allow removedomain_6room
+#6rooms video End
+
+#uusee
+acl uusee_mp4 url_regex -i video.uusee.ccgslb.net/.*\.(mp4|f4v)
+acl uusee_mp4 url_regex -i v1.uusee.com/.*\.(mp4|f4v)
+acl uusee_mp4 url_regex -i v.kumi.cn/.*\.(mp4|f4v)
+mod_mp4 start end 1 allow uusee_mp4
+#uusee End
+
+#qqvideo conf
+acl video_qq_header url_regex -i ^http://cpis.qqvideo.ccgslb.net/.*&head=1.*
+acl video_qq_header url_regex -i ^http://video.store.qq.com/.*&head=1.*
+acl video_qq_header url_regex -i ^http://vhotlx.video.qq.com/.*&head=1.*
+acl video_qq url_regex -i ^http://cpis.qqvideo.ccgslb.net/.*
+acl video_qq url_regex -i ^http://video.store.qq.com/.*
+acl video_qq url_regex -i ^http://vhotlx.video.qq.com/.*
+
+mod_mp4 start end 1 miss_start qqvideo allow !video_qq_header video_qq
+mod_f4v start end 0 miss_start qqvideo allow !video_qq_header video_qq
+mod_video_header head=1 allow video_qq_header
+#qqvideo End
+####CPIS video End
+
+http_access deny all
+#quick_abort_min -1 KB
+quick_abort_min 10000 KB
+client_persistent_connections off
+mod_client_304_expires off
+refresh_pattern -i  ^http    525600   0%  525600   ignore-reload override-lastmod
+
+http_access allow all
+http_reply_access allow all

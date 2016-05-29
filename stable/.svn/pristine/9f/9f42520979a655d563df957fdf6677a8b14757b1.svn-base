@@ -1,0 +1,55 @@
+# ---------------------------------------------------
+# monitor configure file 
+# ---------------------------------------------------
+
+#check timeout , unit: seconds .
+timeout 300
+
+########################  system ###################################
+
+#disk directory for checking disk w/r speed , disk free space
+#default check all disk sections' space , used percent .
+#disk_dir /cache1
+disk_dir / /boot /data/proclog /var /usr
+#disk checking data  size , unit: MB
+disk_data_size 1
+
+#net device name for checking bandwidth , 
+net_device eth0 
+
+#time ntp check timeout, unit : seconds .Note: npt_timeout entry,it is a mis-spell, but works too!!
+#npt_timeout	  3000
+ntp_timeout	  3000
+
+
+#/////////////////////////////////////////////////////////////////////
+
+
+#########################  squid #####################################
+
+#squid configure file path
+squid_configure /etc/squid/squid.conf
+
+#squid upload configure file path
+squid_upload_configure /usr/local/squid/etc/upload.conf 
+
+#squid response check
+squid_url http://www.chinacache.com/images/logo.gif 
+
+#origin_host for checking origin server response ; 
+#default same as hostname in original_url 
+#origin_host images.sohu.com 
+
+#origin_url for checking origin server response.
+origin_url  http://images.sohu.com/uiue/sohu_logo/beijing2008/sohu.gif
+
+#log dir for checking log transmitting . 
+log_dir /data/proclog/log/squid/archive
+
+#log files  timeout for checking log transmitting  , unit : minute .
+#default , 60 minutes .
+log_timeout 70
+
+#swap.state file max size, unit : MB.
+swap_state_max 700
+#///////////////////////////////////////////////////////////////////////

@@ -1,0 +1,914 @@
+--
+--Title:   China cache monitor mib files;
+--Author : Qingrong.Jiang
+--Date:    2006-02-21
+--
+ChinaCache-MIB DEFINITIONS ::= BEGIN
+IMPORTS
+	enterprises, Unsigned32, TimeTicks, Gauge32, Counter32,
+	MODULE-IDENTITY, OBJECT-TYPE
+        	FROM SNMPv2-SMI
+
+	DisplayString
+        	FROM SNMPv2-TC;
+
+ChinaCache OBJECT IDENTIFIER ::= { enterprises 25337 }
+
+--
+-- system OID
+--
+
+system MODULE-IDENTITY
+    LAST-UPDATED "9809220000Z"
+    ORGANIZATION "China Cache "
+    CONTACT-INFO
+            "        Qingrong.Jiang
+
+                6th Floor, Tower A, Galaxy Building,
+
+                No.10 Jiuxianqiao Zhonglu, Chaoyang District, 
+
+                Beijing 100016 P.R China
+
+
+                Tel: (86-10) 64373399 358
+                Fax: (86-10) 64374251
+
+             E-mail: qingrong.jiang@chinacache.com"
+    DESCRIPTION
+		"Your requirement is chinacache's business "
+	    
+    REVISION      "9809220000Z"
+    DESCRIPTION
+		"chinacache can satisfy your all requirement ."
+    REVISION      "9901010000Z"
+    DESCRIPTION
+		"Added objects and corrected asn.1 syntax and 
+		descriptions."
+    ::= { ChinaCache 20 }
+
+
+--
+-- application OID
+--
+
+applications MODULE-IDENTITY
+    LAST-UPDATED "9809220000Z"
+    ORGANIZATION "China Cache "
+    CONTACT-INFO
+            "        Qingrong.Jiang
+
+                6th Floor, Tower A, Galaxy Building,
+
+                No.10 Jiuxianqiao Zhonglu, Chaoyang District,
+
+                Beijing 100016 P.R China
+
+
+                Tel: (86-10) 64373399 358
+                Fax: (86-10) 64374251
+
+             E-mail: qingrong.jiang@chinacache.com"
+    DESCRIPTION
+                "Your requirement is chinacache's business "
+
+    REVISION      "9809220000Z"
+    DESCRIPTION
+                "chinacache can satisfy your all requirement ."
+    REVISION      "9901010000Z"
+    DESCRIPTION
+                "Added objects and corrected asn.1 syntax and
+                descriptions."
+    ::= { ChinaCache 30 }
+
+
+
+--
+-- system OIDs group
+--
+
+          load    OBJECT IDENTIFIER ::= { system 1 }
+          disk    OBJECT IDENTIFIER ::= { system 2 }
+          net     OBJECT IDENTIFIER ::= { system 3 }
+          time    OBJECT IDENTIFIER ::= { system 4 }
+
+
+--
+-- load group
+--        
+           loadEntry OBJECT-TYPE
+                SYNTAX cpuEntry
+                MAX-ACCESS not-accessible
+                STATUS current
+                DESCRIPTION 
+                        " An entry in cpuLoadEntry " 
+                INDEX   { loadAve1 }
+        ::= { load 101 }
+
+        loadEntry ::= SEQUENCE {
+		cpuLoadAve1		DisplayString,
+		cpuLoadAve5 		DisplayString,
+		cpuLoadAve15   		DisplayString,	
+		cpuLoadUpdateTime 	DisplayString
+	} 
+
+
+         loadAve1  OBJECT-TYPE
+                SYNTAX DisplayString
+                MAX-ACCESS read-only
+                STATUS current
+                DESCRIPTION
+                        " the average load per 1 minute"
+        ::= { loadEntry 1 }
+        
+        loadAve5  OBJECT-TYPE
+                SYNTAX DisplayString
+                MAX-ACCESS read-only
+                STATUS current
+                DESCRIPTION
+                        " the average load per 5 minute"
+        ::= { loadEntry 2 }
+        
+        loadAve15  OBJECT-TYPE
+                SYNTAX DisplayString
+                MAX-ACCESS read-only
+                STATUS current
+                DESCRIPTION
+                        " the average load per 15 minute"
+        ::= { loadEntry 3 }
+        
+        loadUpdateTime  OBJECT-TYPE
+                SYNTAX DisplayString
+                MAX-ACCESS read-only
+                STATUS current
+                DESCRIPTION
+                        " the date of monitoring action  "
+        ::= { loadEntry 4 }
+                
+--
+-- disk  group
+--
+
+           diskEntry OBJECT-TYPE
+                SYNTAX cpuEntry
+                MAX-ACCESS not-accessible
+                STATUS current
+                DESCRIPTION 
+                        " An entry in cpuLoadEntry " 
+                INDEX   { diskWriteSpeedMbps }
+        ::= { disk 101 }
+
+        loadEntry ::= SEQUENCE {
+		diskWriteSpeedMBps		DisplayString,
+		diskReadSpeedMBps 		DisplayString,
+		diskSpeedUpdateTime   		DisplayString,
+		diskFreeSpaceMB			DisplayString,
+		diskUsedSpacePercent		DisplayString,
+		diskFreeSpaceChkSection         DisplayString,
+		diskUsedPercentChkSection       DisplayString,
+		diskSpaceUpdateTime		DisplayString
+	} 
+	
+	diskWriteSpeedMBps  OBJECT-TYPE
+                SYNTAX DisplayString
+                MAX-ACCESS read-only
+                STATUS current
+                DESCRIPTION
+                        " the ........"
+        ::= { diskEntry 1 }
+        
+        diskReadSpeedMBps  OBJECT-TYPE
+                SYNTAX DisplayString
+                MAX-ACCESS read-only
+                STATUS current
+                DESCRIPTION
+                        " the........"
+        ::= { diskEntry 2 }
+        
+        diskSpeedUpdateTime  OBJECT-TYPE
+                SYNTAX DisplayString
+                MAX-ACCESS read-only
+                STATUS current
+                DESCRIPTION
+                        " the ............"
+        ::= { diskEntry 3 }
+        
+        
+          diskFreeSpaceMB  OBJECT-TYPE
+                SYNTAX DisplayString
+                MAX-ACCESS read-only
+                STATUS current
+                DESCRIPTION
+                        " the .........."
+        ::= { diskEntry 4 }
+        
+         diskUsedSpacePercent  OBJECT-TYPE
+                SYNTAX DisplayString
+                MAX-ACCESS read-only
+                STATUS current
+                DESCRIPTION
+                        " the ............"
+        ::= { diskEntry 5 }
+        
+         diskFreeSpaceChkSection  OBJECT-TYPE
+                SYNTAX DisplayString
+                MAX-ACCESS read-only
+                STATUS current
+                DESCRIPTION
+                        " the ..............."
+        ::= { diskEntry 6 }
+        
+         diskUsedPercentChkSection  OBJECT-TYPE
+                SYNTAX DisplayString
+                MAX-ACCESS read-only
+                STATUS current
+                DESCRIPTION
+                        " the ..............."
+        ::= { diskEntry 7 }
+        
+         diskSpaceUpdateTime  OBJECT-TYPE
+                SYNTAX DisplayString
+                MAX-ACCESS read-only
+                STATUS current
+                DESCRIPTION
+                        " the ..............."
+        ::= { diskEntry 8 }
+        
+        
+        
+
+
+--
+-- net group
+--
+            netEntry OBJECT-TYPE
+                SYNTAX netEntry
+                MAX-ACCESS not-accessible
+                STATUS current
+                DESCRIPTION 
+                        " An entry in net " 
+                INDEX   { netConnCount }
+        ::= { net 101 }
+
+        netEntry ::= SEQUENCE {
+		netConnCount			DisplayString,
+		netConnUpdateTime		DisplayString,
+		netBandWidthInKBps   		DisplayString,	
+		netBandWidthOutKBps 		DisplayString,
+		netBandWidthUpdateTime  	DisplayString,
+		netStatusMaxErrosDiff		DisplayString,
+		netStatusMaxErrosDiffDev	DisplayString,	
+		netStatusMaxCollsDiff		DisplayString,
+		netStatusMaxCollsDiffDev	DisplayString,
+		netStatusUpdateTime		DisplayString
+
+	} 
+	
+	
+	netConnCount  OBJECT-TYPE
+                SYNTAX DisplayString
+                MAX-ACCESS read-only
+                STATUS current
+                DESCRIPTION
+                        " the total connection count"
+        ::= { netEntry 1 }
+        
+	netConnUpdateTime  OBJECT-TYPE
+                SYNTAX DisplayString
+                MAX-ACCESS read-only
+                STATUS current
+                DESCRIPTION
+                        " the update time"
+        ::= { netEntry 2 }
+        
+	netBandWidthInKBps  OBJECT-TYPE
+                SYNTAX DisplayString
+                MAX-ACCESS read-only
+                STATUS current
+                DESCRIPTION
+                        " amount of network traffic received "
+        ::= { netEntry 3 }
+        
+	netBandWidthOutKBps  OBJECT-TYPE
+                SYNTAX DisplayString
+                MAX-ACCESS read-only
+                STATUS current
+                DESCRIPTION
+                        " amount of network traffic sent"
+        ::= { netEntry 4 }
+        
+	netBandWidthUpdateTime  OBJECT-TYPE
+                SYNTAX DisplayString
+                MAX-ACCESS read-only
+                STATUS current
+                DESCRIPTION
+                        "  update time of network traffic "
+        ::= { netEntry 5 }
+        
+	netStatusMaxErrosDiff  OBJECT-TYPE
+                SYNTAX DisplayString
+                MAX-ACCESS read-only
+                STATUS current
+                DESCRIPTION
+                        "  update time of network traffic "
+        ::= { netEntry 6 }
+        
+	netStatusMaxErrosDiffDev  OBJECT-TYPE
+                SYNTAX DisplayString
+                MAX-ACCESS read-only
+                STATUS current
+                DESCRIPTION
+                        "  update time of network traffic "
+        ::= { netEntry 7 }
+        
+	netStatusMaxCollsDiff  OBJECT-TYPE
+                SYNTAX DisplayString
+                MAX-ACCESS read-only
+                STATUS current
+                DESCRIPTION
+                        "  update time of network traffic "
+        ::= { netEntry 8 }
+        
+	netStatusMaxCollsDiffDev  OBJECT-TYPE
+                SYNTAX DisplayString
+                MAX-ACCESS read-only
+                STATUS current
+                DESCRIPTION
+                        "  update time of network traffic "
+        ::= { netEntry 9 }
+        
+	netStatusUpdateTime  OBJECT-TYPE
+                SYNTAX DisplayString
+                MAX-ACCESS read-only
+                STATUS current
+                DESCRIPTION
+                        "  update time of network traffic "
+        ::= { netEntry 10 }
+        
+	
+	
+--
+-- time group
+--
+            timeEntry OBJECT-TYPE
+                SYNTAX netEntry
+                MAX-ACCESS not-accessible
+                STATUS current
+                DESCRIPTION 
+                        " An entry in net " 
+                INDEX   { timeNtpChkResult }
+        ::= { time 101 }
+
+        timeEntry ::= SEQUENCE {
+		timeNtpChkResult		DisplayString,
+		timeNtpChkOffset		DisplayString,
+		timeNtpChkUpdateTime   		DisplayString
+
+	} 
+	
+	
+	timeNtpChkResult  OBJECT-TYPE
+                SYNTAX DisplayString
+                MAX-ACCESS read-only
+                STATUS current
+                DESCRIPTION
+                        " the total connection count"
+        ::= { timeEntry 1 }
+        
+	timeNtpChkOffset  OBJECT-TYPE
+                SYNTAX DisplayString
+                MAX-ACCESS read-only
+                STATUS current
+                DESCRIPTION
+                        " the total connection count"
+        ::= { timeEntry 2 }
+        
+	timeNtpChkUpdateTime  OBJECT-TYPE
+                SYNTAX DisplayString
+                MAX-ACCESS read-only
+                STATUS current
+                DESCRIPTION
+                        " the total connection count"
+        ::= { timeEntry 3 }
+	
+
+--
+-- applications group
+--
+         squid   OBJECT IDENTIFIER ::= { applications 1 }
+         
+         
+--         
+-- squid  application group
+--
+
+          squidEntry OBJECT-TYPE
+                SYNTAX netEntry
+                MAX-ACCESS not-accessible
+                STATUS current
+                DESCRIPTION 
+                        " An entry in net " 
+                INDEX   { squidClientConnCount }
+        ::= { squid 101 }
+
+        netEntry ::= SEQUENCE {
+		squidClientConnCount		DisplayString,
+		squidHttpServerConnCount	DisplayString,
+		squidConnUpdateTime 		DisplayString,	
+		squidResponseTime 	 	DisplayString,
+		squidResponseSpeedKBps   	DisplayString,
+		squidResponseUpdateTime  	DisplayString,
+		squidOriginResponseTime		DisplayString,
+		squidOriginResponseSpeedKBps	DisplayString,
+		squidOriginResponseUpdateTime	DisplayString,
+		squidClientBandWidthInKBps	DisplayString,
+		squidClinetBandWidthOutKBps	DisplayString,
+		squidServerBandWidthInKBps	DisplayString,
+		squidServerBandWidthOutKBps	DisplayString,
+		squidBandWidthUpdateTime	DisplayString,
+                squidLogTransResult        	DisplayString,
+		squidLogTransResultUpdateTime   DisplayString,
+		squidCacheSysVMsize		DisplayString,
+		squidCacheSysStorage		DisplayString,
+		squidCacheMemUsage		DisplayString,
+		squidCacheHttpErrors		DisplayString,
+		squidCacheHttpErrorsIncreased	DisplayString,
+		squidCacheHttpMissSvcTime1	DisplayString,
+		squidCacheHttpMissSvcTime5	DisplayString,
+		squidCacheHttpMissSvcTime60	DisplayString,
+		squidCacheHttpMissSvcTime1To60	DisplayString,
+		squidCacheHttpNmSvcTime1	DisplayString,
+		squidCacheHttpNmSvcTime5	DisplayString,
+		squidCacheHttpNmSvcTime60	DisplayString,
+		squidCacheHttpNmSvcTime1To60	DisplayString,
+		squidCacheHttpHitSvcTime1	DisplayString,
+		squidCacheHttpHitSvcTime5	DisplayString,
+		squidCacheHttpHitSvcTime60	DisplayString,
+		squidCacheHttpHitSvcTime1To60	DisplayString,
+		squidCacheDnsSvcTime1		DisplayString,
+		squidCacheDnsSvcTime5		DisplayString,
+		squidCacheDnsSvcTime60		DisplayString,
+		squidCacheDnsSvcTime1To60	DisplayString,
+		squidCacheRequestHitRatio1	DisplayString,
+		squidCacheRequestHitRatio5	DisplayString,
+		squidCacheRequestHitRatio60	DisplayString,
+		squidCacheRequestHitRatio1To60	DisplayString,
+		squidMemHitRatio5		DisplayString,
+		squidMemHitRatio60		DisplayString,
+		squidMemHitRatio5To60		DisplayString,
+		squidDiskHitRatio5		DisplayString,
+		squidDiskHitRatio60		DisplayString,
+		squidDiskHitRatio5To60		DisplayString,
+		squidCacheRequestByteRatio1	DisplayString,
+		squidCacheRequestByteRatio5	DisplayString,
+		squidCacheRequestByteRatio60	DisplayString,
+		squidCacheRequestByteRatio1To60	DisplayString,
+		squidMgrChkUpdateTime		DisplayString
+
+
+		
+	} 
+	
+	  squidClientConnCount  OBJECT-TYPE
+                SYNTAX DisplayString
+                MAX-ACCESS read-only
+                STATUS current
+                DESCRIPTION
+                        "the ............."
+        ::= { squidEntry 1 }
+
+	  squidHttpServerConnCount  OBJECT-TYPE
+                SYNTAX DisplayString
+                MAX-ACCESS read-only
+                STATUS current
+                DESCRIPTION
+                        "the ............."
+        ::= { squidEntry 2 }
+        
+        squidConnUpdateTime  OBJECT-TYPE
+                SYNTAX DisplayString
+                MAX-ACCESS read-only
+                STATUS current
+                DESCRIPTION
+                        "the ............."
+        ::= { squidEntry 3 }
+        
+        squidResponseTime  OBJECT-TYPE
+                SYNTAX DisplayString
+                MAX-ACCESS read-only
+                STATUS current
+                DESCRIPTION
+                        "the ............."
+        ::= { squidEntry 4 }
+        
+        squidResponseSpeedKBps  OBJECT-TYPE
+                SYNTAX DisplayString
+                MAX-ACCESS read-only
+                STATUS current
+                DESCRIPTION
+                        "the ............."
+        ::= { squidEntry 5 }
+	
+	
+	squidResponseUpdateTime  OBJECT-TYPE
+                SYNTAX DisplayString
+                MAX-ACCESS read-only
+                STATUS current
+                DESCRIPTION
+                        "the ............."
+        ::= { squidEntry 6 }
+        
+        
+        squidOriginResponseTime  OBJECT-TYPE
+                SYNTAX DisplayString
+                MAX-ACCESS read-only
+                STATUS current
+                DESCRIPTION
+                        "the ............."
+        ::= { squidEntry 7 }
+        
+        squidOriginResponseSpeedKBps  OBJECT-TYPE
+                SYNTAX DisplayString
+                MAX-ACCESS read-only
+                STATUS current
+                DESCRIPTION
+                        "the ............."
+        ::= { squidEntry 8 }
+        
+        squidOriginResponseUpdateTime  OBJECT-TYPE
+                SYNTAX DisplayString
+                MAX-ACCESS read-only
+                STATUS current
+                DESCRIPTION
+                        "the ............."
+        ::= { squidEntry 9 }
+        
+        
+       squidClientBandWidthInKBps  OBJECT-TYPE
+                SYNTAX DisplayString
+                MAX-ACCESS read-only
+                STATUS current
+                DESCRIPTION
+                        " the ............."
+        ::= { squidEntry 10 }
+        
+       squidClinetBandwidthOutKBps  OBJECT-TYPE
+                SYNTAX DisplayString
+                MAX-ACCESS read-only
+                STATUS current
+                DESCRIPTION
+                        " the ............."
+        ::= { squidEntry 11 }
+        
+       squidServerBandwidthInKBps  OBJECT-TYPE
+                SYNTAX DisplayString
+                MAX-ACCESS read-only
+                STATUS current
+                DESCRIPTION
+                        "the ............."
+        ::= { squidEntry 12 }
+        
+      squidServerBandwidthOutKBps  OBJECT-TYPE
+                SYNTAX DisplayString
+                MAX-ACCESS read-only
+                STATUS current
+                DESCRIPTION
+                        " the ............."
+        ::= { squidEntry 13 }
+        
+      squidBandwidthUpdateTime  OBJECT-TYPE
+                SYNTAX DisplayString
+                MAX-ACCESS read-only
+                STATUS current
+                DESCRIPTION
+                        " the ............."
+        ::= { squidEntry 14 }
+        
+      squidLogTransResult  OBJECT-TYPE
+                SYNTAX DisplayString
+                MAX-ACCESS read-only
+                STATUS current
+                DESCRIPTION
+                        " the ............."
+        ::= { squidEntry 15 }
+
+      squidLogTransResultUpdateTime  OBJECT-TYPE
+                SYNTAX DisplayString
+                MAX-ACCESS read-only
+                STATUS current
+                DESCRIPTION
+                        " the ............."
+        ::= { squidEntry 16 }
+        
+              squidLogTransResultUpdateTime  OBJECT-TYPE
+                SYNTAX DisplayString
+                MAX-ACCESS read-only
+                STATUS current
+                DESCRIPTION
+                        " the ............."
+        ::= { squidEntry 16 }
+        
+       squidCacheSysVMsize  OBJECT-TYPE
+                SYNTAX DisplayString
+                MAX-ACCESS read-only
+                STATUS current
+                DESCRIPTION
+                        " the ............."
+        ::= { squidEntry 17 }
+        
+	squidCacheSysStorage  OBJECT-TYPE
+                SYNTAX DisplayString
+                MAX-ACCESS read-only
+                STATUS current
+                DESCRIPTION
+                        " the ............."
+        ::= { squidEntry 18 }
+
+	squidCacheMemUsage  OBJECT-TYPE
+                SYNTAX DisplayString
+                MAX-ACCESS read-only
+                STATUS current
+                DESCRIPTION
+                        " the ............."
+        ::= { squidEntry 19 }
+        
+	squidCacheHttpErrors  OBJECT-TYPE
+                SYNTAX DisplayString
+                MAX-ACCESS read-only
+                STATUS current
+                DESCRIPTION
+                        " the ............."
+        ::= { squidEntry 20 }
+        
+	squidCacheHttpErrorsIncreased  OBJECT-TYPE
+                SYNTAX DisplayString
+                MAX-ACCESS read-only
+                STATUS current
+                DESCRIPTION
+                        " the ............."
+        ::= { squidEntry 21 }
+        
+	squidCacheHttpMissSvcTime1  OBJECT-TYPE
+                SYNTAX DisplayString
+                MAX-ACCESS read-only
+                STATUS current
+                DESCRIPTION
+                        " the ............."
+        ::= { squidEntry 22 }
+        
+	squidCacheHttpMissSvcTime5  OBJECT-TYPE
+                SYNTAX DisplayString
+                MAX-ACCESS read-only
+                STATUS current
+                DESCRIPTION
+                        " the ............."
+        ::= { squidEntry 23 }
+        
+	squidCacheHttpMissSvcTime60  OBJECT-TYPE
+                SYNTAX DisplayString
+                MAX-ACCESS read-only
+                STATUS current
+                DESCRIPTION
+                        " the ............."
+        ::= { squidEntry 24 }
+        
+	squidCacheHttpMissSvcTime1To60  OBJECT-TYPE
+                SYNTAX DisplayString
+                MAX-ACCESS read-only
+                STATUS current
+                DESCRIPTION
+                        " the ............."
+        ::= { squidEntry 25 }
+        
+	squidCacheHttpNmSvcTime1  OBJECT-TYPE
+                SYNTAX DisplayString
+                MAX-ACCESS read-only
+                STATUS current
+                DESCRIPTION
+                        " the ............."
+        ::= { squidEntry 26 }
+        
+	squidCacheHttpNmSvcTime5  OBJECT-TYPE
+                SYNTAX DisplayString
+                MAX-ACCESS read-only
+                STATUS current
+                DESCRIPTION
+                        " the ............."
+        ::= { squidEntry 27 }
+        
+	squidCacheHttpNmSvcTime60  OBJECT-TYPE
+                SYNTAX DisplayString
+                MAX-ACCESS read-only
+                STATUS current
+                DESCRIPTION
+                        " the ............."
+        ::= { squidEntry 28 }
+        
+	squidCacheHttpNmSvcTime1To60  OBJECT-TYPE
+                SYNTAX DisplayString
+                MAX-ACCESS read-only
+                STATUS current
+                DESCRIPTION
+                        " the ............."
+        ::= { squidEntry 29 }
+        
+	squidCacheHttpHitSvcTime1  OBJECT-TYPE
+                SYNTAX DisplayString
+                MAX-ACCESS read-only
+                STATUS current
+                DESCRIPTION
+                        " the ............."
+        ::= { squidEntry 30 }
+        
+	squidCacheHttpHitSvcTime5  OBJECT-TYPE
+                SYNTAX DisplayString
+                MAX-ACCESS read-only
+                STATUS current
+                DESCRIPTION
+                        " the ............."
+        ::= { squidEntry 31 }
+        
+	squidCacheHttpHitSvcTime60  OBJECT-TYPE
+                SYNTAX DisplayString
+                MAX-ACCESS read-only
+                STATUS current
+                DESCRIPTION
+                        " the ............."
+        ::= { squidEntry 32 }
+        
+	squidCacheHttpHitSvcTime1To60  OBJECT-TYPE
+                SYNTAX DisplayString
+                MAX-ACCESS read-only
+                STATUS current
+                DESCRIPTION
+                        " the ............."
+        ::= { squidEntry 33 }
+        
+	squidCacheDnsSvcTime1  OBJECT-TYPE
+                SYNTAX DisplayString
+                MAX-ACCESS read-only
+                STATUS current
+                DESCRIPTION
+                        " the ............."
+        ::= { squidEntry 34 }
+        
+	squidCacheDnsSvcTime5  OBJECT-TYPE
+                SYNTAX DisplayString
+                MAX-ACCESS read-only
+                STATUS current
+                DESCRIPTION
+                        " the ............."
+        ::= { squidEntry 35 }
+        
+	squidCacheDnsSvcTime60  OBJECT-TYPE
+                SYNTAX DisplayString
+                MAX-ACCESS read-only
+                STATUS current
+                DESCRIPTION
+                        " the ............."
+        ::= { squidEntry 36 }
+        
+	squidCacheDnsSvcTime1To60  OBJECT-TYPE
+                SYNTAX DisplayString
+                MAX-ACCESS read-only
+                STATUS current
+                DESCRIPTION
+                        " the ............."
+        ::= { squidEntry 37 }
+        
+	squidCacheRequestHitRatio1  OBJECT-TYPE
+                SYNTAX DisplayString
+                MAX-ACCESS read-only
+                STATUS current
+                DESCRIPTION
+                        " the ............."
+        ::= { squidEntry 38 }
+	
+	squidCacheRequestHitRatio5  OBJECT-TYPE
+                SYNTAX DisplayString
+                MAX-ACCESS read-only
+                STATUS current
+                DESCRIPTION
+                        " the ............."
+        ::= { squidEntry 39 }
+        
+	squidCacheRequestHitRatio60  OBJECT-TYPE
+                SYNTAX DisplayString
+                MAX-ACCESS read-only
+                STATUS current
+                DESCRIPTION
+                        " the ............."
+        ::= { squidEntry 40 }
+        
+	squidCacheRequestHitRatio1To60  OBJECT-TYPE
+                SYNTAX DisplayString
+                MAX-ACCESS read-only
+                STATUS current
+                DESCRIPTION
+                        " the ............."
+        ::= { squidEntry 41 }
+        
+           squidMemHitRatio5  OBJECT-TYPE
+                SYNTAX DisplayString
+                MAX-ACCESS read-only
+                STATUS current
+                DESCRIPTION
+                        " the ............."
+        ::= { squidEntry 42 }
+        
+           squidMemHitRatio60  OBJECT-TYPE
+                SYNTAX DisplayString
+                MAX-ACCESS read-only
+                STATUS current
+                DESCRIPTION
+                        " the ............."
+        ::= { squidEntry 43 }
+        
+	squidMemHitRatio5To60  OBJECT-TYPE
+                SYNTAX DisplayString
+                MAX-ACCESS read-only
+                STATUS current
+                DESCRIPTION
+                        " the ............."
+        ::= { squidEntry 44 }
+        
+	squidDiskHitRatio5  OBJECT-TYPE
+                SYNTAX DisplayString
+                MAX-ACCESS read-only
+                STATUS current
+                DESCRIPTION
+                        " the ............."
+        ::= { squidEntry 45 }
+        
+	squidDiskHitRatio60  OBJECT-TYPE
+                SYNTAX DisplayString
+                MAX-ACCESS read-only
+                STATUS current
+                DESCRIPTION
+                        " the ............."
+        ::= { squidEntry 46 }
+        
+           squidDiskHitRatio5To60  OBJECT-TYPE
+                SYNTAX DisplayString
+                MAX-ACCESS read-only
+                STATUS current
+                DESCRIPTION
+                        " the ............."
+        ::= { squidEntry 47 }
+        
+           squidCacheRequestByteRatio1  OBJECT-TYPE
+                SYNTAX DisplayString
+                MAX-ACCESS read-only
+                STATUS current
+                DESCRIPTION
+                        " the ............."
+        ::= { squidEntry 48 }
+        
+        
+           squidCacheRequestByteRatio5  OBJECT-TYPE
+                SYNTAX DisplayString
+                MAX-ACCESS read-only
+                STATUS current
+                DESCRIPTION
+                        " the ............."
+        ::= { squidEntry 49 }
+        
+           squidCacheRequestByteRatio60  OBJECT-TYPE
+                SYNTAX DisplayString
+                MAX-ACCESS read-only
+                STATUS current
+                DESCRIPTION
+                        " the ............."
+        ::= { squidEntry 50 }
+        
+           squidCacheRequestByteRatio1To60  OBJECT-TYPE
+                SYNTAX DisplayString
+                MAX-ACCESS read-only
+                STATUS current
+                DESCRIPTION
+                        " the ............."
+        ::= { squidEntry 51 }
+        
+           squidMgrChkUpdateTime   OBJECT-TYPE
+                SYNTAX DisplayString
+                MAX-ACCESS read-only
+                STATUS current
+                DESCRIPTION
+                        " the ............."
+        ::= { squidEntry 52 }
+        
+  
+
+        
+        
+
+-- end of ChinaCache-MIB
+--
+END
+
+
+
+
+
+
+

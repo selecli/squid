@@ -1,0 +1,18 @@
+hi, welcome to  monitor program, 
+you can choose one thing to do: installing  or uninstalling .
+
+A) Do you want install monitor program , OK? , Well , let's install it now .
+   1) su -
+   2) make install
+   3) crontab -e 
+    input: */1 * * * * /monitor/share/check_per_minute.sh
+
+B) The monitor program is too bad, you can not bear it any more . Uninstalling is the best choice .
+   1) su -
+   2) make uninstall
+   3) crontab -e
+     del : */1 * * * * /monitor/share/check_per_minute.sh
+
+If you have any problems , please send  Email to  : Qingrong.Jiang@chinacache.com OR luojun.zeng@chinacache.com .  :-)
+
+	  

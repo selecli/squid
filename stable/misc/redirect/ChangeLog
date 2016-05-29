@@ -1,0 +1,12 @@
+Changes to squidsetup (29 Mar 2007)
+
+        - [Minor] added debug control infomation
+
+Changes to squidsetup (29 Mar 2007)
+
+        - [Major] added operator ouou_decode, replace_host_all, replace_regex
+
+Changes to squidsetup070212 (17 Jul 2007)
+
+        - [Major] added operator rid_question, modified for compress's suffix
+	          according of squid.conf, added auxiliary tools.

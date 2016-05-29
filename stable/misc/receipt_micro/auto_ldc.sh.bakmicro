@@ -1,0 +1,426 @@
+#!/bin/bash
+#
+# SCRIPT: auto_ldc.sh.
+#
+# AUTHOR: Digi Cai
+#
+# DATE: 03-25-2007
+#
+#
+# REV: 1.0.0
+#
+# REV.LIST:
+#
+#
+# set -x # Uncomment to debug this script
+# set -n # Uncomment to check command syntax without any execution
+#
+######################################################################
+if [ "$1" == "-v" ] ;then
+echo "Version 1.2.9"
+echo "Date  12-09-2008"
+echo "Author Digi Cai"
+exit 0
+fi
+
+export PATH=.:/usr/local/squid/sbin:/usr/local/squid/bin:/usr/kerberos/sbin:/usr/kerberos/bin:/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/usr/X11R6/bin:/root/bin
+localtime=`date +%s`
+Lloadfile=/home/fromcf/log_load.conf
+logbase=/data/proclog/log/squid
+oldftpconfig=/usr/local/squid/etc/upload.conf
+ftpconfig=/usr/local/squid/bin/miniftt/cfg/dirlist.conf
+eth1ip=`ip a show dev eth1|awk '$1~"inet$" {print $2}'`
+eth0ip=`ip a show dev eth0|awk '$1~"inet$" {print $2}'`
+eth0ip_d=`echo $eth0ip|awk -F. '{print $1"."$2"."$3".""0/24"}'`
+eth1ip_d=`echo $eth1ip|awk -F. '{print $1"."$2"."$3".""0/24"}'`
+eth1ip_o=`echo $eth1ip|awk -F. '{print $1"."$2}'`
+nmapfile=/tmp/openftplist
+TMP_LDC_File=/tmp/tldc.list
+publicconfig=/usr/local/squid/bin/miniftt/cfg/dirlist.conf.public
+configpath=/usr/local/squid/bin/miniftt/cfg/
+privatedirname=`grep "_RLDC" $oldftpconfig |awk -F_ '{print $1}'`
+privatedirnum=`grep "_RLDC" $oldftpconfig |awk -F_ '{print $1}'|wc -l`
+otherdirnum=`grep "_LDC" $oldftpconfig |awk -F_ '{print $1}'|grep -iv "billing"|wc -l`
+otherdirname=`grep "_LDC" $oldftpconfig |awk -F_ '{print $1}'|grep -iv "billing"`
+logdir=${logbase}/archive
+billdir=${logbase}/billing
+#receipt=${logbase}/Receipt
+oldLDC_s=`awk '$1~"^LDCIP" {print $0}' $oldftpconfig|head -1`
+oldpid=`ps aux|awk '{if ($8!~"Zs" && $12~"auto_ldc" && $11~"/bin/bash") print $2}'|wc -l`
+privateoid=".1.3.6.1.4.1.25337.30.9.101.3"
+oldftpcf_LM=`stat $oldftpconfig|grep -i Modify | awk -F. '{print $1}' | awk '{print $2$3}'| awk -F- '{print $1$2$3}' | awk -F: '{print $1$2}'`
+localdate=`date +%Y%m%d%H%M`
+snnode=`cut -c 1-5 /sn.txt`
+nodename=`hostname|cut -c 5-6`
+if [ -d /usr/local/squid/bin/miniftt/ ];then
+        status=0
+else
+        wget --timeout=3 -t 2 -O /tmp/FCloghotfix.tgz http://61.135.209.166/FCloghotfix.tgz
+	tar xzvf /tmp/FCloghotfix.tgz -C /tmp/ && cd /tmp/FCloghotfix/&&make
+fi
+###################upload.conf LM####################
+if [ `expr $localdate - $oldftpcf_LM` -lt "5" ];then
+	rm -f $publicconfig;rm -f $configpath/priva*;rm -f $configpath/ps*
+	Lmcf=1
+else
+	Lmcf=0
+fi
+
+#############init /usr/local/squid/bin/miniftt/cfg/dirlist.conf MOD ####################
+write_config(){
+echo "Name                        $6"
+echo "LocalPath                   $1"
+echo "Action                      upload"
+echo "FileNamePattern             *.log"
+echo "RemotePathBase              $2"
+echo "RemotePathApp               ."
+echo "Backup                      yes"
+echo "BackupPath                  /data/proclog/log/squid/backup"
+echo "CompressMethod              auto"
+echo "FilePostfix                 .tmp"
+echo "MaxThreads                  1"
+echo "MaxTasks                    2"
+echo 
+echo "ServerName                  RS"
+echo "ServerIP                    $5"
+echo "ServerPort                  21"
+echo "ServerAuthUser              $3"
+echo "ServerAuthPass              $4"
+echo "ServerSafeSpeed             300"
+echo "ServerTimeout               300"
+echo "ServerType                  vsftpd"
+echo "ServerMode                  passive"
+}
+
+###########get public user password rdir message#######################
+[ -d $logdir ]||mkdir $logdir; [ -d $billdir ]||mkdir $billdir
+#[ -d $receipt ]||mkdir $receipt
+        USER=$(cat $oldftpconfig|cut -d '#' -f1|awk -F '=' '$1 ~ /^[[:blank:]]*USER/ {print $2}'| \
+                awk '{print $1}'|tail -n1)
+        PASSWD=$(cat $oldftpconfig|cut -d '#' -f1|awk -F '=' '$1 ~ /^[[:blank:]]*PASSWD/ {print $2}'| \
+                awk '{print $1}'|tail -n1)
+        Rdir=$(cat $oldftpconfig|cut -d '#' -f1|awk -F '=' '$1 ~ /^[[:blank:]]*Rdir/ {print $2}'| \
+                awk '{print $1}'|tail -n1)
+        B_USER=$(cat $oldftpconfig|cut -d '#' -f1|awk -F '=' '$1 ~ /Billing_USER/ {print $2}'| \
+                awk '{print $1}'|tail -n1)
+        B_PASSWD=$(cat $oldftpconfig|cut -d '#' -f1|awk -F '=' '$1 ~ /Billing_PASSWD/ {print $2}'| \
+                awk '{print $1}'|tail -n1)
+        B_Rdir=$(cat $oldftpconfig|cut -d '#' -f1|awk -F '=' '$1 ~ /Billing_Rdir/ {print $2}'| \
+                awk '{print $1}'|tail -n1)
+#        R_USER=$(cat $oldftpconfig|cut -d '#' -f1|awk -F '=' '$1 ~ /Receipt_USER/ {print $2}'| \
+#                awk '{print $1}'|tail -n1)
+#        R_PASSWD=$(cat $oldftpconfig|cut -d '#' -f1|awk -F '=' '$1 ~ /Receipt_PASSWD/ {print $2}'| \
+#                awk '{print $1}'|tail -n1)
+#        R_Rdir=$(cat $oldftpconfig|cut -d '#' -f1|awk -F '=' '$1 ~ /Receipt_Rdir/ {print $2}'| \
+#                awk '{print $1}'|tail -n1)
+otherlog(){
+	[ $otherdirnum -gt 0 ]&& for OTH in `echo $otherdirname`
+	do
+	[ -d $logbase/$OTH ]||mkdir $logbase/$OTH
+	 O_USER=$(cat $oldftpconfig|cut -d '#' -f1|awk -F '=' '$1 ~ /'$OTH'_USER/ {print $2}'| \
+                awk '{print $1}'|tail -n1)
+        O_PASSWD=$(cat $oldftpconfig|cut -d '#' -f1|awk -F '=' '$1 ~ /'$OTH'_PASSWD/ {print $2}'| \
+                awk '{print $1}'|tail -n1)
+        O_Rdir=$(cat $oldftpconfig|cut -d '#' -f1|awk -F '=' '$1 ~ /'$OTH'_Rdir/ {print $2}'| \
+                awk '{print $1}'|tail -n1)
+	test $O_USER && test $O_PASSWD && test $O_Rdir
+        if [ $? -eq "0" ];then
+        write_config $logbase/$OTH $O_Rdir $O_USER $O_PASSWD $LDCIP $OTH"log"
+        else
+        echo $OTH"log" config error > $configpath"$OTH.log"
+        fi
+	done
+}
+#### Judgement auto_ldc pid #########
+if [ $oldpid -lt 4 ]; then
+#######get eth0 and eth1 network ldc#########
+NMAP(){
+                nmap -P0 -p21 -T5 -oG $nmapfile $eth1ip_d 
+                awk -F/ '$2~"open" {print $0}' $nmapfile |awk '{print $2}' > $TMP_LDC_File
+                while read IP
+                do
+                wget --timeout=3 -t 2 -O /tmp/"$IP"_load ftp://fromcf:fromcf102090@$IP/log_load.conf 
+                if [ $? -eq 0 ]; then
+                echo $IP >> /tmp/fldclist
+                fi
+                done < $TMP_LDC_File
+        if [ -f /tmp/fldclist ]; then
+                echo
+                else
+                nmap -P0 -p21 -T5 -oG $nmapfile $eth0ip_d > /dev/null
+                awk -F/ '$2~"open" {print $0}' $nmapfile |awk '{print $2}' > $TMP_LDC_File
+                while read IP
+                do
+                wget --timeout=3 -t 2 -O /tmp/"$IP"_load ftp://fromcf:fromcf102090@$IP/log_load.conf 
+                if [ $? -eq 0 ]; then
+                echo $IP >> /tmp/fldclist
+                fi
+                done < $TMP_LDC_File
+        fi
+}
+
+######if eth0 and eth1 no Available ldc get backup list Available ldc############
+backup(){
+        rm -f /tmp/fldclist
+        wget --timeout=3 -t 2 -O /tmp/ldc.txt http://61.135.209.166/ldc.txt
+        awk '{ if($1~"'$snnode'"||$2~"'$nodename'") print $3}' /tmp/ldc.txt > $TMP_LDC_File
+        while read IP
+                do
+                wget --timeout=3 -t 2 -O /tmp/"$IP"_load ftp://fromcf:fromcf102090@$IP/log_load.conf
+                if [ $? -eq 0 ]; then
+                echo $IP >> /tmp/fldclist
+                fi
+        done < $TMP_LDC_File
+      #  rm -f /tmp/ldc.txt
+}
+
+
+#######Judgement Available LDC####################
+
+TAKE_LOAD(){ 
+        while read IP
+        do
+	y=`sed -n 3p /tmp/"$IP"_load|awk -F= '{print $2}'`
+	test -n $y
+	if [ $? = 0 ] && [ $y -gt `expr $localtime - 3600` ];then
+		y=0
+	else
+		y=1
+	fi
+        if [ $? -eq 0 ] && [ `sed -n 2p /tmp/"$IP"_load|awk -F= '{print $2}'` -lt 8 ] && [ `sed -n 1p /tmp/"$IP"_load|awk -F= '{print $2}'` == "true" ] ; then
+                echo $IP >> /tmp/tmplist
+        fi
+        done < <(sort /tmp/fldclist |uniq -c|awk '{print $2}')
+        if [ `wc -l /tmp/tmplist|awk '{print $1}'` -gt 0 ]; then
+        mv /tmp/tmplist /tmp/LDClist
+        else
+        backup
+        while read IP
+        do
+if [ `sed -n 2p /tmp/"$IP"_load|awk -F= '{print $2}'` -lt 8 ] && [ `sed -n 1p /tmp/"$IP"_load|awk -F= '{print $2}'` == "true" ] && [ $y != "" ] && [ $y -gt `expr $localtime - 3600` ]; then
+                echo $IP >> /tmp/tmplist
+        fi
+        done < <(sort /tmp/fldclist |uniq -c|awk '{print $2}')
+        fi
+        mv /tmp/tmplist /tmp/LDClist
+}
+
+#################if miniftt.log > 50M Clear miniftt.log to zero#############
+Clear(){
+        if [ `du -m /usr/local/squid/bin/miniftt/log/miniftt.log|awk '{print $1}'` -gt 50 ]; then
+        echo  > /usr/local/squid/bin/miniftt/log/miniftt.log
+        fi
+}
+
+################get Available LDC List#####################
+Main(){
+
+        NMAP
+        TAKE_LOAD
+        }
+
+###############miniftt restart###########
+doit(){
+        ps aux|grep mini|awk '{print $2}'|xargs kill -9
+	mv /tmp/dirlist.tmp  $ftpconfig
+        /usr/local/squid/bin/miniftt/bin/stop
+	cd $logdir && rename .log.tmp .log *.log.tmp
+	cd $billdir && rename .log.tmp .log *.log.tmp 
+	/usr/local/squid/bin/miniftt/bin/startup
+}
+
+##############get accesslog config ##################
+accesslog(){
+  #      test $USER && test $PASSWD && test $Rdir
+  #      if [ $? -eq "0" ];then
+  #      #write_config $logdir $Rdir $USER $PASSWD $LDCIP Accesslog
+        #else
+        write_config /data/proclog/log/squid/archive /proclog/2nd_edition/temp fromcf fromcf102090 $LDCIP Accesslog
+  #      fi
+}
+##############get billing config #########################
+Billlog(){
+  #      test $B_USER && test $B_PASSWD && test $B_Rdir
+  #      if [ $? -eq "0" ];then
+        #write_config $billdir $B_Rdir $B_USER $B_PASSWD $LDCIP Billinglog
+        #else
+        write_config /data/proclog/log/squid/billing /proclog/2nd_edition/flexicache/upload/ fromcf fromcf102090 $LDCIP Billinglog
+ #       fi
+}
+#############get receiptlog config###########################
+#receiptlog(){
+#        test $R_USER && test $R_PASSWD && test $R_Rdir
+#        if [ $? -eq "0" ];then
+#        write_config $receipt $R_Rdir $R_USER $R_PASSWD $LDCIP Receiptlog
+#        else
+#        write_config /data/proclog/log/squid/Receipt /proclog/2nd_edition/logbak fromcf fromcf102090 $LDCIP Receiptlog
+#        fi
+#}
+
+publiclog(){
+        accesslog;echo ;Billlog;echo ;otherlog;echo ;
+}
+
+privatelog(){
+
+if [ $privatedirnum -gt 0 ]; then
+ rm -f $configpath"pstatus"
+ write_pconfig(){
+       		 Rdir=`grep $1"_Rdir" $oldftpconfig|awk '{print $2}'`
+                USER=`grep $1"_USER" $oldftpconfig|awk '{print $2}'`
+                PASSWD=`grep $1"_PASSWD" $oldftpconfig|awk '{print $2}'`
+                LDCIP=`grep $1"_RLDCIP" $oldftpconfig|awk '{print $2}'`
+                BLDCIP=`grep $1"_BRLDCIP" $oldftpconfig|awk '{print $2}'`
+                test $USER && test $PASSWD && test $Rdir && test $LDCIP && test $BLDCIP
+                if [ $? -eq "0" ]; then
+                        for PRIP in `echo $LDCIP"|"$BLDCIP|sed 's/|/ /g'`
+                                do
+                 snmpwalk -v 1 -r 3 -t 5 -c public $PRIP $privateoid|awk '{print $4}'|cut -c 2  > /tmp/$PRIP"_load"
+ 	       if [ $? -eq 0 ] && [ `cat /tmp/$PRIP"_load"|wc -l` -eq 1 ] && [ `cat /tmp/$PRIP"_load"` -eq 0 ]; then
+                                        echo $PRIP >> /tmp/$1"TMP_IP"
+                                        sort /tmp/$1"TMP_IP"|uniq -c|awk '{print $2}' > /tmp/$1"_IP"
+                                        rm -f /tmp/$1"TMP_IP"
+                                        fi
+                                done
+                                if [ -f /tmp/$1"_IP" ]&&[ `wc -l /tmp/$1"_IP"|awk '{print $1}'` -gt 0 ]; then
+                                        aa=( `cat /tmp/$1"_IP"|uniq -c|awk '{print $2}'` )
+                                        RIP=`echo ${aa[$((RANDOM%${#aa[@]}))]}`
+                                        else
+                                        RIP=$LDCIP
+                                fi
+
+                write_config $logbase"/$1" $Rdir $USER $PASSWD $RIP $1 > $configpath"private."$1
+	else
+                        echo $1 upload.conf NULL or wrong >  $configpath"uploadnocfg"
+                fi
+	}
+	for DIR in `echo $privatedirname`
+                do
+		[ -d $logbase"/$DIR" ]||mkdir $logbase"/$DIR"
+                if [ -f $configpath"private."$DIR ] ;then
+		numdir=`ls -l $logbase"/$DIR" |wc -l`
+                PRIP=`awk '$1~"^ServerIP" {print $0}' $configpath"private."$DIR|head -1|awk '{print $2}'`
+                snmpwalk -v 1 -r 3 -t 5 -c public $PRIP $privateoid|awk '{print $4}'|cut -c 2  > /tmp/$PRIP"_load"
+		if [ $? -eq 0 ] && [ `cat /tmp/$PRIP"_load"|wc -l` -eq 1 ] && [ `cat /tmp/$PRIP"_load"` -eq 0 ] && [ $numdir -ne 5 ]; then
+			echo $localtime private log $DIR $PRIP ok  >>  $configpath"pstatus"
+			
+                else
+                        write_pconfig $DIR
+                fi
+		else
+		write_pconfig $DIR
+        fi
+    done
+fi
+}
+
+live_mini(){
+if [ -f /usr/local/squid/bin/miniftt/bin/miniftt.pid ] && ps aux|grep mini ;then
+                Clear
+                exit 0
+else
+                /usr/local/squid/bin/miniftt/bin/startup
+fi
+}
+
+if [ $Lmcf -eq 1 ];then
+        privatelog
+        Main
+        foo=( `cat /tmp/LDClist` )
+        declare foo
+        LDCIP=`echo ${foo[$((RANDOM%${#foo[@]}))]}`
+        publiclog > $publicconfig
+        cat $publicconfig > /tmp/dirlist.tmp
+        echo >> /tmp/dirlist.tmp
+        cat "$configpath"private*"" >> /tmp/dirlist.tmp
+        doit
+fi
+
+
+
+privatelog
+
+##########Judgement LDC log Accumulation##############
+
+        WarningNumber=5
+        lognum_cache=`ls -l $logdir/ |grep -v cache |wc -l`
+        lognum_billing=`ls -l $billdir/ |wc -l`
+        lognum_receipt=`ls -l $receipt/ |wc -l`
+
+if [ "$lognum_cache" -ge "$WarningNumber" ] || [ "$lognum_billing" -ge "$WarningNumber" ] || [ "$lognum_receipt" -ge "$WarningNumber" ]; then
+                uploadstatus=`expr $lognum_billing + $lognum_cache + $lognum_receipt`
+        else
+                uploadstatus=0
+        fi
+if [ $privatedirnum -gt 0 ] && [ -f $configpath'pstatus' ];then
+	privtime=`awk '{print $1}' $configpath'pstatus'|head -1`
+	privdir=`awk '{print $4}' $configpath'pstatus'|tr '\n' '|'|sed 's/\(.*\)|/\1/'`
+	x=`egrep $privdir $ftpconfig|wc -l`
+	privnum=`expr $x / 2`
+	privip=`awk '{print $6}' $configpath'pstatus'`
+else
+	privtime=$localtime
+	privnum=$privatedirnum
+	privip="DevID"
+fi
+if [ -f $publicconfig ] && [ $uploadstatus -ne 0 ] ; then
+        LDC_s=`awk '$1~"^ServerIP" {print $0}' $publicconfig|head -1`
+        s_ip=`echo $LDC_s|awk '{print $2}'`
+	y=`sed -n 3p /tmp/"$s_ip"_load|awk -F= '{print $2}'`
+        test -n $y
+        if [ $? = 0 ] && [ $y -gt `expr $localtime - 3600` ];then
+                y=0
+        else
+                y=1
+        fi
+        wget --timeout=3 -t 2 -O /tmp/"$s_ip"_load ftp://fromcf:fromcf102090@$s_ip/log_load.conf 
+        if [ `sed -n 1p /tmp/"$s_ip"_load|awk -F= '{print $2}'` == "true" ] && [ $y -eq 0 ] && [ $privtime -eq $localtime ] && [ $privnum -eq $privatedirnum ] && grep $privip $oldftpconfig; then
+
+                ##########keep  miniftt live ###################
+                live_mini
+        else
+                ###########reply unavailable ldc ip to new ldc ip###############
+                LDCIP=`grep -v $s_ip /tmp/LDClist|head -1`
+                sed  -e '/'$s_ip'/d' /tmp/LDClist > /tmp/tmpldclist;mv /tmp/tmpldclist /tmp/LDClist
+                if [ ! -z $LDCIP ] && [ `wc -l /tmp/LDClist|awk '{print $1}'` -gt 0 ]; then
+
+                        privatelog 
+                        foo=( `cat /tmp/LDClist` )
+                        declare foo
+                        LDCIP=`echo ${foo[$((RANDOM%${#foo[@]}))]}`
+                        publiclog > $publicconfig
+                        cat $publicconfig > /tmp/dirlist.tmp
+                        echo >> /tmp/dirlist.tmp
+                        cat "$configpath"private*"" >> /tmp/dirlist.tmp
+                        doit
+                else
+                        privatelog 
+                        Main
+                        foo=( `cat /tmp/LDClist` )
+                        declare foo
+                        LDCIP=`echo ${foo[$((RANDOM%${#foo[@]}))]}`
+                        publiclog > $publicconfig
+                        cat $publicconfig > /tmp/dirlist.tmp
+                        echo >> /tmp/dirlist.tmp
+                        cat "$configpath"private*"" >> /tmp/dirlist.tmp
+                        doit
+                fi
+        fi
+elif [ -f /tmp/LDClist ] && [ $uploadstatus -eq 0 ] && [ -f $publicconfig ] ; then
+        live_mini
+else
+        privatelog
+        Main
+        foo=( `cat /tmp/LDClist` )
+        declare foo
+        LDCIP=`echo ${foo[$((RANDOM%${#foo[@]}))]}`
+        publiclog > $publicconfig
+        cat $publicconfig > /tmp/dirlist.tmp
+        echo >> /tmp/dirlist.tmp
+        cat $configpath"/private*" >> /tmp/dirlist.tmp
+        doit
+fi
+else
+echo "auto_ldc.sh Runing"
+exit 0
+fi

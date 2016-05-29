@@ -1,0 +1,38 @@
+#ifndef _RF_ERR_DEF__H
+#define _RF_ERR_DEF__H
+
+enum {
+	RF_OK,
+	RF_ERR,
+
+	RF_ERR_HAVE_INSTANCE,	//refreshd has been running
+
+	RF_ERR_CONFIG_FILE,
+
+	RF_ERR_DB_ENV,
+	RF_ERR_DB_GENERIC,
+	RF_ERR_DB_ADD,
+	RF_ERR_DB_GET,
+	RF_ERR_DB_DEL,
+
+	RF_ERR_XML_PARSE,
+	RF_ERR_XML_INVALID_URL,
+	RF_ERR_XML_SESSIONID,
+
+	RF_ERR_CLI_MESSAGE,
+
+	RF_ERR_EPOLL,
+
+	RF_ERR_PEER_CLOSE,
+	RF_CLOSE_REPORT,		//recv data from report peer, can close fd now
+	RF_ERR_RECV,
+	RF_ERR_SEND,
+	RF_ERR_UNKNOWN_CLIENT,
+
+	RF_ERR_FC_BUFFER,
+
+	RF_ERR_SESSION,
+	RF_ERR_SESSION_THREAD,
+	RF_ERR_SESSION_FD_CLOSED,	//fd has been closed before session done
+};
+#endif

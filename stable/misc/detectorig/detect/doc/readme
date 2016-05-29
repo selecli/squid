@@ -1,0 +1,57 @@
+AUTHOR:    xin.yao 
+VERSION:   detectorig V2.0 
+DATE:      2012-02-23 10:50:00
+COPYRIGHT: ChinaCache
+-------------------------------------------------
+DESCRITION:
+Source detection program is responsible for detecting station source link,
+and provide detection data stand to other applications.
+---------------------------------------------------------------------------
+CONFIGURATION:
+13 fields:
+       hostname write_info detect detect_times warning_time good_time length good_ip_num modify backup method1 successful_codes detect_ip 
+example:
+       www.detect.com. N Y 1 0.001 0.6 20000 2 Y no GET:www.detect.com/ 2**|3**|404 192.168.100.194
+19 fields:
+       hostname write_info detect detect_times warning_time good_time length good_ip_num modify backup method1 successful_code detect_ip method2 port origndomain weight(weight0:weight1) reuse_times sortIP
+example:
+       www.detect.com. N Y 1 0.001 0.6 20000 1 Y 192.168.100.134 GET:www.detect.com/ 2**|3**|404 192.168.100.194 GET:www.detect.com/ 80 Y 100:0 3 N
+21 fields:
+       hostname write_info detect detect_times warning_time good_time length good_ip_num modify backup method1 successful_code detect_ip method2 port origndomain weight(weight0:weight1) reuse_times sortIP tcp_times http_times
+example:
+       www.detect.com. N Y 1 0.001 0.6 20000 1 Y 192.168.100.134 GET:www.detect.com/ 2**|3**|404 192.168.100.194 GET:www.detect.com/ 80 Y 100:0 3 N 10 2
+22 fields:
+       hostname write_info detect detect_times warning_time good_time length good_ip_num modify backup method1 successful_code detect_ip method2 port origndomain weight(weight0:weight1) reuse_times sortIP tcp_times http_times timeout
+example:
+       www.detect.com. N Y 1 0.001 0.6 20000 1 Y 192.168.100.134 GET:www.detect.com/ 2**|3**|404 192.168.100.194 GET:www.detect.com/ 80 Y 100:0 3 N 10 2 3.001 
+------------------------------------------------------------------------------
+OUTPUT:
+file name:
+     link.data.timestamp
+data format: 
+     hostname|IP0|IP1|iptype|cntime|fbtime|dltime|ustime|dtimes|oktimes|port|pstat|dtype|rcode
+example:
+     www.test.com.|210.51.185.97|114.80.68.88|ip|0.000014|0.395063|0.000027|0.395104|2|1|80|work|HTTP|200
+------------------------------------------------------------------------------
+DESIGN:
+     ----------------------------------------------------------------------- 
+     |                      Main layer(State Machine)                      |
+     -----------------------------------------------------------------------
+     |    Business logic processing layer(INTERFACE: detectXXXCall(...))   |
+     -----------------------------------------------------------------------
+     |         Basis function layer(INTERFACE: XXX(...))                   |
+     -----------------------------------------------------------------------
+------------------------------------------------------------------------------
+
+CONFIGURATION FILES(detect_control.conf):
+
+#central = on;
+#travel = 35;
+#savetime = 1D;
+#epollwait = 10;
+#killtime = 300;
+#rlimit = 344800;
+#result = on/off;
+#cleanup = on/off;
+#header = {"www.test.com", "User-Agent", "ChinaCache"};
+------------------------------------------------------------------------------

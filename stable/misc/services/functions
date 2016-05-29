@@ -1,0 +1,592 @@
+#!/bin/bash
+
+# Author: zhaobin
+# Version: 6.0.2
+# Function: provide useful function
+# History:
+#     2013/05/31  zhaobin create
+#     2013/11/19  zhouchaoyong revise variable working scope
+
+[ -f /etc/sysconfig/squid ] && source /etc/sysconfig/squid
+
+SQUID="/usr/local/squid/sbin/squid"
+FC="/usr/local/squid/bin/flexicache"
+LSCS="/usr/local/squid/bin/lscs/sbin/nginx"
+LSCSConfFile="/usr/local/squid/bin/lscs/conf/nginx.conf"
+FCConfFile="/usr/local/squid/etc/flexicache.conf"
+SQUIDConfFile="/usr/local/squid/etc/squid.conf"
+SQUID_NUM=$([ -f $FCConfFile ] && awk 'BEGIN{num=-1}/^#/{next}/cache_processe/{num=$2;}END{print num}' $FCConfFile || echo "0")
+CACHE_SWAP=$(awk '/^#/{next}/cache_dir/{if($3 ~ /.*\/$/){print $3} else {print $3"/"}}' /usr/local/squid/etc/squid.conf)
+
+ulimit -n 500000
+
+# brief:
+#     create dir for fc swap
+# params:
+#     $1    single: create fc swap for single mode   
+#           multiple: create fc swap for multiple mode   
+# return:
+#     0     sucess
+#     1     error
+createdir()
+{
+    local dir
+    local cnt
+    local mode
+
+    mode=$1
+    
+    if [ "$mode" == "single" ]
+    then
+        for dir in $CACHE_SWAP
+        do
+            if [ ! -d "${dir}00" ]
+            then
+                echo "Initializing cache directory $dir ..."
+                mkdir -p "${dir}"
+                chown squid:squid "${dir}"
+                if [ ! -e "${dir}swap.state" ]
+                then
+                    touch "${dir}swap.state"
+                    chown squid:squid "${dir}swap.state"
+                fi
+            fi
+        done
+        $SQUID -z -F -D &>/dev/null
+    elif [ "$mode" == "multiple" ]
+    then
+        if [ $SQUID_NUM -lt 1 ]
+        then
+            echo "Create cache directory fail"
+            echo -n "    file $FCConfFile item [cache_processes] configure error!"
+            echo_failure
+            return 1
+        fi
+
+        for dir in $CACHE_SWAP
+        do
+            cnt=1
+            while [ $cnt -le $SQUID_NUM ]
+            do
+                if [ ! -d "${dir}squid${cnt}/00" ] && [ ! -f "${dir}squid${cnt}/stripe" ]
+                then
+                    mkdir -p "${dir}squid${cnt}"
+                    chown squid:squid "${dir}squid${cnt}"
+                    chown squid:squid "${dir}"
+                    echo "Initializing cache directory ${dir}squid${cnt} ..."
+                fi      
+                if [ ! -e "${dir}squid${cnt}/swap.state" ]
+                then
+                    touch "${dir}squid${cnt}/swap.state"
+                    chown squid:squid "${dir}squid${cnt}/swap.state"
+                fi
+
+                ((cnt++))
+            done
+
+            ((cnt--))
+
+        done
+        
+        cnt=1
+        while [ $cnt -le $SQUID_NUM ]
+        do
+            $SQUID -z -F -D -A $SQUID_NUM -a $cnt &>/dev/null
+            ((cnt++))
+        done
+    else
+        echo -n "need correct parameter to create cache directory"
+        echo_failure
+        return 1
+    fi
+    
+    echo -n "Create directory done..."
+    echo_success
+    return 0
+}
+
+# brief:
+#     judge FC running mode
+# params:
+#     null
+# return:
+#     0   not running copy
+#     1   single squid
+#     2   multiple squid
+getFCMode() 
+{
+    local ret
+    
+    ret=$(pidof flexicache)
+
+    if [ "$ret" != "" ]
+    then
+        return 2
+    fi
+
+    ret=$(pidof squid)
+
+    if [ "$ret" != "" ]
+    then
+        return 1
+    fi
+
+    return 0
+}
+
+# brief:
+#     judge FC running mode
+# params:
+#     null
+# return:
+#     0   not running copy
+#     1   single squid
+# 
+checkFCRunning()
+{
+    local squid_pids
+    local squid_pid
+    local ret
+
+    squid_pids=$(pidof squid)
+    if [ -z "$ret" ]
+    then
+        return 0
+    fi
+
+    # wait 3 seconds and then check its existence
+    sleep 3
+
+    for squid_pid in ${squid_pids[*]}
+    do
+        ret=$(ps -p ${squid_pid} -o comm=)
+        if [ ! -z "$ret" && "$ret" == "squid" ]
+        then
+            return 1
+        fi
+    done
+
+    return 0
+}
+
+# brief:
+#     start FC according to the params
+#     if FC is running, then it will not start fc
+# params:
+#     single | 1      single squid
+#     multiple | 2    multiple squid
+# return:
+#     0   success
+#     1   failure
+startFC()
+{
+    local ret
+    local res
+    local mode
+    local dir
+    local cnt
+    local ports
+    local i
+    local allCnt
+    
+    if [ $# -ne 1 ]
+    then
+        echo -n "error parameters..."
+        echo_failure
+        return 1
+    fi
+
+    checkFCRunning
+    ret=$?
+    if [ $ret -ne 0 ]
+    then
+        echo -n "fc is running..."
+        echo_failure
+        return 1
+    fi    
+
+    mode=$1
+
+    echo "Start fc in $mode mode ..."
+
+#    if [ $mode == "multiple" ]
+#    then
+#        echo "begin check lscs conf..."
+#        $LSCS -t -c $LSCSConfFile
+#        if [ $? -ne 0 ]
+#        then
+#            echo_failure
+#            return 1
+#        fi
+#        echo_success
+#    fi
+
+    echo "begin check squid conf..."
+    $SQUID -k check
+    ret=$?
+    if [ $ret -ne 0 ]
+    then
+        echo -n "check squid conf done..."
+        echo_failure 
+        return 1
+    fi 
+    echo -n "check squid conf done..."
+    echo_success
+
+    createdir $mode
+    res=$?
+
+    if [ $res -ne 0 ]
+    then
+        echo -n "create directory fail ..."
+        echo_failure
+        return 1
+    fi
+
+    for dir in $CACHE_SWAP
+    do
+        if [ "$mode" == "single" ] 
+        then
+            chown squid:squid "${dir}" &> /dev/null
+            chown squid:squid "${dir}/swap.state" &> /dev/null
+        elif [ "$mode" == "multiple" ]
+        then
+            cnt=1
+            while [ $cnt -le $SQUID_NUM ]
+            do
+                chown squid:squid "${dir}/squid${cnt}/swap.state" &> /dev/null
+                chown squid:squid "${dir}" &> /dev/null
+                ((cnt++))
+            done
+        fi
+    done
+
+    case "$mode" in 
+        "multiple")
+            $FC
+            res=$?
+            if [ $res -eq 0 ]
+            then
+                echo -n "Start FC done..."
+				sleep 20;
+				getFCMode
+				mret=$?
+				if [ $mret -eq 0 ]
+				then
+					echo_failure
+					return 1
+				fi
+                echo_success
+                [ -e "/etc/ChinaCache/app.d/cpisfc.amr" ] && sed -i 's/StartCmd.*/StartCmd                service fc start multiple/' /etc/ChinaCache/app.d/cpisfc.amr
+                [ -e "/etc/ChinaCache/app.d/fc.amr" ] && sed -i 's/StartCmd.*/StartCmd                service fc start multiple/' /etc/ChinaCache/app.d/fc.amr
+                /usr/local/squid/bin/lscsConfig
+                sed -i '/^FCMODE=.*/d' /etc/profile
+                echo "FCMODE=multiple" >> /etc/profile  
+            else
+                echo -n "Start FC done..."
+                echo_failure
+                return 1
+            fi
+            ;;
+        "single")
+            [ -f /usr/local/squid/bin/syntime.sh ] && /usr/local/squid/bin/syntime.sh
+            # check port is being used or not
+            cnt=0
+            ports=$(awk '/^#/{next}/http_port/{printf "%s ", $2}' $SQUIDConfFile)
+            for i in $ports
+            do
+                nc -z 127.0.0.1 $i &>/dev/null
+                ret=$?
+                [ $ret -eq 0 ] && ((cnt++))
+            done
+            allCnt=$(awk 'BEGIN{a=0}/^#/{next}/http_port/{a++}END{print a}' $SQUIDConfFile)
+            if [ $allCnt -eq $cnt ]
+            then
+                echo  -n "Start FC fail, port occupied...."
+                echo_failure
+                return 1
+            fi
+
+            $SQUID -D
+            res=$?
+            if [ $res -eq 0 ]
+            then
+                echo -n "Start FC done..."
+                sleep 20;
+                getFCMode 
+                ret=$?
+                if [ $ret -eq 0 ]
+                then
+                    echo_failure
+                    return 1
+                fi
+                echo_success
+                [ -e "/etc/ChinaCache/app.d/fc.amr" ] && sed -i 's/StartCmd.*/StartCmd                service fc start single/' /etc/ChinaCache/app.d/fc.amr
+                [ -e "/etc/ChinaCache/app.d/cpisfc.amr" ] && sed -i 's/StartCmd.*/StartCmd                service fc start single/' /etc/ChinaCache/app.d/cpisfc.amr
+                sed -i '/^FCMODE=.*/d' /etc/profile
+                echo "FCMODE=single" >> /etc/profile  
+                touch /var/lock/subsys/squid
+            else
+                echo -n "Start FC done..."
+                echo_failure
+                return 1
+            fi
+            ;;
+        auto)
+            ;; 
+        *)
+            echo "unknown arguments"
+            return 1
+    esac
+}
+
+# brief:
+#     stop FC according to the params
+# params:
+#     null
+# return:
+#     0    success
+#     1    failure
+stopFC ()
+{
+    local ret
+    local mode
+    local mainPid
+    local realPid
+    local timeout
+    local pid
+    local squidPids
+    
+    echo "Stopping fc service"
+    
+    getFCMode
+    ret=$?
+
+    # fc mode code to mode string
+    if [ $ret -eq 1 ]
+    then
+        mode=single
+    elif [ $ret -eq 2 ]
+    then
+        mode=multiple
+    else
+        echo "not running copy"
+        return 0
+    fi
+    
+    if [ "$mode" == "single" ]
+    then
+        mainPid=$(pidof squid) 
+        realPid=$(ps --ppid=$mainPid -p $mainPid -o pid=,comm= | awk "\$1 != $mainPid{print \$1}")
+        $SQUID -k shutdown &
+        rm -f /var/lock/subsys/squid
+
+        echo -n "Stop FC done..."
+        # make sure squid have stop
+        timeout=60
+        kill -0 "$realPid" 1>/dev/null 2>&1
+        ret=$?
+        while [ -n "$ret" ] && [ $timeout -gt 0 ]
+        do
+            sleep 5 && echo -n "."
+            timeout=$((timeout - 5))
+            kill -0 "$realPid" 1>/dev/null 2>&1
+            ret=$?
+        done
+
+        if [ $timeout -le 0 ]
+        then
+            kill -9 "$realPid" 1>/dev/null 2>&1
+        fi
+
+        echo_success
+    fi
+    
+    if [ "$mode" == "multiple" ]
+    then
+        pid=$(pidof flexicache)
+        squidPids=$(ps --ppid $pid -p $pid -o pid=,comm= | awk '/squid/{printf "%s ", $1;}')
+        $FC -k shutdown
+        if [ $? -eq 0 ]
+        then
+            echo -n "Stop FC done..."
+            # make sure squid have stop
+            timeout=60
+            ret=$(ps -ef | grep fc-cache | grep -v grep)
+            while [ -n "$ret" ] && [ $timeout -gt 0 ]
+            do
+                sleep 5 && echo -n "." 
+                ret=$(ps -ef | grep fc-cache | grep -v grep)
+                timeout=$((timeout - 5))
+            done
+            if [ $timeout -le 0 ]
+            then
+                kill -9 $squidPids 1>/dev/null 2>&1
+            fi
+            echo_success
+        else
+            echo -n "Stop FC done..."
+            echo_failure
+            return 1
+        fi
+    fi
+
+    return 0
+}
+
+# brief:
+#     get FC version
+# params:
+#     null
+# return:
+#     FC version number
+getFCVersion() 
+{
+    local ver
+    
+    ver=$(/usr/local/squid/sbin/squid -V 2>&1| awk 'BEGIN{FS="[ .]"}/FC Cache/{print $4}')
+    if [ -z "$ver" ]
+    then
+        ver=$(/usr/local/squid/sbin/squid -V 2>&1| awk 'BEGIN{FS="[ .]"}/FC Cache/{print $4}')
+    fi
+    
+    return $ver
+}
+
+# brief:
+#     echo OK
+# params:
+#     null
+# return:
+#     null
+echo_success()
+{
+    echo -en '\033[0;32m[ OK ]\033[0;39m\n'
+}
+
+# brief:
+#     echo fail
+# params:
+#     null
+# return:
+#     null
+echo_failure()
+{
+    echo -en '\033[1;31m[ FAILED ]\033[0;39m\n'
+}
+
+# brief:
+#     check squid pid, only check single squid mode
+#     if pidfile doesn't exist and squid is running, then create it  
+#     if squid is running and the content of pidfile is wrong, recorrect it
+# params:
+#     null
+# return:
+#     0    success
+#     1    fail
+checkPid()
+{
+    local ret
+    local pidFile
+    local pid
+    local mainPid
+    local realPid
+	local flag
+    
+    getFCMode
+    ret=$?
+
+    if [ $ret -ne 1 ]
+    then
+        return 0
+    fi
+
+    pidFile=$(awk '/pid_filename/{print $NF}' $SQUIDConfFile)
+    if [ "$pidFile" == "" ]
+    then
+        echo "should configure pid_filename "
+        return 1
+    fi
+
+    pid=$([ -e "$pidFile" ] && cat "$pidFile" || echo "0")
+    mainPid=`pidof squid 2>/dev/null`
+	testPid=$mainPid
+	flag=$(echo $testPid | awk '{print $2}')
+	if [ "$flag" != "" ]
+	then
+	    return 0;
+	fi
+    realPid=$(ps --ppid=$mainPid -p $mainPid -o pid=,comm= | awk "\$1 != $mainPid{print \$1}")
+
+    if [ ! -e "$pidFile" ] || [ "$realPid" != "$pid" ]
+    then
+        echo $realPid > $pidFile
+        chown squid:squid $pidFile 
+        return 0
+    fi
+
+    return 0
+}
+
+# brief:
+#     used to prevent multiple instances of a shell script running 
+#     only used on system which has flock
+# params:
+#     $1       script full path
+# return:
+#     0        success
+#     other    fail
+#checkRunning()
+#{
+#    cmd=$1
+#    cmdName=$(basename $cmd)
+#    exec 8>/var/lock/${cmdName}.lock
+#    flock -n -x 8
+#    return $?
+#}
+
+# brief:
+#     used to prevent multiple instances of a shell script running 
+# params:
+#     $1       script full path
+# return:
+#     0        success
+#     1        fail
+tryLockProcess()
+{
+    local cmd
+    local cmdName
+    
+    cmd=$1
+    cmdName=$(basename $cmd)
+    if [ -e "/var/lock/${cmdName}.lock" ]
+    then
+        return 1
+    fi
+    touch "/var/lock/${cmdName}.lock"
+    if [ $? -ne 0 ]
+    then
+        return 1
+    fi
+    trap "rm -rf /var/lock/${cmdName}.lock" TERM KILL INT EXIT
+    return 0
+}
+
+# brief:
+#     used to prevent multiple instances of a shell script running 
+# params:
+#     $1       script full path
+# return:
+#     null
+unlockProcess()
+{
+    local cmd
+    local cmdName
+    
+    cmd=$1
+    cmdName=$(basename $cmd)
+    if [ -e "/var/lock/${cmdName}.lock" ]
+    then
+        rm -rf "/var/lock/${cmdName}.lock"
+    fi
+}

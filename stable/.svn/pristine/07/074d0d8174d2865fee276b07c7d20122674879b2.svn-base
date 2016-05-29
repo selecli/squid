@@ -1,0 +1,17 @@
+ID                      200102010001
+Name                    FC
+Describe                FlexiCache
+Behaviour               report
+Switch                  enable
+StartCmd                service squid start
+StopCmd                 service squid stop
+GetStatus               service squid status
+RestartCmd              service squid restart
+ReloadCmd               service squid reload
+GetVersion              /usr/local/squid/sbin/squid -v | head -1 | awk '{print $NF}'
+PidFile                 /var/run/squid.pid
+KeepLive                300s
+StartRetryInterval      300s
+MaxStartRetryTimes      3
+StopRetryInterval       300s
+MaxStopRetryTimes       1

@@ -1,0 +1,98 @@
+#!/bin/bash
+
+# Chinacache R&D Dept. FlexiCache Team
+# $Id: syntime.sh 1505 2007-09-12 03:14:37Z alex $
+source /usr/local/squid/bin/functions 
+tryLockProcess $0
+if [ $? -ne 0 ] ;then exit 0;fi     
+
+export PATH=.:/usr/local/squid/sbin:/usr/local/squid/bin:/usr/kerberos/sbin:/usr/kerberos/bin:/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/usr/X11R6/bin:/root/bin
+Logfile=/var/log/chinacache/ntpsync.log
+ConfFile=/usr/local/squid/etc/fcexternal.conf
+
+Help( )
+{
+        echo Example:
+        echo     "      `basename $0`    "; 
+        echo     "      `basename $0` -h ";
+        echo     "      `basename $0` -v ";
+         exit $E_OPTERROR 
+}
+Version( )
+{
+        echo     "      `basename $0` 1.0.6 
+                        Last modified at 07/6/27                       
+                        Written by Alex Yu Y
+                        EmailTo:   alex.yu@chinacache.com
+                        Copyright (C) ChinaCache Co.,Ltd."
+}
+
+NtpSyn( )
+{
+	[ "$1" = '' ]&&return 0
+       LOG=` /usr/sbin/ntpdate $1 2>&1`
+	HasOffset=`echo $LOG|grep -i offset`
+	if test -n "$HasOffset";then
+		echo $LOG >> $Logfile 
+		exit 0
+	fi	
+}
+NtpSynErr( )
+{
+      
+	#[ "$1" = '' ]&&return 0
+	LOG=` /usr/sbin/ntpdate $1 2>&1`
+        echo $LOG >> $Logfile 
+
+}
+
+if [ "$1" == "-v" ] ;then
+Version
+exit 0
+fi
+
+if [ "$1" == "-h" ] ;then
+Help
+exit 0
+fi
+
+#parse configuration
+i=0
+while read Entry Value Others
+do
+	if [ "$Entry" = "NtpSyn" ];then
+		NtpSynVal[${i:-0}]=$Value
+		i=$((${i:-0} + 1))
+	elif [ "$Entry" = "NtpSynErr" ];then
+		NtpSynErrVal=$Value
+	fi
+	
+done < <(test -r $ConfFile&&grep -v '^#' $ConfFile|grep -v '^$')
+
+#processing
+if [ "$i" -ge 1 ];then
+	for ((x=0;x<$i;x++));do
+		 NtpSyn ${NtpSynVal[$x]}
+	done
+else
+#default processes
+	NtpSyn 192.36.143.150  
+	NtpSyn 193.170.141.4
+	NtpSyn 61.19.242.42
+fi
+#the last one
+if [ -n "$NtpSynErrVal" ];then
+	NtpSynErr $NtpSynErrVal
+else
+	NtpSynErr 61.206.115.3
+fi
+
+UTC=`cat /etc/sysconfig/clock | grep UTC | awk -F '=' '{print $2}'`
+if [ $UTC = "true" ];then
+	    hwclock --systohc --utc
+fi
+if [ $UTC = "false" ];then
+		hwclock --systohc --localtime
+fi
+unlockProcess $0
+exit 0

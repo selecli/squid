@@ -1,0 +1,203 @@
+######################################################################
+# log_file_name
+#
+# default:
+#   /data/hotspot/hot_spot.log
+#
+# function:
+#   set the path and the name of log file
+######################################################################
+#log_file_name /data/hotspot/hot_spot.log
+
+######################################################################
+# bak_file_name
+#
+# default:
+#   /data/hotspot/bak.txt
+#
+# function:
+#   set the path and the name of bak file
+######################################################################
+#bak_file_name /data/hotspot/bak.txt
+
+
+######################################################################
+# data_file_name
+#
+# default:
+#   /data/hotspot/data.txt
+#
+# function:
+#   set the path and the name of data file
+######################################################################
+#data_file_name /data/hotspot/data.txt
+
+######################################################################
+# tmp_file_name
+#
+# default:
+#   /data/hotspot/tmp.txt
+#
+# function:
+#   set the path and the name of tmp file
+######################################################################
+#tmp_file_name /data/hotspot/tmp.txt
+
+######################################################################
+# hot_file_name
+#
+# default:
+#   /data/hotspot/hot_spot.result
+#
+# function:
+#   set the path and the name of the file which stores hot urls.
+######################################################################
+#hot_file_name /data/hotspot/hot_spot.result
+
+######################################################################
+# own_log_name
+#
+# default:
+#   /data/hotspot/count.log
+#
+# function:
+#   set the path and the name of the file which stores log info.
+######################################################################
+#own_log_name /data/hotspot/count.log
+
+######################################################################
+# call_system
+# disabled
+#
+# default:
+#   echo %s
+#
+# function:
+#   Set the command which will be act on hot urls.
+#   For each url, it will use single hot link to replace the "%s".
+######################################################################
+#call_system echo %s
+
+######################################################################
+# drag_keyword
+# disabled
+#
+# default:
+#
+# function:
+#   Set keywork of drag for video.
+#   ";" is used for marking the end of pairs.
+#   "," is used for separating keyword of begin and end
+#   Just like:
+#   drag_keyword begin,end;start_only,;
+######################################################################
+#drag_keyword
+
+######################################################################
+# fix_time
+#
+# default:
+#   0
+#
+# function:
+#   set the time in program.
+#   0 is using real time.
+######################################################################
+#fix_time 0
+
+######################################################################
+# is_truncate_log
+#
+# default:
+#   true
+#
+# function:
+#   set whether do truncating on log file.
+#   "true" for allowing truncating.
+#   other for denying.
+######################################################################
+#is_truncate_log true
+
+######################################################################
+# max_times
+#
+# default:
+#   3
+#
+# function:
+#   Set the times. 
+#   When times of request to an url reach max_times, the url is hot.
+######################################################################
+#max_times 3
+
+######################################################################
+# duration
+#
+# default:
+#   3600
+#
+# function:
+#   Set the duration of a request. 
+#   It will only count times during this duration.
+######################################################################
+#duration 3600
+
+######################################################################
+# max_server
+# disabled
+#
+# default:
+#   2
+#
+# function:
+#   Set the limit of amount of servers to which requests will be send.
+#
+######################################################################
+#max_server 2
+
+######################################################################
+# max_request
+# disabled
+#
+# default:
+#   1
+#
+# function:
+#   Set the limit of amount of requests to a single server.
+#
+######################################################################
+#max_request 1
+
+######################################################################
+# debug_level
+#
+# default:
+#   0
+#
+# function:
+#   Bigger debug_level more debug information.
+######################################################################
+#debug_level 0
+
+######################################################################
+# max_urls
+#
+# default:
+#   1048576
+#
+# function:
+#   Set the amount of urls in hash table.
+######################################################################
+#max_urls 1048576
+
+######################################################################
+# hd_block_size
+#
+# default:
+#   4096
+#
+# function:
+#   Set size of buffer for read() and write().
+######################################################################
+#hd_block_size 4096
+

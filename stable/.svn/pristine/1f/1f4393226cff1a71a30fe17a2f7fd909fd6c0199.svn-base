@@ -1,0 +1,4294 @@
+	territory {
+		name	"UNI-SH"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	250		
+		father	"UNI"
+	}
+	territory {
+		name	"UNI-SH-SD"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	300		
+		father	"UNI-SH"
+	}
+	territory {
+		name	"LI"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Central-Europe"
+	}
+	territory {
+		name	"CHN-OTHER"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	250		
+		father	"CHN"
+	}
+	territory {
+		name	"LK"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"South-Asia"
+	}
+	territory {
+		name	"CHN-SY-HLJ"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	350		
+		father	"CHN-SY"
+	}
+	territory {
+		name	"UNI-SH-ZJ"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	300		
+		father	"UNI-SH"
+	}
+	territory {
+		name	"SK"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Central-Europe"
+	}
+	territory {
+		name	"USR-56-GWB"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	500		
+		father	"USR"
+	}
+	territory {
+		name	"UNI-BJ-BJ"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	300		
+		father	"UNI-BJ"
+	}
+	territory {
+		name	"CHN-SY"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	300		
+		father	"CHN-N"
+	}
+	territory {
+		name	"USR-SH-CRN"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	500		
+		father	"USR"
+	}
+	territory {
+		name	"USR-GZ-ZUJZX"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	500		
+		father	"USR"
+	}
+	territory {
+		name	"USR-QIDIAN"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	500		
+		father	"USR"
+	}
+	territory {
+		name	"UNI-BJ-JL"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	300		
+		father	"UNI-BJ"
+	}
+	territory {
+		name	"USR-CNC-GZ"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	500		
+		father	"USR"
+	}
+	territory {
+		name	"USR-CMN-JZ"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	400		
+		father	"USR"
+	}
+	territory {
+		name	"USR-SUN0769"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	500		
+		father	"USR"
+	}
+	territory {
+		name	"UNI-BJ-TJ"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	300		
+		father	"UNI-BJ"
+	}
+	territory {
+		name	"CMN-NJ-AH"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	300		
+		father	"CMN"
+	}
+	territory {
+		name	"USR-CNC-360SAFE"
+	  	group    "Territory-Global"
+	  	grade    "usr"
+		weight	400		
+		father	"USR"
+	}
+	territory {
+		name	"GP"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	150		
+		father	"West-Indies"
+	}
+	territory {
+		name	"CMN-CD-CQ"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	300		
+		father	"CMN"
+	}
+	territory {
+		name	"GD"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"West-Indies"
+	}
+	territory {
+		name	"UNI-BJ"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	250		
+		father	"UNI"
+	}
+	territory {
+		name	"CHN-N-OTHER"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	275		
+		father	"CHN-N"
+	}
+	territory {
+		name	"UNI-BJ-NMG"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	300		
+		father	"UNI-BJ"
+	}
+	territory {
+		name	"UNI-BJ-SX"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	300		
+		father	"UNI-BJ"
+	}
+	territory {
+		name	"WS"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	150		
+		father	"Pacific"
+	}
+	territory {
+		name	"USR-CNC-DDS"
+	  	group    "Territory-Global"
+	  	grade    "usr"
+		weight	500		
+		father	"USR"
+	}
+	territory {
+		name	"CHN-SY-LN"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	350		
+		father	"CHN-SY"
+	}
+	territory {
+		name	"HT"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"West-Indies"
+	}
+	territory {
+		name	"UNI-BJ-HLJ"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	300		
+		father	"UNI-BJ"
+	}
+	territory {
+		name	"WF"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	150		
+		father	"Pacific"
+	}
+	territory {
+		name	"USR-YKSUIT"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	500		
+		father	"USR"
+	}
+	territory {
+		name	"VU"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	150		
+		father	"Pacific"
+	}
+	territory {
+		name	"USR-GWB-SH"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	500		
+		father	"USR"
+	}
+	territory {
+		name	"TV"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	150		
+		father	"Pacific"
+	}
+	territory {
+		name	"JM"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"West-Indies"
+	}
+	territory {
+		name	"USR-GM-MY-VNSLY"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	500		
+		father	"USR"
+	}
+	territory {
+		name	"USR-GMZ-SYDENY-TELSTRA"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	500		
+		father	"USR"
+	}
+	territory {
+		name	"CHN-BJ-BJ"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	350		
+		father	"CHN-BJ"
+	}
+	territory {
+		name	"USR-CHINANEWS"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	500		
+		father	"USR"
+	}
+	territory {
+		name	"TO"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Pacific"
+	}
+	territory {
+		name	"LA"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"South-East-Asia"
+	}
+	territory {
+		name	"CMN-CD-YN"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	300		
+		father	"CMN"
+	}
+	territory {
+		name	"SB"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Pacific"
+	}
+	territory {
+		name	"CHN-BJ-TJ"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	350		
+		father	"CHN-BJ"
+	}
+	territory {
+		name	"MY"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"South-East-Asia"
+	}
+	territory {
+		name	"CMN-SH-ZJ"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	300		
+		father	"CMN"
+	}
+	territory {
+		name	"CL"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"South-America"
+	}
+	territory {
+		name	"UNI"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	200		
+		father	"CN"
+	}
+	territory {
+		name	"CMN-GZ-HAN"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	300		
+		father	"CMN"
+	}
+	territory {
+		name	"CMN-SH-JX"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	300		
+		father	"CMN"
+	}
+	territory {
+		name	"CHN-BJ-HEB"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	350		
+		father	"CHN-BJ"
+	}
+	territory {
+		name	"CPI"
+	  	group    "Territory-Global"
+	  	grade    "isp"
+		weight	200		
+		father	"CN"
+	}
+	territory {
+		name	"UNI-CD-XJ"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	300		
+		father	"UNI-CD"
+	}
+	territory {
+		name	"CHN-BJ-SX"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	350		
+		father	"CHN-BJ"
+	}
+	territory {
+		name	"TH"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"South-East-Asia"
+	}
+	territory {
+		name	"JO"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"South-West-Asia"
+	}
+	territory {
+		name	"HN"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Central-America"
+	}
+	territory {
+		name	"CHN-BJ"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	300		
+		father	"CHN-N"
+	}
+	territory {
+		name	"CHN-BJ-HEN"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	350		
+		father	"CHN-BJ"
+	}
+	territory {
+		name	"MQ"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	150		
+		father	"West-Indies"
+	}
+	territory {
+		name	"UNI-CD-GS"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	300		
+		father	"UNI-CD"
+	}
+	territory {
+		name	"Europe"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	50		
+		father	"foreign"
+	}
+	territory {
+		name	"NZ"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Pacific"
+	}
+	territory {
+		name	"AT"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Central-Europe"
+	}
+	territory {
+		name	"AN"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	150		
+		father	"West-Indies"
+	}
+	territory {
+		name	"Central-Europe"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	100		
+		father	"Europe"
+	}
+	territory {
+		name	"EU"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Europe"
+	}
+	territory {
+		name	"CHN-N"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	250		
+		father	"CHN"
+	}
+	territory {
+		name	"CHN"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	200		
+		father	"CN"
+	}
+	territory {
+		name	"MS"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"West-Indies"
+	}
+	territory {
+		name	"UNI-SH-LN"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	300		
+		father	"UNI-SH"
+	}
+	territory {
+		name	"UNI-CD-SXS"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	300		
+		father	"UNI-CD"
+	}
+	territory {
+		name	"UNI-CD-NX"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	300		
+		father	"UNI-CD"
+	}
+	territory {
+		name	"UNI-CD"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	300		
+		father	"UNI"
+	}
+	territory {
+		name	"NC"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	150		
+		father	"Pacific"
+	}
+	territory {
+		name	"NR"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Pacific"
+	}
+	territory {
+		name	"MH"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	150		
+		father	"Pacific"
+	}
+	territory {
+		name	"FM"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	150		
+		father	"Pacific"
+	}
+	territory {
+		name	"USR-EJIAKUAN"
+	  	group    "Territory-Global"
+	  	grade    "usr"
+		weight	400		
+		father	"USR"
+	}
+	territory {
+		name	"KI"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	150		
+		father	"Pacific"
+	}
+	territory {
+		name	"CNC-SY-LN"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	350		
+		father	"CNC-SY"
+	}
+	territory {
+		name	"ZA"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Southern-Africa"
+	}
+	territory {
+		name	"MX"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Central-America"
+	}
+	territory {
+		name	"SI"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"South-East-Europe"
+	}
+	territory {
+		name	"PR"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"West-Indies"
+	}
+	territory {
+		name	"CMN-XA-XJ"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	400		
+		father	"CMN"
+	}
+	territory {
+		name	"UNI-SH-AH"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	300		
+		father	"UNI-SH"
+	}
+	territory {
+		name	"UNI-SH-SH"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	300		
+		father	"UNI-SH"
+	}
+	territory {
+		name	"GU"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Pacific"
+	}
+	territory {
+		name	"CNC-SY-JL"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	350		
+		father	"CNC-SY"
+	}
+	territory {
+		name	"NA"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Southern-Africa"
+	}
+	territory {
+		name	"UNI-SH-JS"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	300		
+		father	"UNI-SH"
+	}
+	territory {
+		name	"MZ"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Southern-Africa"
+	}
+	territory {
+		name	"GMZ-AUSTRUA-VIENNA-TELEKON-AUSTRIA"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	550		
+		father	"GMZ"
+	}
+	territory {
+		name	"GMZ-AUSTRALIA-SYDENY-TELSTRA"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	550		
+		father	"GMZ"
+	}
+	territory {
+		name	"CNC-SY-HLJ"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	350		
+		father	"CNC-SY"
+	}
+	territory {
+		name	"GMZ-AUSTRALIA-MELBOURNE-INTEROLVE"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	550		
+		father	"GMZ"
+	}
+	territory {
+		name	"PF"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Pacific"
+	}
+	territory {
+		name	"CNC-SY"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	300		
+		father	"CNC-N"
+	}
+	territory {
+		name	"AI"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"West-Indies"
+	}
+	territory {
+		name	"GMZ-ARFENTINA-BUENOS-AIRES-TELEFONICA"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	550		
+		father	"GMZ"
+	}
+	territory {
+		name	"West-Indies"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	100		
+		father	"Americas"
+	}
+	territory {
+		name	"GMZ-CANADA-TORONTO-FUSEPOINT-SAVVIS"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	550		
+		father	"GMZ"
+	}
+	territory {
+		name	"USR-GD-XINHUA"
+	  	group    "Territory-Global"
+	  	grade    "usr"
+		weight	500		
+		father	"USR"
+	}
+	territory {
+		name	"MW"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Southern-Africa"
+	}
+	territory {
+		name	"GMZ-CANADA-MONTREAL-PEER"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	550		
+		father	"GMZ"
+	}
+	territory {
+		name	"GMZ-BRAZIL-SAO-PAULO-GLOBAL-CROSSING"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	550		
+		father	"GMZ"
+	}
+	territory {
+		name	"GMZ-BELGIUM-BRUSSELS-VERIZON"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	550		
+		father	"GMZ"
+	}
+	territory {
+		name	"GMZ-FINLAND-HELSINKI-TELIASONERA"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	550		
+		father	"GMZ"
+	}
+	territory {
+		name	"LS"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Southern-Africa"
+	}
+	territory {
+		name	"GMZ-DENMARK-COPENHAGEN-LAMBDANET"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	550		
+		father	"GMZ"
+	}
+	territory {
+		name	"CK"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Pacific"
+	}
+	territory {
+		name	"CZ"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Central-Europe"
+	}
+	territory {
+		name	"AW"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	150		
+		father	"West-Indies"
+	}
+	territory {
+		name	"GMZ-CZECH-REPUBLIC-PRAGUE-GTS"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	550		
+		father	"GMZ"
+	}
+	territory {
+		name	"CA"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"North-America"
+	}
+	territory {
+		name	"GMZ-CANADA-VANCOUVER-ROGERS-ALLSTREAM"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	550		
+		father	"GMZ"
+	}
+	territory {
+		name	"FJ"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Pacific"
+	}
+	territory {
+		name	"North-America"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	100		
+		father	"Americas"
+	}
+	territory {
+		name	"BS"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"West-Indies"
+	}
+	territory {
+		name	"GMZ-GERMANY-FRANKFURT-COLT"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	550		
+		father	"GMZ"
+	}
+	territory {
+		name	"GMZ-GERMANY-DORTMUND-VERIZON"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	550		
+		father	"GMZ"
+	}
+	territory {
+		name	"AG"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"West-Indies"
+	}
+	territory {
+		name	"GMZ-GERMANY-BERLIN-VERSATEL"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	550		
+		father	"GMZ"
+	}
+	territory {
+		name	"GMZ-FRANCE-PARIS-LIMELIGHT"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	550		
+		father	"GMZ"
+	}
+	territory {
+		name	"NI"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Central-America"
+	}
+	territory {
+		name	"GMZ-GERMANY-MUNICH-TELEFONICA"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	550		
+		father	"GMZ"
+	}
+	territory {
+		name	"BB"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"West-Indies"
+	}
+	territory {
+		name	"US-MW"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	250		
+		father	"US"
+	}
+	territory {
+		name	"GMZ-GERMANY-FRANKFURT-DEUTSCHE-TELEKOM"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	550		
+		father	"GMZ"
+	}
+	territory {
+		name	"BW"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Southern-Africa"
+	}
+	territory {
+		name	"Southern-Africa"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	100		
+		father	"Africa"
+	}
+	territory {
+		name	"PL"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Eastern-Europe"
+	}
+	territory {
+		name	"GMZ-INDIA-MUMBAI-VSNL"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	550		
+		father	"GMZ"
+	}
+	territory {
+		name	"GMZ-INDIA-NEW-DELHI-AIRTEL"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	550		
+		father	"GMZ"
+	}
+	territory {
+		name	"GMZ-HONG-KONG-QUARRY-BAY-CPCNET"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	550		
+		father	"GMZ"
+	}
+	territory {
+		name	"CNC-BJ-HEN"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	350		
+		father	"CNC-BJ"
+	}
+	territory {
+		name	"GMZ-INDIA-BANGALORE-VSNL"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	550		
+		father	"GMZ"
+	}
+	territory {
+		name	"TN"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Northern-Africa"
+	}
+	territory {
+		name	"GMZ-ITALY-MALAN-FASTWEB"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	550		
+		father	"GMZ"
+	}
+	territory {
+		name	"GMZ-ITALY-ROME-ITNET"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	500		
+		father	"GMZ"
+	}
+	territory {
+		name	"BM"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"West-Indies"
+	}
+	territory {
+		name	"SD"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Northern-Africa"
+	}
+	territory {
+		name	"PA"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Central-America"
+	}
+	territory {
+		name	"GMZ-IRELAND-DUBLIN-EIRCOM"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	550		
+		father	"GMZ"
+	}
+	territory {
+		name	"CNC-BJ-HEB"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	350		
+		father	"CNC-BJ"
+	}
+	territory {
+		name	"GMZ-ITALY-MILAN-TELECOM-ITALIA"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	550		
+		father	"GMZ"
+	}
+	territory {
+		name	"GMZ-KOREA-SEOUL-TELECOM"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	550		
+		father	"GMZ"
+	}
+	territory {
+		name	"CNC-BJ-SX"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	350		
+		father	"CNC-BJ"
+	}
+	territory {
+		name	"GMZ-MEXICO-CITY-AXTEL"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	550		
+		father	"GMZ"
+	}
+	territory {
+		name	"GMZ-JAPAN-TOKYO-KDDI"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	550		
+		father	"GMZ"
+	}
+	territory {
+		name	"CIC"
+	  	group    "Territory-Global"
+	  	grade    "isp"
+		weight	200		
+		father	"CN"
+	}
+	territory {
+		name	"GMZ-JAPAN-TOKYO-NTT"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	550		
+		father	"GMZ"
+	}
+	territory {
+		name	"TW"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"East-Asia"
+	}
+	territory {
+		name	"PW"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	150		
+		father	"Pacific"
+	}
+	territory {
+		name	"USR-LOS-ANGELES-VERIZON"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	500		
+		father	"USR"
+	}
+	territory {
+		name	"USR-GMZ-FRANKFURT-COLT"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	500		
+		father	"USR"
+	}
+	territory {
+		name	"GWB"
+	  	group    "Territory-Global"
+	  	grade    "isp"
+		weight	200		
+		father	"CN"
+	}
+	territory {
+		name	"PG"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Pacific"
+	}
+	territory {
+		name	"CNC-BJ-NMG"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	350		
+		father	"CNC-BJ"
+	}
+	territory {
+		name	"USR-CHN-adchina"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	500		
+		father	"USR"
+	}
+	territory {
+		name	"MA"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Northern-Africa"
+	}
+	territory {
+		name	"GMZ-US-AZ-MESA-ATT"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	550		
+		father	"GMZ"
+	}
+	territory {
+		name	"GMZ"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	290		
+		}
+	territory {
+		name	"LY"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Northern-Africa"
+	}
+	territory {
+		name	"GMZ-US-CA-SAN-DIEGO-ATT"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	550		
+		father	"GMZ"
+	}
+	territory {
+		name	"CER-XA-XJ"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	400		
+		father	"CER"
+	}
+	territory {
+		name	"GMZ-US-CA-LOS-ANGELES-VERIZON"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	550		
+		father	"GMZ"
+	}
+	territory {
+		name	"FBN"
+	  	group    "Territory-Global"
+	  	grade    "isp"
+		weight	220		
+		father	"SMALL-ISP"
+	}
+	territory {
+		name	"USR-CHN-NJ"
+	  	group    "Territory-Global"
+	  	grade    "usr"
+		weight	500		
+		father	"USR"
+	}
+	territory {
+		name	"CU"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"West-Indies"
+	}
+	territory {
+		name	"GMZ-US-CA-SANTA-CLARA-SAVVIS"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	550		
+		father	"GMZ"
+	}
+	territory {
+		name	"NU"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	150		
+		father	"Pacific"
+	}
+	territory {
+		name	"GMZ-US-CA-SAN-JOSE-ATT"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	550		
+		father	"GMZ"
+	}
+	territory {
+		name	"GMZ-US-DC-WASHINGTON-VERIZON"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	550		
+		father	"GMZ"
+	}
+	territory {
+		name	"KY"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	150		
+		father	"West-Indies"
+	}
+	territory {
+		name	"GMZ-US-CO-DENVER-QWEST"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	550		
+		father	"GMZ"
+	}
+	territory {
+		name	"NF"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	150		
+		father	"Pacific"
+	}
+	territory {
+		name	"GMZ-US-GA-ATLANTA-VERIZON"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	550		
+		father	"GMZ"
+	}
+	territory {
+		name	"MP"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	150		
+		father	"Pacific"
+	}
+	territory {
+		name	"USR-CNC-ZJZX"
+	  	group    "Territory-Global"
+	  	grade    "usr"
+		weight	500		
+		father	"USR"
+	}
+	territory {
+		name	"GMZ-US-FL-MIAMI-INTERNAP"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	550		
+		father	"GMZ"
+	}
+	territory {
+		name	"VG"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	150		
+		father	"West-Indies"
+	}
+	territory {
+		name	"GMZ-ATLANTA-INTERNAP"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	550		
+		father	"GMZ"
+	}
+	territory {
+		name	"CST"
+	  	group    "Territory-Global"
+	  	grade    "isp"
+		weight	220		
+		father	"SMALL-ISP"
+	}
+	territory {
+		name	"GMZ-US-IL-CHICAGO-LEVEL3"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	550		
+		father	"GMZ"
+	}
+	territory {
+		name	"GMZ-US-IL-CHICAGO-QWEST"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	550		
+		father	"GMZ"
+	}
+	territory {
+		name	"IN"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"South-Asia"
+	}
+	territory {
+		name	"GMZ-US-MA-BOSTON-VERIZON"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	550		
+		father	"GMZ"
+	}
+	territory {
+		name	"GMZ-US-MA-BOSTON-SAVVIS"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	550		
+		father	"GMZ"
+	}
+	territory {
+		name	"GMZ-US-MO-KANSAS-CITY-GLOBAL-CROSSING"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	550		
+		father	"GMZ"
+	}
+	territory {
+		name	"US-S"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	250		
+		father	"US"
+	}
+	territory {
+		name	"GMZ-US-MO-ST-LOUIS-SAVVIS"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	550		
+		father	"GMZ"
+	}
+	territory {
+		name	"BT"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	150		
+		father	"South-Asia"
+	}
+	territory {
+		name	"GMZ-US-NJ-NEWARK-QWEST"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	550		
+		father	"GMZ"
+	}
+	territory {
+		name	"GMZ-US-NY-NEW-YORK-SPRINT"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	550		
+		father	"GMZ"
+	}
+	territory {
+		name	"GMZ-US-NY-NEW-YORK-VERIZON"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	550		
+		father	"GMZ"
+	}
+	territory {
+		name	"GMZ-US-PA-PHILADELPHIA-LEVEL3"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	550		
+		father	"GMZ"
+	}
+	territory {
+		name	"GMZ-US-TX-DALLAS-ATT"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	550		
+		father	"GMZ"
+	}
+	territory {
+		name	"GMZ-US-TX-HOUSTON-INTERNAP"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	550		
+		father	"GMZ"
+	}
+	territory {
+		name	"CNC-BJ-TJ"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	350		
+		father	"CNC-BJ"
+	}
+	territory {
+		name	"GMZ-US-VA-RESTON-SAVVIS"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	550		
+		father	"GMZ"
+	}
+	territory {
+		name	"DO"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"West-Indies"
+	}
+	territory {
+		name	"GMZ-US-WA-SEATTLE-SAVVIS"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	550		
+		father	"GMZ"
+	}
+	territory {
+		name	"GMZ-US-WA-SEATTLE-INTERNAP"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	550		
+		father	"GMZ"
+	}
+	territory {
+		name	"DM"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	150		
+		father	"West-Indies"
+	}
+	territory {
+		name	"CER-SH"
+	  	group    "Territory-Global"
+	  	grade    "region"
+		weight	250		
+		father	"CER"
+	}
+	territory {
+		name	"CER-BJ"
+	  	group    "Territory-Global"
+	  	grade    "region"
+		weight	250		
+		father	"CER"
+	}
+	territory {
+		name	"Pacific"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	100		
+		father	"Oceania"
+	}
+	territory {
+		name	"AS"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	150		
+		father	"Pacific"
+	}
+	territory {
+		name	"CHN-XA-QH"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	350		
+		father	"CHN-XA"
+	}
+	territory {
+		name	"CH"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Central-Europe"
+	}
+	territory {
+		name	"MN"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Northern-Asia"
+	}
+	territory {
+		name	"Northern-Asia"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	100		
+		father	"Asia"
+	}
+	territory {
+		name	"Oceania"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	50		
+		father	"foreign"
+	}
+	territory {
+		name	"AU"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Pacific"
+	}
+	territory {
+		name	"CHN-XA-XJ"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	350		
+		father	"CHN-XA"
+	}
+	territory {
+		name	"SMALL-ISP"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	200		
+		father	"CN"
+	}
+	territory {
+		name	"CER"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	220		
+		father	"SMALL-ISP"
+	}
+	territory {
+		name	"EG"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Northern-Africa"
+	}
+	territory {
+		name	"CER-NJ"
+	  	group    "Territory-Global"
+	  	grade    "region"
+		weight	250		
+		father	"CER"
+	}
+	territory {
+		name	"RU"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Northern-Asia"
+	}
+	territory {
+		name	"USR-CNC-KAIXIN-2"
+	  	group    "Territory-Global"
+	  	grade    "usr"
+		weight	490		
+		father	"USR"
+	}
+	territory {
+		name	"UG"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Eastern-Africa"
+	}
+	territory {
+		name	"USR-CHN-NJ-JS"
+	  	group    "Territory-Global"
+	  	grade    "usr"
+		weight	500		
+		father	"USR"
+	}
+	territory {
+		name	"YE"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"South-West-Asia"
+	}
+	territory {
+		name	"South-America"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	100		
+		father	"Americas"
+	}
+	territory {
+		name	"MD"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Eastern-Europe"
+	}
+	territory {
+		name	"AR"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"South-America"
+	}
+	territory {
+		name	"Northern-Africa"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	100		
+		father	"Africa"
+	}
+	territory {
+		name	"South-Asia"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	100		
+		father	"Asia"
+	}
+	territory {
+		name	"DZ"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Northern-Africa"
+	}
+	territory {
+		name	"AF"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"South-Asia"
+	}
+	territory {
+		name	"TZ"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Eastern-Africa"
+	}
+	territory {
+		name	"SO"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Eastern-Africa"
+	}
+	territory {
+		name	"BD"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"South-Asia"
+	}
+	territory {
+		name	"IE"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Western-Europe"
+	}
+	territory {
+		name	"BGC"
+	  	group    "Territory-Global"
+	  	grade    "isp"
+		weight	220		
+		father	"SMALL-ISP"
+	}
+	territory {
+		name	"CNC-N"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	250		
+		father	"CNC"
+	}
+	territory {
+		name	"CNC-BJ"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	300		
+		father	"CNC-N"
+	}
+	territory {
+		name	"CNC-BJ-BJ"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	350		
+		father	"CNC-BJ"
+	}
+	territory {
+		name	"CRN"
+	  	group    "Territory-Global"
+	  	grade    "isp"
+		weight	220		
+		father	"SMALL-ISP"
+	}
+	territory {
+		name	"US-OTHER"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	155		
+		father	"US"
+	}
+	territory {
+		name	"CHN-SH-JX"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	350		
+		father	"CHN-SH"
+	}
+	territory {
+		name	"DK"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Northern-Europe"
+	}
+	territory {
+		name	"Northern-Europe"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	100		
+		father	"Europe"
+	}
+	territory {
+		name	"CNC-OTHER"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	225		
+		father	"CNC"
+	}
+	territory {
+		name	"CHN-SH-SOL"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	350		
+		father	"CHN-SH"
+	}
+	territory {
+		name	"KE"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Eastern-Africa"
+	}
+	territory {
+		name	"ET"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Eastern-Africa"
+	}
+	territory {
+		name	"CNC-CD-YN"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	350		
+		father	"CNC-CD"
+	}
+	territory {
+		name	"CNC-CD-SC"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	350		
+		father	"CNC-CD"
+	}
+	territory {
+		name	"Eastern-Africa"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	100		
+		father	"Africa"
+	}
+	territory {
+		name	"CNC-CD-GUZ"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	350		
+		father	"CNC-CD"
+	}
+	territory {
+		name	"DJ"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Eastern-Africa"
+	}
+	territory {
+		name	"ER"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	150		
+		father	"Eastern-Africa"
+	}
+	territory {
+		name	"AE"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"South-West-Asia"
+	}
+	territory {
+		name	"CO"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"South-America"
+	}
+	territory {
+		name	"CNC-WH-HUB"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	350		
+		father	"CNC-WH"
+	}
+	territory {
+		name	"CNC-WH"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	300		
+		father	"CNC-S"
+	}
+	territory {
+		name	"IL"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"South-West-Asia"
+	}
+	territory {
+		name	"CHN-SH-FJ"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	350		
+		father	"CHN-SH"
+	}
+	territory {
+		name	"CG"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Central-Africa"
+	}
+	territory {
+		name	"AL"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"South-East-Europe"
+	}
+	territory {
+		name	"South-East-Europe"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	100		
+		father	"Europe"
+	}
+	territory {
+		name	"CHN-XA-SXS"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	350		
+		father	"CHN-XA"
+	}
+	territory {
+		name	"CHN-XA"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	300		
+		father	"CHN-S"
+	}
+	territory {
+		name	"CHN-XA-NX"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	350		
+		father	"CHN-XA"
+	}
+	territory {
+		name	"CNC-CD-CQ"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	350		
+		father	"CNC-CD"
+	}
+	territory {
+		name	"CNC-CD"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	300		
+		father	"CNC-S"
+	}
+	territory {
+		name	"CHN-XA-GS"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	350		
+		father	"CHN-XA"
+	}
+	territory {
+		name	"LT"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Eastern-Europe"
+	}
+	territory {
+		name	"RW"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	150		
+		father	"Central-Africa"
+	}
+	territory {
+		name	"CHN-WH-HUN"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	350		
+		father	"CHN-WH"
+	}
+	territory {
+		name	"CHN-WH"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	300		
+		father	"CHN-S"
+	}
+	territory {
+		name	"SE"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Northern-Europe"
+	}
+	territory {
+		name	"BA"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	150		
+		father	"South-East-Europe"
+	}
+	territory {
+		name	"CHN-WH-HUB"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	350		
+		father	"CHN-WH"
+	}
+	territory {
+		name	"KR"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"East-Asia"
+	}
+	territory {
+		name	"USR-CNC-CORP"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	500		
+		father	"USR"
+	}
+	territory {
+		name	"KP"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"East-Asia"
+	}
+	territory {
+		name	"USR-CNC-KAIXIN-1"
+	  	group    "Territory-Global"
+	  	grade    "usr"
+		weight	500		
+		father	"USR"
+	}
+	territory {
+		name	"USR-CNC-MYSPACE"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	500		
+		father	"USR"
+	}
+	territory {
+		name	"MU"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Indian-Ocean"
+	}
+	territory {
+		name	"BN"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"South-East-Asia"
+	}
+	territory {
+		name	"South-East-Asia"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	100		
+		father	"Asia"
+	}
+	territory {
+		name	"HK"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"East-Asia"
+	}
+	territory {
+		name	"KM"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Indian-Ocean"
+	}
+	territory {
+		name	"Indian-Ocean"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	100		
+		father	"Africa"
+	}
+	territory {
+		name	"MO"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"East-Asia"
+	}
+	territory {
+		name	"USR-UNI-SOUFUN"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	500		
+		father	"USR"
+	}
+	territory {
+		name	"CHN-SH-SH"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	350		
+		father	"CHN-SH"
+	}
+	territory {
+		name	"CHN-SH"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	300		
+		father	"CHN-S"
+	}
+	territory {
+		name	"MG"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Indian-Ocean"
+	}
+	territory {
+		name	"GE"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"South-West-Asia"
+	}
+	territory {
+		name	"ES"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"South-West-Europe"
+	}
+	territory {
+		name	"CHN-SH-ZJ"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	350		
+		father	"CHN-SH"
+	}
+	territory {
+		name	"Central-America"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	100		
+		father	"Americas"
+	}
+	territory {
+		name	"BZ"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Central-America"
+	}
+	territory {
+		name	"Americas"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	50		
+		father	"foreign"
+	}
+	territory {
+		name	"SC"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Indian-Ocean"
+	}
+	territory {
+		name	"USR-SARFT"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	500		
+		father	"USR"
+	}
+	territory {
+		name	"RE"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	150		
+		father	"Indian-Ocean"
+	}
+	territory {
+		name	"USR-CNC-ZJ-SOUFUN"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	500		
+		father	"USR"
+	}
+	territory {
+		name	"SG"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"South-East-Asia"
+	}
+	territory {
+		name	"BG"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"South-East-Europe"
+	}
+	territory {
+		name	"YT"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Indian-Ocean"
+	}
+	territory {
+		name	"SV"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Central-America"
+	}
+	territory {
+		name	"CHN-NJ"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	300		
+		father	"CHN-S"
+	}
+	territory {
+		name	"CHN-NJ-JS"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	350		
+		father	"CHN-NJ"
+	}
+	territory {
+		name	"CNC"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	200		
+		father	"CN"
+	}
+	territory {
+		name	"CNC-NJ-SD"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	350		
+		father	"CNC"
+	}
+	territory {
+		name	"USR-CHN-SOUFUN"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	500		
+		father	"USR"
+	}
+	territory {
+		name	"ID"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"South-East-Asia"
+	}
+	territory {
+		name	"CN-OTHER"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	200		
+		father	"CN"
+	}
+	territory {
+		name	"USR-CHN-CCTV"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	500		
+		father	"USR"
+	}
+	territory {
+		name	"LV"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Eastern-Europe"
+	}
+	territory {
+		name	"UA"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Eastern-Europe"
+	}
+	territory {
+		name	"CR"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Central-America"
+	}
+	territory {
+		name	"USR-CHN-CORP"
+	  	group    "Territory-Global"
+	  	grade    "usr"
+		weight	500		
+		father	"USR"
+	}
+	territory {
+		name	"KH"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"South-East-Asia"
+	}
+	territory {
+		name	"USR-TEST"
+	  	group    "Territory-Global"
+	  	grade    "usr"
+		weight	300		
+		father	"USR"
+	}
+	territory {
+		name	"CNC-XA-SXS"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	350		
+		father	"CNC-XA"
+	}
+	territory {
+		name	"GT"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Central-America"
+	}
+	territory {
+		name	"CHN-NJ-AH"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	350		
+		father	"CHN-NJ"
+	}
+	territory {
+		name	"CNC-S"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	250		
+		father	"CNC"
+	}
+	territory {
+		name	"CNC-XA"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	300		
+		father	"CNC-S"
+	}
+	territory {
+		name	"CNC-XA-OTHER"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	350		
+		father	"CNC-XA"
+	}
+	territory {
+		name	"IR"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"South-West-Asia"
+	}
+	territory {
+		name	"LU"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Western-Europe"
+	}
+	territory {
+		name	"CNC-S-OTHER"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	275		
+		father	"CNC-S"
+	}
+	territory {
+		name	"CNC-XA-QH"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	350		
+		father	"CNC-XA"
+	}
+	territory {
+		name	"IQ"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"South-West-Asia"
+	}
+	territory {
+		name	"FR"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Western-Europe"
+	}
+	territory {
+		name	"TWN"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	300		
+		father	"CNC-S"
+	}
+	territory {
+		name	"NE"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Western-Africa"
+	}
+	territory {
+		name	"RO"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"South-East-Europe"
+	}
+	territory {
+		name	"NG"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Western-Africa"
+	}
+	territory {
+		name	"EE"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Eastern-Europe"
+	}
+	territory {
+		name	"USR-BAIDUSPIDER"
+	  	group    "Territory-Global"
+	  	grade    "usr"
+		weight	400		
+		father	"USR"
+	}
+	territory {
+		name	"LR"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Western-Africa"
+	}
+	territory {
+		name	"ML"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Western-Africa"
+	}
+	territory {
+		name	"SM"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Southern-Europe"
+	}
+	territory {
+		name	"MR"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	150		
+		father	"Western-Africa"
+	}
+	territory {
+		name	"BE"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Western-Europe"
+	}
+	territory {
+		name	"Western-Europe"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	100		
+		father	"Europe"
+	}
+	territory {
+		name	"MK"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	150		
+		father	"South-East-Europe"
+	}
+	territory {
+		name	"BR"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"South-America"
+	}
+	territory {
+		name	"EC"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"South-America"
+	}
+	territory {
+		name	"USR-CNC-PEOPLE"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	500		
+		father	"USR"
+	}
+	territory {
+		name	"CNC-NJ"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	300		
+		father	"CNC-S"
+	}
+	territory {
+		name	"USR-CNC-VODONE"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	500		
+		father	"USR"
+	}
+	territory {
+		name	"CNC-NJ-JS"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	350		
+		father	"CNC-NJ"
+	}
+	territory {
+		name	"BH"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"South-West-Asia"
+	}
+	territory {
+		name	"USR-CNC-CHINANEWS"
+	  	group    "Territory-Global"
+	  	grade    "usr"
+		weight	500		
+		father	"USR"
+	}
+	territory {
+		name	"AZ"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"South-West-Asia"
+	}
+	territory {
+		name	"CRN-XA-XJ"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	400		
+		father	"SMALL-ISP"
+	}
+	territory {
+		name	"CNC-SH"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	300		
+		father	"CNC-S"
+	}
+	territory {
+		name	"CNC-SH-ZJ"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	350		
+		father	"CNC-SH"
+	}
+	territory {
+		name	"CNC-NJ-AH"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	350		
+		father	"CNC-NJ"
+	}
+	territory {
+		name	"BO"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"South-America"
+	}
+	territory {
+		name	"MT"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Southern-Europe"
+	}
+	territory {
+		name	"foreign"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	45		
+		}
+	territory {
+		name	"TR"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"South-West-Asia"
+	}
+	territory {
+		name	"FOREIGN-OTHER"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	47		
+		father	"foreign"
+	}
+	territory {
+		name	"SY"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"South-West-Asia"
+	}
+	territory {
+		name	"USR-CNC-KURO"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	500		
+		father	"USR"
+	}
+	territory {
+		name	"USR-CNC-CHINA"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	500		
+		father	"USR"
+	}
+	territory {
+		name	"US-W"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	250		
+		father	"US"
+	}
+	territory {
+		name	"CNC-XA-XJ"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	350		
+		father	"CNC-XA"
+	}
+	territory {
+		name	"CNC-SH-SH"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	350		
+		father	"CNC-SH"
+	}
+	territory {
+		name	"SL"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Western-Africa"
+	}
+	territory {
+		name	"Eastern-Europe"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	100		
+		father	"Europe"
+	}
+	territory {
+		name	"BY"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Eastern-Europe"
+	}
+	territory {
+		name	"TG"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Western-Africa"
+	}
+	territory {
+		name	"USR-CNC-PCONLINE"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	500		
+		father	"USR"
+	}
+	territory {
+		name	"CNC-SH-FJ"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	350		
+		father	"CNC-SH"
+	}
+	territory {
+		name	"SN"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Western-Africa"
+	}
+	territory {
+		name	"CNC-GZ"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	300		
+		father	"CNC-S"
+	}
+	territory {
+		name	"CNC-GZ-GD"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	350		
+		father	"CNC-GZ"
+	}
+	territory {
+		name	"USR-CNC-XINHUA"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	500		
+		father	"USR"
+	}
+	territory {
+		name	"ST"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Western-Africa"
+	}
+	territory {
+		name	"CY"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"South-West-Asia"
+	}
+	territory {
+		name	"CN"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	150		
+		}
+	territory {
+		name	"CER-GZ"
+	  	group    "Territory-Global"
+	  	grade    "region"
+		weight	250		
+		father	"CER"
+	}
+	territory {
+		name	"KG"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Central-Asia"
+	}
+	territory {
+		name	"CER-XA"
+	  	group    "Territory-Global"
+	  	grade    "region"
+		weight	250		
+		father	"CER"
+	}
+	territory {
+		name	"BJ"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Western-Africa"
+	}
+	territory {
+		name	"FIB"
+	  	group    "Territory-Global"
+	  	grade    "isp"
+		weight	360		
+		father	"CN"
+	}
+	territory {
+		name	"CER-WH"
+	  	group    "Territory-Global"
+	  	grade    "region"
+		weight	250		
+		father	"CER"
+	}
+	territory {
+		name	"Western-Africa"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	100		
+		father	"Africa"
+	}
+	territory {
+		name	"CER-CD"
+	  	group    "Territory-Global"
+	  	grade    "region"
+		weight	250		
+		father	"CER"
+	}
+	territory {
+		name	"USR-CBU"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	500		
+		father	"USR"
+	}
+	territory {
+		name	"USR-OFFICE-CTRIP"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	500		
+		father	"USR"
+	}
+	territory {
+		name	"CMN"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	200		
+		father	"CN"
+	}
+	territory {
+		name	"USR-GOOGLE"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	500		
+		father	"USR"
+	}
+	territory {
+		name	"CER-SY"
+	  	group    "Territory-Global"
+	  	grade    "region"
+		weight	250		
+		father	"CER"
+	}
+	territory {
+		name	"CMN-BJ"
+	  	group    "Territory-Global"
+	  	grade    "region"
+		weight	250		
+		father	"CMN"
+	}
+	territory {
+		name	"PT"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"South-West-Europe"
+	}
+	territory {
+		name	"GMZ-GERMANY-HAMBURG-HANSENET-TELEKOMMUNILATION"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	550		
+		father	"GMZ"
+	}
+	territory {
+		name	"HU"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Central-Europe"
+	}
+	territory {
+		name	"BF"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Western-Africa"
+	}
+	territory {
+		name	"CMN-GZ"
+	  	group    "Territory-Global"
+	  	grade    "region"
+		weight	250		
+		father	"CMN"
+	}
+	territory {
+		name	"GMZ-MY-VNSLY"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	550		
+		father	"GMZ"
+	}
+	territory {
+		name	"GMZ-UNITED-KINGDOM-LONDON-BRITISH-TELECOM"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	550		
+		father	"GMZ"
+	}
+	territory {
+		name	"USR-HBTV"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	500		
+		father	"USR"
+	}
+	territory {
+		name	"AD"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"South-West-Europe"
+	}
+	territory {
+		name	"South-West-Europe"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	100		
+		father	"Europe"
+	}
+	territory {
+		name	"USR-rayli"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	500		
+		father	"USR"
+	}
+	territory {
+		name	"CMN-SH"
+	  	group    "Territory-Global"
+	  	grade    "region"
+		weight	250		
+		father	"CMN"
+	}
+	territory {
+		name	"USR-QINGHUA"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	500		
+		father	"USR"
+	}
+	territory {
+		name	"GI"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"South-West-Europe"
+	}
+	territory {
+		name	"CMN-OTHER"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	300		
+		father	"CMN"
+	}
+	territory {
+		name	"GMZ-TAIWAN-TAIPEI-NINET"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	550		
+		father	"GMZ"
+	}
+	territory {
+		name	"NO"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Northern-Europe"
+	}
+	territory {
+		name	"GMZ-TURKEY-ISTANBUL-TERRAMARK"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	550		
+		father	"GMZ"
+	}
+	territory {
+		name	"GMZ-SWITZERLAND-GENEVA-INTEROUTE"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	550		
+		father	"GMZ"
+	}
+	territory {
+		name	"GMZ-SWITZERLAND-ZURICH-SWISSCOM"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	550		
+		father	"GMZ"
+	}
+	territory {
+		name	"CHN-GZ-GD-GZ"
+	  	group    "Territory-Global"
+	  	grade    "city"
+		weight	375		
+		father	"CHN-GZ-GD"
+	}
+	territory {
+		name	"GMZ-UNITED-KINGDOM-LONDON-CABLA-WIRELESS"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	550		
+		father	"GMZ"
+	}
+	territory {
+		name	"CM"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Western-Africa"
+	}
+	territory {
+		name	"GMZ-UNITED-KINGDOM-LONDON-GLOBAL-CROSSING"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	550		
+		father	"GMZ"
+	}
+	territory {
+		name	"FI"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Northern-Europe"
+	}
+	territory {
+		name	"GMZ-UNITED-KINGDOM-LONDON-VERIZON"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	550		
+		father	"GMZ"
+	}
+	territory {
+		name	"GMZ-UNITED-KINGDOM-LONDON-TELSTRA"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	550		
+		father	"GMZ"
+	}
+	territory {
+		name	"GMZ-NORWAY-OSLS-SONG-NETWORKS"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	550		
+		father	"GMZ"
+	}
+	territory {
+		name	"GMZ-POLAND-WARSAW-TELIASONERA"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	550		
+		father	"GMZ"
+	}
+	territory {
+		name	"GMZ-MEXICO-MONTERREY-TRIARA"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	550		
+		father	"GMZ"
+	}
+	territory {
+		name	"CMN-NJ-JS"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	300		
+		father	"CMN"
+	}
+	territory {
+		name	"GMZ-NETHERLANDS-AMSTERDAM-INTELOUTE"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	550		
+		father	"GMZ"
+	}
+	territory {
+		name	"GMZ-SWEDEN-STOCKHOLM-TELIA"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	550		
+		father	"GMZ"
+	}
+	territory {
+		name	"US-E"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	250		
+		father	"US"
+	}
+	territory {
+		name	"GMZ-SWITZERLAND-BERN-SUNRISE"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	550		
+		father	"GMZ"
+	}
+	territory {
+		name	"CV"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	150		
+		father	"Western-Africa"
+	}
+	territory {
+		name	"GMZ-SINGAPORE-SINGEPORE-SINGTEL"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	550		
+		father	"GMZ"
+	}
+	territory {
+		name	"USR-FSCS"
+	  	group    "Territory-Global"
+	  	grade    "usr"
+		weight	500		
+		father	"USR"
+	}
+	territory {
+		name	"GMZ-SPAIN-MADRID-COLT"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	550		
+		father	"GMZ"
+	}
+	territory {
+		name	"CI"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	150		
+		father	"Western-Africa"
+	}
+	territory {
+		name	"US-MO"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	400		
+		father	"US"
+	}
+	territory {
+		name	"US-MN"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	400		
+		father	"US"
+	}
+	territory {
+		name	"MM"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"South-East-Asia"
+	}
+	territory {
+		name	"HR"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	150		
+		father	"South-East-Europe"
+	}
+	territory {
+		name	"US-MT"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	400		
+		father	"US"
+	}
+	territory {
+		name	"GA"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Western-Africa"
+	}
+	territory {
+		name	"US-MS"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	400		
+		father	"US"
+	}
+	territory {
+		name	"PH"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"South-East-Asia"
+	}
+	territory {
+		name	"US-ND"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	400		
+		father	"US"
+	}
+	territory {
+		name	"GQ"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	150		
+		father	"Western-Africa"
+	}
+	territory {
+		name	"SCN"
+	  	group    "Territory-Global"
+	  	grade    "isp"
+		weight	200		
+		father	"CN"
+	}
+	territory {
+		name	"US-NC"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	400		
+		father	"US"
+	}
+	territory {
+		name	"US-NH"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	400		
+		father	"US"
+	}
+	territory {
+		name	"CHN-GZ-GX"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	350		
+		father	"CHN-GZ"
+	}
+	territory {
+		name	"US-NE"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	400		
+		father	"US"
+	}
+	territory {
+		name	"CHN-GZ"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	300		
+		father	"CHN-S"
+	}
+	territory {
+		name	"US-KS"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	400		
+		father	"US"
+	}
+	territory {
+		name	"FO"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	150		
+		father	"Northern-Europe"
+	}
+	territory {
+		name	"CHN-GZ-GD"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	350		
+		father	"CHN-GZ"
+	}
+	territory {
+		name	"US-IN"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	400		
+		father	"US"
+	}
+	territory {
+		name	"CHN-GZ-GD-SZ"
+	  	group    "Territory-Global"
+	  	grade    "city"
+		weight	400		
+		father	"CHN-GZ-GD"
+	}
+	territory {
+		name	"US-LA"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	400		
+		father	"US"
+	}
+	territory {
+		name	"GH"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Western-Africa"
+	}
+	territory {
+		name	"US-KY"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	400		
+		father	"US"
+	}
+	territory {
+		name	"US-MD"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	400		
+		father	"US"
+	}
+	territory {
+		name	"CHN-GZ-HAN"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	350		
+		father	"CHN-GZ"
+	}
+	territory {
+		name	"GM"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Western-Africa"
+	}
+	territory {
+		name	"DXT"
+	  	group    "Territory-Global"
+	  	grade    "isp"
+		weight	360		
+		father	"CN"
+	}
+	territory {
+		name	"US-MA"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	400		
+		father	"US"
+	}
+	territory {
+		name	"East-Asia"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	100		
+		father	"Asia"
+	}
+	territory {
+		name	"JP"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"East-Asia"
+	}
+	territory {
+		name	"US-MI"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	400		
+		father	"US"
+	}
+	territory {
+		name	"US-ME"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	400		
+		father	"US"
+	}
+	territory {
+		name	"TM"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Central-Asia"
+	}
+	territory {
+		name	"US-CT"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	400		
+		father	"US"
+	}
+	territory {
+		name	"US-DE"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	400		
+		father	"US"
+	}
+	territory {
+		name	"GF"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"South-America"
+	}
+	territory {
+		name	"QA"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"South-West-Asia"
+	}
+	territory {
+		name	"UZ"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Central-Asia"
+	}
+	territory {
+		name	"US-FL"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	400		
+		father	"US"
+	}
+	territory {
+		name	"FK"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	150		
+		father	"South-America"
+	}
+	territory {
+		name	"US-GA"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	400		
+		father	"US"
+	}
+	territory {
+		name	"US-HI"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	400		
+		father	"US"
+	}
+	territory {
+		name	"PY"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"South-America"
+	}
+	territory {
+		name	"BWB"
+	  	group    "Territory-Global"
+	  	grade    "isp"
+		weight	200		
+		father	"CN"
+	}
+	territory {
+		name	"US-IA"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	400		
+		father	"US"
+	}
+	territory {
+		name	"GY"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"South-America"
+	}
+	territory {
+		name	"US-ID"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	400		
+		father	"US"
+	}
+	territory {
+		name	"USR-CNC-WOANDME"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	500		
+		father	"USR"
+	}
+	territory {
+		name	"US-IL"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	400		
+		father	"US"
+	}
+	territory {
+		name	"USR"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	280		
+		}
+	territory {
+		name	"SA"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"South-West-Asia"
+	}
+	territory {
+		name	"GN"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Western-Africa"
+	}
+	territory {
+		name	"South-West-Asia"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	100		
+		father	"Asia"
+	}
+	territory {
+		name	"AM"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"South-West-Asia"
+	}
+	territory {
+		name	"US-WY"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	400		
+		father	"US"
+	}
+	territory {
+		name	"GW"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	150		
+		father	"Western-Africa"
+	}
+	territory {
+		name	"US-AK"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	400		
+		father	"US"
+	}
+	territory {
+		name	"US-AL"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	400		
+		father	"US"
+	}
+	territory {
+		name	"USR-CNC-CCTV"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	500		
+		father	"USR"
+	}
+	territory {
+		name	"US-AR"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	400		
+		father	"US"
+	}
+	territory {
+		name	"TJ"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Central-Asia"
+	}
+	territory {
+		name	"US-AZ"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	400		
+		father	"US"
+	}
+	territory {
+		name	"PE"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"South-America"
+	}
+	territory {
+		name	"US-CA"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	400		
+		father	"US"
+	}
+	territory {
+		name	"US-CO"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	400		
+		father	"US"
+	}
+	territory {
+		name	"USR-CNC-CRI"
+	  	group    "Territory-Global"
+	  	grade    "usr"
+		weight	500		
+		father	"USR"
+	}
+	territory {
+		name	"CHN-GZ-GD-QT"
+	  	group    "Territory-Global"
+	  	grade    "city"
+		weight	370		
+		father	"CHN-GZ-GD"
+	}
+	territory {
+		name	"LC"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"West-Indies"
+	}
+	territory {
+		name	"SR"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"South-America"
+	}
+	territory {
+		name	"UNI-CD-SC"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	300		
+		father	"UNI-CD"
+	}
+	territory {
+		name	"MV"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"South-Asia"
+	}
+	territory {
+		name	"CHN-S"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	250		
+		father	"CHN"
+	}
+	territory {
+		name	"CHN-GZ-GD-ZU"
+	  	group    "Territory-Global"
+	  	grade    "city"
+		weight	400		
+		father	"CHN-GZ-GD"
+	}
+	territory {
+		name	"CHN-CD"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	300		
+		father	"CHN-S"
+	}
+	territory {
+		name	"CHN-CD-SC"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	350		
+		father	"CHN-CD"
+	}
+	territory {
+		name	"CHN-GZ-GD-ZJ"
+	  	group    "Territory-Global"
+	  	grade    "city"
+		weight	400		
+		father	"CHN-GZ-GD"
+	}
+	territory {
+		name	"KN"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	150		
+		father	"West-Indies"
+	}
+	territory {
+		name	"CHN-GZ-GD-SW"
+	  	group    "Territory-Global"
+	  	grade    "city"
+		weight	400		
+		father	"CHN-GZ-GD"
+	}
+	territory {
+		name	"CHN-GZ-GD-ST"
+	  	group    "Territory-Global"
+	  	grade    "city"
+		weight	400		
+		father	"CHN-GZ-GD"
+	}
+	territory {
+		name	"UNI-CD-GX"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	300		
+		father	"UNI-CD"
+	}
+	territory {
+		name	"CER-OTHER"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	220		
+		father	"CER"
+	}
+	territory {
+		name	"NP"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"South-Asia"
+	}
+	territory {
+		name	"UNI-CD-YN"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	300		
+		father	"UNI-CD"
+	}
+	territory {
+		name	"CHN-GZ-GD-JY"
+	  	group    "Territory-Global"
+	  	grade    "city"
+		weight	400		
+		father	"CHN-GZ-GD"
+	}
+	territory {
+		name	"UY"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"South-America"
+	}
+	territory {
+		name	"UNI-CD-GUZ"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	300		
+		father	"UNI-CD"
+	}
+	territory {
+		name	"CHN-GZ-GD-FS"
+	  	group    "Territory-Global"
+	  	grade    "city"
+		weight	400		
+		father	"CHN-GZ-GD"
+	}
+	territory {
+		name	"CHN-GZ-GD-DG"
+	  	group    "Territory-Global"
+	  	grade    "city"
+		weight	400		
+		father	"CHN-GZ-GD"
+	}
+	territory {
+		name	"CHN-CD-CQ"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	350		
+		father	"CHN-CD"
+	}
+	territory {
+		name	"UNI-CD-QH"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	300		
+		father	"UNI-CD"
+	}
+	territory {
+		name	"OM"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"South-West-Asia"
+	}
+	territory {
+		name	"USR-SZTVNET"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	500		
+		father	"USR"
+	}
+	territory {
+		name	"US-WV"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	400		
+		father	"US"
+	}
+	territory {
+		name	"US-WI"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	400		
+		father	"US"
+	}
+	territory {
+		name	"NL"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Western-Europe"
+	}
+	territory {
+		name	"US-VT"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	400		
+		father	"US"
+	}
+	territory {
+		name	"CHN-CD-GUZ"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	350		
+		father	"CHN-CD"
+	}
+	territory {
+		name	"UNI-WH-HUB"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	300		
+		father	"UNI-WH"
+	}
+	territory {
+		name	"VA"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	150		
+		father	"Southern-Europe"
+	}
+	territory {
+		name	"GB"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Western-Europe"
+	}
+	territory {
+		name	"US-WA"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	400		
+		father	"US"
+	}
+	territory {
+		name	"Southern-Europe"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	100		
+		father	"Europe"
+	}
+	territory {
+		name	"US-UT"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	400		
+		father	"US"
+	}
+	territory {
+		name	"UNI-WH-HEN"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	300		
+		father	"UNI-WH"
+	}
+	territory {
+		name	"US-VA"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	400		
+		father	"US"
+	}
+	territory {
+		name	"LB"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"South-West-Asia"
+	}
+	territory {
+		name	"US-TN"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	400		
+		father	"US"
+	}
+	territory {
+		name	"USR-CNC-TRAD2CN"
+	  	group    "Territory-Global"
+	  	grade    "usr"
+		weight	500		
+		father	"USR"
+	}
+	territory {
+		name	"US-TX"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	400		
+		father	"US"
+	}
+	territory {
+		name	"UNI-WH"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	250		
+		father	"UNI"
+	}
+	territory {
+		name	"UNI-WH-HEB"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	300		
+		father	"UNI-WH"
+	}
+	territory {
+		name	"US-SC"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	400		
+		father	"US"
+	}
+	territory {
+		name	"CHN-CD-YN"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	350		
+		father	"CHN-CD"
+	}
+	territory {
+		name	"US-SD"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	400		
+		father	"US"
+	}
+	territory {
+		name	"US-OR"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	400		
+		father	"US"
+	}
+	territory {
+		name	"US-PA"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	400		
+		father	"US"
+	}
+	territory {
+		name	"US-OH"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	400		
+		father	"US"
+	}
+	territory {
+		name	"US-OK"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	400		
+		father	"US"
+	}
+	territory {
+		name	"US-NV"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	400		
+		father	"US"
+	}
+	territory {
+		name	"US-NY"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	400		
+		father	"US"
+	}
+	territory {
+		name	"US-NJ"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	400		
+		father	"US"
+	}
+	territory {
+		name	"CHN-CD-XZ"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	350		
+		father	"CHN-CD"
+	}
+	territory {
+		name	"PK"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"South-Asia"
+	}
+	territory {
+		name	"US-NM"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	400		
+		father	"US"
+	}
+	territory {
+		name	"IT"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Southern-Europe"
+	}
+	territory {
+		name	"GL"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	150		
+		father	"North-America"
+	}
+	territory {
+		name	"UNI-WH-JX"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	300		
+		father	"UNI-WH"
+	}
+	territory {
+		name	"VE"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"South-America"
+	}
+	territory {
+		name	"PM"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	150		
+		father	"North-America"
+	}
+	territory {
+		name	"US"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	150		
+		father	"North-America"
+	}
+	territory {
+		name	"Asia"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	50		
+		father	"foreign"
+	}
+	territory {
+		name	"SZ"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Southern-Africa"
+	}
+	territory {
+		name	"UNI-OTHER"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	300		
+		father	"UNI"
+	}
+	territory {
+		name	"KZ"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Central-Asia"
+	}
+	territory {
+		name	"Central-Asia"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	100		
+		father	"Asia"
+	}
+	territory {
+		name	"USR-CMN-SY"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	400		
+		father	"USR"
+	}
+	territory {
+		name	"TC"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	150		
+		father	"West-Indies"
+	}
+	territory {
+		name	"VI"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	150		
+		father	"West-Indies"
+	}
+	territory {
+		name	"UNI-WH-HUN"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	300		
+		father	"UNI-WH"
+	}
+	territory {
+		name	"DE"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Central-Europe"
+	}
+	territory {
+		name	"USR-CMN-HZ"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	400		
+		father	"USR"
+	}
+	territory {
+		name	"VN"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"South-East-Asia"
+	}
+	territory {
+		name	"KW"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"South-West-Asia"
+	}
+	territory {
+		name	"UNI-GZ-CQ"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	300		
+		father	"UNI-GZ"
+	}
+	territory {
+		name	"TD"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Central-Africa"
+	}
+	territory {
+		name	"ZM"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Southern-Africa"
+	}
+	territory {
+		name	"USR-CNC-GAME2"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	500		
+		father	"USR"
+	}
+	territory {
+		name	"ZW"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Southern-Africa"
+	}
+	territory {
+		name	"MC"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Western-Europe"
+	}
+	territory {
+		name	"UNI-GZ"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	250		
+		father	"UNI"
+	}
+	territory {
+		name	"UNI-GZ-FJ"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	300		
+		father	"UNI-GZ"
+	}
+	territory {
+		name	"USR-CHINA-YUAN"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	500		
+		father	"USR"
+	}
+	territory {
+		name	"GMZ-US-CA-SANJOSE-VERIZON"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	550		
+		father	"GMZ"
+	}
+	territory {
+		name	"UNI-GZ-HAN"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	300		
+		father	"UNI-GZ"
+	}
+	territory {
+		name	"USR-OPENDNS"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	500		
+		father	"USR"
+	}
+	territory {
+		name	"UNI-GZ-XZ"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	300		
+		father	"UNI-GZ"
+	}
+	territory {
+		name	"Africa"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	50		
+		father	"foreign"
+	}
+	territory {
+		name	"USR-CHN-SD"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	500		
+		father	"USR"
+	}
+	territory {
+		name	"BI"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Central-Africa"
+	}
+	territory {
+		name	"CHN-GZ-GD-TM"
+	  	group    "Territory-Global"
+	  	grade    "city"
+		weight	400		
+		father	"CHN-GZ-GD"
+	}
+	territory {
+		name	"Central-Africa"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	100		
+		father	"Africa"
+	}
+	territory {
+		name	"USR-QQ-VIDEO"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	500		
+		father	"USR"
+	}
+	territory {
+		name	"VC"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"West-Indies"
+	}
+	territory {
+		name	"UNI-GZ-GD"
+	  	group    "Territory-Global"
+	  	grade    "province"
+		weight	300		
+		father	"UNI-GZ"
+	}
+	territory {
+		name	"CF"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Central-Africa"
+	}
+	territory {
+		name	"IS"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Northern-Europe"
+	}
+	territory {
+		name	"USR-COLNET-SH"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	500		
+		father	"USR"
+	}
+	territory {
+		name	"GR"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"South-East-Europe"
+	}
+	territory {
+		name	"USR-CUTV"
+	  	group    "Territory-Global"
+	  	grade    ""
+		weight	500		
+		father	"USR"
+	}
+	territory {
+		name	"TT"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"West-Indies"
+	}
+	territory {
+		name	"AO"
+	  	group    "Territory-Global"
+	  	grade    "country"
+		weight	150		
+		father	"Southern-Africa"
+	}

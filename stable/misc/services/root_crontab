@@ -1,0 +1,14 @@
+0 0 * * * root /usr/local/squid/bin/refreshd -k log_rotate >/dev/null 2>&1
+0 2 * * * root /usr/local/squid/bin/purgebdb.sh >/dev/null 2>&1
+0 5 * * * root /etc/init.d/fc swaplog >/dev/null 2>&1
+0 * * * * root /bin/tar Pzcvf /data/`hostname`_`date +\%H`.tgz /usr/local/squid/etc/*.conf /var/spool/cron/* >/dev/null 2>&1
+*/1 * * * * root /monitor/share/check_per_minute.sh >/dev/null 2>&1
+*/1 * * * * root /usr/local/detectorig/sbin/detectorig >/dev/null 2>&1
+*/1 * * * * root /usr/local/detectorig/sbin/digRun >/dev/null 2>&1
+*/1 * * * * root /usr/local/detectorig/sbin/analyse -d30;/usr/local/detectorig/sbin/named_reload 1>/dev/null 2>&1
+#*/1 * * * * root /usr/local/detectorig/sbin/xping >/dev/null 2>&1
+*/3 * * * * root /usr/local/bin/robot.sh >/dev/null 2>&1
+*/5 * * * * root /usr/local/squid/bin/syntime.sh 1>/dev/null 2>&1
+*/1 * * * * root /usr/local/squid/bin/preloadmgr 1>/dev/null 2>&1
+0 */12 * * * root /usr/local/squid/bin/mergeCacheLog.sh >/dev/null 2>&1
+*/1 * * * * root /usr/local/squid/bin/syn_cron.sh >/dev/null 2>&1

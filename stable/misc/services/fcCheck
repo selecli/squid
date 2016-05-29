@@ -1,0 +1,493 @@
+#!/usr/bin/perl
+
+use warnings;
+use strict; 
+
+BEGIN{push @INC, '/usr/local/squid/bin';}
+use Time::Local;
+use ReadBackwards;
+
+my $fh;
+my $interval;
+my ($type, $verbose, $mode) = @ARGV;
+
+my %mon =(
+      Jan => 0,
+      Feb => 1,
+      Mar => 2,
+      Apr => 3,
+      May => 4,
+      Jun => 5,
+      Jul => 6,
+      Aug => 7,
+      Sep => 8,
+      Oct => 9,
+      Nov => 10,
+      Dec => 11,
+   );
+
+my $endTm = time;
+my $startTm = $endTm - 300;
+my $line;
+my @info;
+my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime(time);
+my $recTm;
+my $mod;
+my $lineCnt;
+
+# deal syslog check
+if ( $type eq "syslog" ){
+    my $bw = ReadBackwards->new("/var/log/messages");
+    unless( $bw ){
+        die "open file /var/log/messages error:$!" if $verbose;
+        print "9";
+        exit 1;
+    };
+    
+    my $ret = 0;
+    $line = undef;
+    $lineCnt = 0;
+    while(defined( $line = $bw->readline )){
+        @info = split /[\s:]+/, $line;
+        $recTm = timelocal($info[4], $info[3], $info[2], $info[1], $mon{$info[0]}, $year);
+
+        last if $recTm < $startTm;
+
+        if (    $line =~ /(nginx|squid|flexicache)/
+            and $line =~ /\s+oom-killer/
+            and $recTm >= $startTm 
+            and $endTm >= $recTm ){
+            $ret = 1;
+            print "$line" if $verbose;
+        }
+        elsif (    $line =~ /segfault/
+               and $recTm >= $startTm
+               and $endTm >= $recTm ){
+            $ret = 2;
+            print "$line" if $verbose;
+        }
+        $lineCnt++;
+        last if $lineCnt > 1000;
+    }
+    $bw->close;
+    print "$ret";
+    exit 0;
+}
+
+# deal syslog lscs error log
+if ( $type eq "lscs" ){
+
+    if( $mode != 2 ){
+        print "0";
+        exit 0;
+    }
+
+    my $bw = ReadBackwards->new( "/usr/local/squid/bin/lscs/logs/error.log" );
+    unless( $bw ){
+        die "open file /usr/local/squid/bin/lscs/logs/error.log error:$!" if $verbose;
+        print "9";
+        exit 1;
+    };
+    
+    my $ret = 0;
+    $line = undef;
+    $lineCnt = 0;
+    while(defined( $line = $bw->readline )){
+        next if $line !~ /^\d{4}\/\d{2}\/\d{2} \d{2}:\d{2}:\d{2}.*/;
+        @info = split /[\/\s:]+/, $line;
+        $recTm = timelocal($info[5], $info[4], $info[3], $info[2], $info[1]-1, $info[0] - 1900);
+
+        last if $recTm < $startTm;
+
+        if (    $line =~ /\s+worker\s+process\s+\d+\s+exited\s+on/
+            and $recTm >= $startTm 
+            and $endTm >= $recTm ){
+            $ret = 1;
+            print "$line" if $verbose;
+        }
+        $lineCnt++;
+        last if $lineCnt > 1000;
+    }
+    $bw->close;
+    print "$ret";
+    exit 0;
+}
+
+# deal flexicache log
+if ( $type eq "flexicache" ){
+
+    if( $mode != 2 ){
+        print "0";
+        exit 0;
+    }
+
+    my $bw = ReadBackwards->new( "/data/proclog/log/flexicache/flexicache.log" );
+    unless( $bw ){
+        die "open file /data/proclog/log/flexicache/flexicache.log error:$!" if $verbose;
+        print "9";
+        exit 1;
+    };
+    
+    my $ret = 0;
+    $line = undef;
+    $lineCnt = 0;
+    while(defined( $line = $bw->readline )){
+        next if $line !~ /^\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}.*/;
+        @info = split /[\/\[\]\-\s:]+/, $line;
+        $recTm = timelocal($info[6], $info[5], $info[4], $info[3], $info[2] - 1, $info[1] - 1900);
+
+        last if $recTm < $startTm;
+
+        if (    $line =~ /WIFEXITED/
+            and $recTm >= $startTm 
+            and $endTm >= $recTm ){
+            $ret = 1;
+            print "$line" if $verbose;
+        }
+        $lineCnt++;
+        last if $lineCnt > 1000;
+    }
+    $bw->close;
+    print "$ret";
+    exit 0;
+}
+
+# deal cache log
+if ( $type eq "cache" ){
+    my @fileArr = ();
+    if( $mode == 1 ){
+        push @fileArr, '/data/proclog/log/squid/cache.log';
+    }
+    elsif( $mode == 2){
+        @fileArr = glob '/data/proclog/log/squid/cache.log.*';
+    }
+
+    my $openErrCnt = 0;
+    my $ret = 0;
+    my $allErr = {};
+    my $preLine = undef;
+    foreach my $file ( @fileArr ){
+        my $bw = ReadBackwards->new( $file );
+        unless( $bw ){
+            print "open $file error:$!" if $verbose;
+            $openErrCnt++;
+            next; 
+        };
+        
+        $recTm = undef; 
+        $line = undef;
+        $lineCnt = 0;
+        while(defined( $line = $bw->readline )){
+            $lineCnt++;
+            last if $lineCnt > 1000;
+
+            if( $line =~ /^\d{4}\/\d{2}\/\d{2} \d{2}:\d{2}:\d{2}.*/ ){
+                @info = split /[\/\s:]+/, $line;
+                $recTm = timelocal($info[5], $info[4], $info[3], $info[2], $info[1] - 1, $info[0] - 1900);
+            }
+            else {
+                $preLine = $line;
+                next;
+            }
+
+            if (    $line =~ /FATAL/
+                and $recTm >= $startTm 
+                and $endTm >= $recTm ){
+                $ret = 1;
+                push @{$allErr->{$file}{FATAL}}, $line;
+                push @{$allErr->{$file}{FATAL}}, $preLine if $preLine;
+                $preLine = undef;
+                next;
+            }
+
+            if (    $line =~ /Shutting down/
+                and $recTm >= $startTm 
+                and $endTm >= $recTm ){
+                $ret = 1;
+                push @{$allErr->{$file}{'Shutting down'}}, $line;
+                push @{$allErr->{$file}{'Shutting down'}}, $preLine if $preLine;
+                $preLine = undef;
+                next;
+            }
+
+            if (    $line =~ /death\s+/
+                and $recTm >= $startTm 
+                and $endTm >= $recTm ){
+                $ret = 1;
+                push @{$allErr->{$file}{death}}, $line;
+                push @{$allErr->{$file}{death}}, $preLine if $preLine;
+                $preLine = undef;
+                next;
+            }
+
+            if (    $line =~ /Starting Squid Cache/
+                and $recTm >= $startTm 
+                and $endTm >= $recTm ){
+                $ret = 1;
+                push @{$allErr->{$file}{'Starting Squid Cache'}}, $line;
+                push @{$allErr->{$file}{'Starting Squid Cache'}}, $preLine if $preLine;
+                $preLine = undef;
+                next;
+            }
+
+            if (    $line =~ /assertion\s+/
+                and $recTm >= $startTm 
+                and $endTm >= $recTm ){
+                $ret = 1;
+                push @{$allErr->{$file}{assertion}}, $line;
+                push @{$allErr->{$file}{assertion}}, $preLine if $preLine;
+                $preLine = undef;
+                next;
+            }
+
+            if (    $line =~ /segfault\s+/
+                and $recTm >= $startTm 
+                and $endTm >= $recTm ){
+                $ret = 1;
+                push @{$allErr->{$file}{segfault}}, $line;
+                push @{$allErr->{$file}{segfault}}, $preLine if $preLine;
+                $preLine = undef;
+                next;
+            }
+        }
+        $bw->close;
+    }
+    print "$ret";
+    # if need print detail
+    if ( $verbose ){
+        for my $f ( keys %$allErr ){
+            print "$f\n";
+            for my $k ( keys %{$allErr->{$f}} ){
+                print "   $k\n";
+                for my $rec ( @{$allErr->{$f}{$k}} ){
+                    print "    $rec";
+                }
+            }
+        }
+    }
+    exit 0;
+}
+
+# deal access log
+# judge whether access log exists at first
+# if exists, then decide whether alert according to the percent of 4xx or 5xx
+if ( $type eq "access" ){
+    my @code;
+    my $cnt = 0;
+    my $ret = 0;
+
+    while( $cnt < 5 ){
+        last if -e "/data/proclog/log/squid/access.log";
+        sleep 1;
+        $cnt++;
+    }
+
+    unless ( -e "/data/proclog/log/squid/access.log" ){
+        print "1";
+        print "access log doesn't exists!\n" if $verbose;
+        exit 1;
+    }
+
+    open $fh, "<", "/data/proclog/log/squid/access.log" or do {
+        die "open file /data/proclog/log/squid/access.log error:$!" if $verbose;
+        print "1";
+        exit 1;
+    };
+    
+    $cnt = 0;
+    my $cnt4xx = 0;
+    my $cnt5xx = 0;
+    while(<$fh>){
+        $line = $_;
+        next if $line =~ /^\s*$/;
+        @info = split /\s+/, $line;
+        next unless $info[0] >= $startTm and $endTm >= $info[0];
+        @code = split /\//, $info[3];
+        $cnt++;
+        if ( $code[1] =~ /4../ ){
+            $cnt4xx++;
+        }
+        elsif ( $code[1] =~ /5../ ){
+            $cnt5xx++;
+        }
+    }
+    close $fh;
+    
+    my $ratio4xx = $cnt4xx / $cnt;
+    my $ratio5xx = $cnt5xx / $cnt;
+    $ret = 1 if $ratio5xx >= 0.2 or $ratio4xx > 0.2;
+    
+    print "$ret";
+    exit 0;
+}
+
+# check billingd
+if ( $type eq "billingd" ){
+    my $ret = 0;    
+    my $pid = fork();
+    if ( $pid == 0 ){
+        exec "echo 'TESTBILLING' | nc 127.0.0.1 8877";
+    }
+    else {
+        sleep 10;
+        if ( kill 0 => $pid ){
+            my $cmd = "cat /proc/$pid/cmdline";
+            my $name = `$cmd`;
+            if( $name =~ /TESTBILLING/ ){
+                $ret = 1;
+                kill 9 => $pid;
+            }
+        }
+    }
+
+    print "$ret";
+    exit 0;
+}
+
+# check swap.state
+# 1 single
+# 2 multiple 
+if ( $type eq "port" ){
+    my $ret = 0;
+    my @port; 
+    if ( $mode == 1 ){
+
+        open $fh, '<', "/usr/local/squid/etc/squid.conf" or do {
+            print "open file /usr/local/squid/etc/squid.conf fail:$!" if $verbose;
+            print "9";
+            exit 1;
+        };        
+
+        while(<$fh>){
+            next if /^\s*#/;
+            if ( /http_port\s+(\d+)/ ){
+                push @port, $1;
+                last;
+            }
+        }
+        close $fh;
+    }
+    if ( $mode == 2 ){
+        my $p;
+
+        # check nginx
+        open $fh, '<', "/usr/local/squid/bin/lscs/conf/nginx.conf" or do {
+            print "open file /usr/local/squid/bin/lscs/conf/nginx.conf fail:$!" if $verbose;
+            print "9";
+            exit 1;
+        };        
+
+        while(<$fh>){
+            next if /^\s*#/;
+            if ( /listen\s+(\d+)/ ){
+                push @port, $1;
+            }
+        }
+        close $fh;
+        
+        my $num = 1;
+        open $fh, '<', "/usr/local/squid/etc/flexicache.conf" or do {
+            print "open file /usr/local/squid/etc/flexicache.conf fail:$!" if $verbose;
+            print "9";
+            exit 1;
+        };        
+        while(<$fh>){
+            if ( /cache_processes\s+(\d+)/ ){
+                $num = $1;
+                last;
+            }
+        }
+        close $fh;
+
+        # check squid
+        open $fh, '<', "/usr/local/squid/etc/squid.conf" or do {
+            print "open file /usr/local/squid/etc/squid.conf fail:$!" if $verbose;
+            print "9";
+            exit 1;
+        };        
+        while(<$fh>){
+            next if /^\s*#/;
+            if ( /http_port\s+(\d+)/ ){
+                $p = $1;
+                my $cnt = 1;
+                while( $cnt <= $num ){
+                    my $t = $cnt + $p;
+                    push @port, $t;
+                    $cnt++;
+                }
+            }
+        }
+        close $fh;
+    }
+   
+    my $cmd;
+    my $res = 0;
+    for my $p ( @port ){
+        $cmd = "curl 'http://www.chinacache.com/images/logo.gif' -x 127.0.0.1:$p &> /dev/null && echo 0 || echo 1";
+        $ret = `$cmd`;
+        $ret =~ s/\n$//;
+
+        if ( $ret != 0 ){
+            $res = 1;
+            print "fc-cache listen $p dose not provide service correctly\n" if $verbose;
+        }
+    }
+    
+    print "$res";
+    exit 0;
+}
+
+if ( $type eq "swap" ){
+    my $line;
+    my @dir;
+    my @info;
+    my $size;
+    
+    if( $mode == 0){
+        print "0";
+        exit 0;
+    }
+    if( ! -e '/usr/local/squid/etc/squid.conf' ){
+        print "1\n";
+        exit 0;
+    }
+    open my $fh, '<', '/usr/local/squid/etc/squid.conf' or do {
+        print "open squid conf fail:$!\n" if $verbose;
+        print "1";
+        exit 1;
+    };
+
+    while(defined( $line = <$fh> )){
+        if($line =~ /^\s*cache_dir/){
+            $line =~ s/^\s*//;
+            $line =~ s/\s*$//;
+            @info = split /\s+/, $line;
+            $info[2] =~ s/\/$//;
+            push @dir, $info[2];
+        }
+    }
+    close $fh;
+    foreach my $dir ( @dir ){
+        if( -e "$dir/swap.state" ){
+            $size = (stat("$dir/swap.state"))[7];
+            if( $size > 50 * 1024 * 1024){
+                print "$dir/swap.state too big\n" if $verbose;
+                print "1";
+                exit 0;
+            }
+            next if $mode == 1;
+            foreach my $subDir ( glob "$dir/squid*" ){
+                if( -e "$subDir/swap.state" ){
+                    $size = (stat("$subDir/swap.state"))[7];
+                    if( $size > 50 * 1024 * 1024){
+                        print "$dir/swap.state too big\n" if $verbose;
+                        print "1";
+                        exit 0;
+                    }
+                }
+            }
+        }   
+    }
+    print "0";
+    exit 0;
+}

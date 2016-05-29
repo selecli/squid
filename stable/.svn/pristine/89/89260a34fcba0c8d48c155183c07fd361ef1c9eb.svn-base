@@ -1,0 +1,45 @@
+global {
+    sched_policy FIFO;
+    task_limit_number 1024;
+    task_concurrency 5;
+    dns_nameserver 8.8.8.8:53;
+    access_log {
+        file_path        /var/log/chinacache/preloader/access.log;
+        print_level      1;
+        rotate_size      20480000;
+        rotate_number    5;
+    }
+    debug_log {
+        file_path        /var/log/chinacache/preloader/debug.log;
+        print_level      1;
+        rotate_size      204800000;
+        rotate_number    5;
+    }
+    error_log {
+        file_path        /var/log/chinacache/preloader/error.log;
+        print_level      1;
+        rotate_size      204800000;
+        rotate_number    5;
+    }
+    http {
+        send_timeout 60s;
+        recv_timeout 60s;
+        connect_timeout 120s;
+        max_request_header_size 20480;
+        max_request_body_size 1024000;
+    }
+}
+
+listen {
+    listen_on 0.0.0.0:31108;
+}
+preload {
+    preload_for 127.0.0.1:80;
+    worker_number 5;
+    m3u8_engine on;
+}
+
+grab {
+    grab_from 223.202.45.166:80;
+    interval_time 300s;
+}

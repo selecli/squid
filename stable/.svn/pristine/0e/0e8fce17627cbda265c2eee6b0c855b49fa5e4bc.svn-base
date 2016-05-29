@@ -1,0 +1,195 @@
+#!/bin/bash
+#
+#Script: squidlog
+#
+#Function: Calculate and analyse log of squid
+#
+#Version: 0.5.1
+#
+#Date: 2008-10-13
+#
+#Author: Yang Nan
+#
+####################################################################################################################################
+
+function show_usage()
+ {
+  echo "Usage: squidlog OPTION [PARAMETER]"
+  echo -e "\nOption\t\tParameter\t\tExample\t\t\tPurpose"
+  echo -e "-a\t\t\t\t\t-a\t\t\tShow real time access log"
+  echo -e "-c\t\t\t\t\t-c\t\t\tShow real time cache log"
+  echo -e "-C\t\tlogfile *\t\t-C xxx.log \t\tShow what percentage of visit for every channel"
+  echo -e "-h\t\t\t\t\t-h\t\t\tShow current hit ratio"
+  echo -e "-i\t\tinfo_type *\t\t-i ?\t\t\tShow statistic of squid running"
+  echo -e "-s\t\tlogfile channel *\t-s sohu.com xxx.log\tShow statistic of access log"
+  echo -e "-v\t\t\t\t\t-v\t\t\tShow version"
+  echo "Notice: Parameter with \"*\" is dispensable"
+ }
+####################################################################################################################################
+
+function calculate_log()
+ {
+  local CHANNEL=$1
+  local LINE=`cat $ACCESS_LOG_TMP|wc -l`
+  local START=`head -n 1 $ACCESS_LOG_TMP|awk '{print $1}'`
+  local END=`cat -n $ACCESS_LOG_TMP|tail -n 1 |awk '{print $2}'`
+  local PERIOD_S=`echo "scale=0;($END-$START)"|bc`
+  local PERIOD_M=`echo "scale=0;$PERIOD_S/60"|bc`
+  local REQ_PER_MIN=`echo "scale=0;$LINE/$PERIOD_S*60"|bc`
+  [ -n "$1" ]&&echo -e "Channel: $CHANNEL\n"
+  echo -n "Starting time: "
+  head -n 1 $ACCESS_LOG_TMP|awk '{print strftime("%Y-%m-%d %H:%M",$1)}'
+  echo -n "     End time: "
+  cat -n $ACCESS_LOG_TMP|tail -n 1|awk '{print strftime("%Y-%m-%d %H:%M",$2)}'
+  echo "------------------------------------------------------"
+  echo "Number          Status/Code                    Percent"
+  head -n $LINE $ACCESS_LOG_TMP|awk '{print $4}' |sort|uniq -c|awk '{printf("%-15d %-30s %.2f%%\n"), $1,$2,$1/'$LINE'*100}'
+  echo $LINE
+  echo "------------------------------------------------------"
+  head -n $LINE $ACCESS_LOG_TMP|awk '{if($9~/DIRECT/){direct_count+=1}}END{printf("%-15d %-30s %.2f%%\n\n",direct_count,"DIRECT/origin",direct_count/'$LINE'*100)}'
+  head -n $LINE $ACCESS_LOG_TMP|awk '{if($4~/(HIT|MISS)\/200/){sum_size+=$5;count+=1}}END{printf("Average object size: %.2fKB\n",sum_size/count/1024)}'
+  head -n $LINE $ACCESS_LOG_TMP|awk '{sum_time+=$2}END{printf("Average transfers time: %.2fms\n",sum_time/NR)}'
+  head -n $LINE $ACCESS_LOG_TMP|awk '{sum_size+=$5}END{printf("Average bandwidth to client: %.2fKb/s\n",sum_size*8/'$PERIOD_S'/1024)}'
+  printf "Average http requests per minute: %d\n" $REQ_PER_MIN
+ }
+####################################################################################################################################
+
+#Function main()
+ACCESS_LOG="/data/proclog/log/squid/access.log"
+ACCESS_LOG_TMP="/tmp/access.log.$RANDOM"
+CACHE_LOG="/data/proclog/log/squid/cache.log"
+SCRIPT_DIR="/usr/local/squid/bin"
+PORT=`grep -m 1 "^http_port" /usr/local/squid/etc/squid.conf|awk '{print $2}'`
+[ -z "$PORT" ]&&PORT="3128"
+while getopts acChisv OPTION 
+ do
+  case $OPTION in
+   a) A_FLAG=1;;
+   c) c_FLAG=1;;
+   C) C_FLAG=1;;
+   h) H_FLAG=1;;
+   i) I_FLAG=1;;
+   s) S_FLAG=1;;
+   v) V_FLAG=1;;
+   *) show_usage
+      exit 1;;
+  esac
+ done
+#If command line is "squidlog -a"
+if [ -n "$A_FLAG" ] && [ -z "$c_FLAG" ] && [ -z "$C_FLAG" ] && [ -z "$H_FLAG" ] && [ -z "$I_FLAG" ] && [ -z "$S_FLAG" ] && [ -z "$V_FLAG" ] && [ "$#" -eq 1 ]
+ then
+  [ ! -e "$ACCESS_LOG" ]&&echo "$ACCESS_LOG is inexistent!"&&exit 1
+  tail -f $ACCESS_LOG 
+fi
+#If command line is "squidlog -c"
+if [ -n "$c_FLAG" ] && [ -z "$A_FLAG" ] && [ -z "$C_FLAG" ] && [ -z "$H_FLAG" ] && [ -z "$I_FLAG" ] && [ -z "$S_FLAG" ] && [ -z "$V_FLAG" ] && [ "$#" -eq 1 ]
+ then
+  [ ! -e "$CACHE_LOG" ]&&echo "$CACHE_LOG is inexistent!"&&exit 1
+  tail -f $CACHE_LOG 
+fi
+#If command line is "squidlog -C"
+if [ -n "$C_FLAG" ] && [ -z "$A_FLAG" ] && [ -z "$c_FLAG" ] && [ -z "$H_FLAG" ] && [ -z "$I_FLAG" ] && [ -z "$S_FLAG" ] && [ -z "$V_FLAG" ]
+ then
+  [ -n "$2" ]&&ACCESS_LOG=$2
+  [ ! -e "$ACCESS_LOG" ]&&echo "$ACCESS_LOG is inexistent!"&&exit 1
+  cp $ACCESS_LOG $ACCESS_LOG_TMP
+  LINE=`cat $ACCESS_LOG_TMP|wc -l`
+  START=`head -n 1 $ACCESS_LOG_TMP|awk '{print $1}'`
+  END=`cat -n $ACCESS_LOG_TMP|tail -n 1 |awk '{print $2}'`
+  echo -n "Starting time: "
+  head -n 1 $ACCESS_LOG_TMP|awk '{print strftime("%Y-%m-%d %H:%M",$1)}'
+  echo -n "     End time: "
+  cat -n $ACCESS_LOG_TMP|tail -n 1 |awk '{print strftime("%Y-%m-%d %H:%M",$2)}'
+  echo "----------------------------------------------------------------"
+  echo "Number          Channel                                  Percent"
+  head -n $LINE $ACCESS_LOG_TMP|awk '{print $7}'|awk -F "/" '{print $3}'|sort|uniq -c|awk '{printf("%-15d %-40s %.2f%%\n"), $1,$2,$1/'$LINE'*100}'
+  echo "----------------------------------------------------------------"
+  echo $LINE
+  rm -f $ACCESS_LOG_TMP
+  exit 0
+fi
+#If command line is "squidlog -h"
+if [ -n "$H_FLAG" ] && [ -z "$A_FLAG" ] && [ -z "$c_FLAG" ] && [ -z "$C_FLAG" ] && [ -z "$I_FLAG" ] && [ -z "$S_FLAG" ] && [ -z "$V_FLAG" ] && [ "$#" -eq 1 ]
+ then
+  /usr/local/squid/bin/squidclient -p $PORT mgr:info|grep Hit
+  exit 0
+fi
+#If command line is "squidlog -i"
+if [ -n "$I_FLAG" ] && [ -z "$A_FLAG" ] && [ -z "$c_FLAG" ] && [ -z "$C_FLAG" ] && [ -z "$H_FLAG" ] && [ -z "$S_FLAG" ] && [ -z "$V_FLAG" ]
+ then
+  [ -n "$2" ]&&[ "$2" != "?" ]&&/usr/local/squid/bin/squidclient -p $PORT mgr:$2|more
+  [ "$2" = "?" ]&&/usr/local/squid/bin/squidclient -p $PORT mgr:menu|more
+  [ -z "$2" ]&&/usr/local/squid/bin/squidclient -p $PORT mgr:info|more
+  exit 0
+fi
+#If command line is "squidlog -s"
+if [ -n "$S_FLAG" ] && [ -z "$A_FLAG" ] && [ -z "$c_FLAG" ] && [ -z "$C_FLAG" ] && [ -z "$H_FLAG" ] && [ -z "$I_FLAG" ] && [ -z "$V_FLAG" ]
+ then
+  if [ -n "$3" ]
+   then
+    if [ -e "$3" ]
+     then
+      ACCESS_LOG=$3
+      CHANNEL=$2
+      awk '{if($7~/'$CHANNEL'/)print $0}' $ACCESS_LOG > $ACCESS_LOG_TMP
+      if [ ! -s "$ACCESS_LOG_TMP" ]
+       then
+        rm -f $ACCESS_LOG_TMP
+        echo "Channel \"$CHANNEL\" not found"
+        exit 1
+      fi
+      calculate_log $CHANNEL
+      rm -f $ACCESS_LOG_TMP
+     elif [ -e "$2" ]
+      then
+       ACCESS_LOG=$2
+       CHANNEL=$3
+       awk '{if($7~/'$CHANNEL'/)print $0}' $ACCESS_LOG > $ACCESS_LOG_TMP
+       if [ ! -s "$ACCESS_LOG_TMP" ]
+        then
+         rm -f $ACCESS_LOG_TMP
+         echo "Channel \"$CHANNEL\" not found"
+         exit 1
+       fi
+       calculate_log $CHANNEL
+       rm -f $ACCESS_LOG_TMP
+     else
+      echo "Log file is inexistent!"&&exit 1 
+    fi
+   elif [ -n "$2" ]
+    then
+     if [ -e "$2" ]
+      then
+       ACCESS_LOG=$2
+       cp $ACCESS_LOG $ACCESS_LOG_TMP
+       calculate_log
+       rm -f $ACCESS_LOG_TMP
+      else
+       [ ! -e "$ACCESS_LOG" ]&&echo "$ACCESS_LOG is inexistent!"&&exit 1
+       CHANNEL=$2
+       awk '{if($7~/'$CHANNEL'/)print $0}' $ACCESS_LOG > $ACCESS_LOG_TMP
+       if [ ! -s "$ACCESS_LOG_TMP" ]
+        then
+         rm -f $ACCESS_LOG_TMP
+         echo "Channel \"$CHANNEL\" not found"
+         exit 1
+       fi
+       calculate_log $CHANNEL
+       rm -f $ACCESS_LOG_TMP
+     fi
+   else
+    [ ! -e "$ACCESS_LOG" ]&&echo "$ACCESS_LOG is inexistent!"&&exit 1
+    cp $ACCESS_LOG $ACCESS_LOG_TMP
+    calculate_log
+    rm -f $ACCESS_LOG_TMP
+  fi
+ exit 0
+fi
+#If command line is "squidlog -v"
+if [ -n "$V_FLAG" ] && [ -z "$A_FLAG" ] && [ -z "$c_FLAG" ] && [ -z "$C_FLAG" ] && [ -z "$H_FLAG" ] && [ -z "$I_FLAG" ] && [ -z "$S_FLAG" ] && [ "$#" -eq 1 ]
+ then
+  echo -e "`grep -E "^#Version|^#Date" $0|cut -c 2-`"
+  exit 0
+fi
+show_usage
+#End of script

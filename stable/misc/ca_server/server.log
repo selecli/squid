@@ -1,0 +1,78 @@
+[2012-03-21 18:47:32][./server_host_ip.c:116]:after init ca ip table, we get 2 ip
+[2012-03-21 18:47:32][./server_config.c:127]:
+log_level 8
+port 21109
+CA host: 
+CA ip file: ip_file
+CA port: 80
+req_list_file: req_header
+rep_list_file: rep_header
+content_type_list_file: content_type_file
+hash_request_url: Yes
+
+[2012-03-21 18:47:32][./server_config.c:129]:req_list_file:
+[2012-03-21 18:47:32][./server_config.c:100]:User-Agent
+[2012-03-21 18:47:32][./server_config.c:100]:Host
+[2012-03-21 18:47:32][./server_config.c:132]:rep_list_file: 
+[2012-03-21 18:47:32][./server_config.c:100]:Powered-By-ChinaCache
+[2012-03-21 18:47:32][./server_config.c:100]:Connection
+[2012-03-21 18:47:32][./server_config.c:135]:content_type_list_file: 
+[2012-03-21 18:47:32][./server_config.c:100]:text
+[2012-03-21 18:47:32][./server_config.c:138]:ca_host_ip: 
+[2012-03-21 18:47:32][./server_host_ip.c:273]:192.168.100.192
+[2012-03-21 18:47:32][./server_host_ip.c:273]:192.168.100.165
+[2012-03-21 18:47:32][./server.c:979]:server start!
+recv signal: 2
+./server(backtrace_info+0x17)[0x406837]
+./server[0x403891]
+/lib64/libc.so.6[0x32e2e302d0]
+/lib64/libc.so.6(epoll_wait+0x13)[0x32e2ed40c3]
+./server(server_epoll_wait+0x2e)[0x407635]
+./server(main+0xea)[0x405997]
+/lib64/libc.so.6(__libc_start_main+0xf4)[0x32e2e1d994]
+./server[0x403059]
+[2012-03-21 18:47:35][./server.c:938]:server_shutdown!!
+
+[2012-03-21 18:47:35][./server.c:931]:malloc count   : 0
+[2012-03-21 18:47:35][./server.c:932]:malloc times   : 1
+[2012-03-21 18:47:35][./server.c:933]:free times     : 1
+[2012-03-21 18:47:35][./server.c:995]:server exited!
+[2012-03-21 18:49:18][./server_host_ip.c:116]:after init ca ip table, we get 2 ip
+[2012-03-21 18:49:18][./server_config.c:127]:
+log_level 8
+port 21109
+CA host: 
+CA ip file: ip_file
+CA port: 80
+req_list_file: req_header
+rep_list_file: rep_header
+content_type_list_file: content_type_file
+hash_request_url: Yes
+
+[2012-03-21 18:49:18][./server_config.c:129]:req_list_file:
+[2012-03-21 18:49:18][./server_config.c:100]:User-Agent
+[2012-03-21 18:49:18][./server_config.c:100]:Host
+[2012-03-21 18:49:18][./server_config.c:132]:rep_list_file: 
+[2012-03-21 18:49:18][./server_config.c:100]:Powered-By-ChinaCache
+[2012-03-21 18:49:18][./server_config.c:100]:Connection
+[2012-03-21 18:49:18][./server_config.c:135]:content_type_list_file: 
+[2012-03-21 18:49:18][./server_config.c:100]:text
+[2012-03-21 18:49:18][./server_config.c:138]:ca_host_ip: 
+[2012-03-21 18:49:18][./server_host_ip.c:273]:192.168.100.192
+[2012-03-21 18:49:18][./server_host_ip.c:273]:192.168.100.165
+[2012-03-21 18:49:18][./server.c:979]:server start!
+recv signal: 2
+./server(backtrace_info+0x17)[0x406837]
+./server[0x403891]
+/lib64/libc.so.6[0x32e2e302d0]
+/lib64/libc.so.6(epoll_wait+0x13)[0x32e2ed40c3]
+./server(server_epoll_wait+0x2e)[0x407635]
+./server(main+0xea)[0x405997]
+/lib64/libc.so.6(__libc_start_main+0xf4)[0x32e2e1d994]
+./server[0x403059]
+[2012-03-21 18:49:25][./server.c:938]:server_shutdown!!
+
+[2012-03-21 18:49:25][./server.c:931]:malloc count   : 0
+[2012-03-21 18:49:25][./server.c:932]:malloc times   : 1
+[2012-03-21 18:49:25][./server.c:933]:free times     : 1
+[2012-03-21 18:49:25][./server.c:995]:server exited!

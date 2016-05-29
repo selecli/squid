@@ -1,0 +1,17 @@
+ID                      200301020093
+Name                    CPISFC
+Describe                CPIS 业务专用的FC软件
+Behaviour               manage
+Switch                  enable
+StartCmd                service flexicache start
+StopCmd                 service flexicache stop
+GetStatus               service flexicache status
+RestartCmd              service flexicache restart
+ReloadCmd               service flexicache reload
+GetVersion              /usr/local/squid/bin/flexicache -v | head -1 | awk '{print $NF}'
+PidFile                 /var/run/flexicache.pid
+KeepLive                30s
+StartRetryInterval      60s
+MaxStartRetryTimes      30
+StopRetryInterval       300s
+MaxStopRetryTimes       1

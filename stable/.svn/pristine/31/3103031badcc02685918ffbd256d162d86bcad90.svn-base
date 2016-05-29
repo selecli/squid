@@ -1,0 +1,9 @@
+log_level 1
+port 21109
+ca_ip_file /usr/local/squid/etc/ca_ip.conf
+ca_port 80
+rep_list_file /usr/local/squid/etc/ca_rep_header.conf
+req_list_file /usr/local/squid/etc/ca_req_header.conf
+hash_request_url on
+content_type_list_file /usr/local/squid/etc/ca_content_type.conf
+

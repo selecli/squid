@@ -1,0 +1,3 @@
+*/5 * * * * squid /usr/local/squid/bin/rotateReceipt.sh >/dev/null 2>&1
+*/5 * * * * squid /usr/local/squid/bin/rotateMicrosoft.sh >/dev/null 2>&1
+30 * * * *  squid /usr/local/squid/bin/dellog.sh >/dev/null 2>&1

@@ -1,0 +1,290 @@
+#!/usr/bin/perl
+# brief: 
+#     use to check lscs config file, make sure that the port used by listen is the same as in the squid config
+# history:
+#     2013/06/24   zhaobin  create
+use File::Copy 'move';
+use warnings;
+use strict;
+
+my $LSCS_CONF = '/usr/local/squid/bin/lscs/conf/nginx.conf';
+my $SQUID_CONF = '/usr/local/squid/etc/squid.conf';
+my $NEW_LSCS_CONF = '/tmp/nginx.conf.tmp';
+my $BAK_LSCS_CONF = '/tmp/nginx.conf.bak';
+
+my $fh;
+my $outFH;
+my $line;
+my %squidPortMap;
+my %lscsPortMap;
+my $port;
+
+# 0 before the lscs block
+# 1 in lscs block, but before server block
+# 2 in server block
+# 3 in lscs block, but not in server block
+# 4 after the lscs block
+my $status = 0;
+
+# contain infomation used to template
+my $data = {
+          ports                 => [],
+          before_server         => '',
+          default_other_in_lscs => '',
+          footer                => '', 
+       };
+$data->{header}=<<EOF;
+user root root;
+master_process on;
+daemon off;
+worker_processes 1;
+worker_rlimit_nofile 200000;
+pid /var/run/nginx.pid;
+error_log /usr/local/squid/bin/lscs/logs/error.log error;
+events
+{
+    use epoll;
+    worker_connections 200000;
+}
+EOF
+
+my $header = '';
+my $before_server = '';
+my $footer = '';
+my $other = '';
+my $tmp_other = '';
+
+my @tpl = <DATA>;
+my @tmp;
+my $cont;
+# 1 this server block in the conf should discard
+# 0 this sereer block should keep
+my $flag = 0;
+# brief: read template file content, replace variable with data
+# params:
+#     $tplStr  template file content
+#     $data    the data used to replace template content
+# return:
+#     the content after replace action
+# ps:
+#     1 only support foreach, only single loop
+sub createLSCSConf {
+    my ($tplStr, $data) = @_;
+    my $ret = '';
+
+    # 0 Not in template loop
+    # 1 in template loop
+    my $currTplLoop = 0;
+    my $tplLoopInfo;
+    my $loopStr = '';
+
+    for my $line ( @$tplStr ){
+
+        if( $currTplLoop == 0 && $line !~ /^\s*\[%\s+FOREACH\s+([^\s]+)\s+IN\s+([^\s]+)\s+%\]\s*$/ ){
+            $ret .= $line;
+        }
+        elsif( $currTplLoop == 0 && $line =~ /^\s*\[%\s+FOREACH\s+([^\s]+)\s+IN\s+([^\s]+)\s+%\]\s*$/ ){
+            $currTplLoop += 1;
+            $tplLoopInfo->{array} = $data->{$2};
+            $tplLoopInfo->{itemName} = $1;
+            $tplLoopInfo->{itemAttr} = [];
+        }
+        elsif( $line =~ /^\s*\[%\s+END\s+%\]\s*$/ ){
+            $currTplLoop--;
+
+            # begin replace loop item
+            foreach my $item ( @{$tplLoopInfo->{array}} ){
+                my $cnt = @{$tplLoopInfo->{itemAttr}};
+                my $tmp_t = $loopStr;
+                while(defined $tplLoopInfo->{itemAttr} && $cnt > 0){
+                    $cnt--;
+                    my $name = $tplLoopInfo->{itemAttr}->[$cnt];
+                    $tmp_t =~ s/\[%\s+$tplLoopInfo->{itemName}\.$name\s+%\]/$item->{$name}/g;
+                }
+                $tmp_t =~ s/\[%\s+$tplLoopInfo->{itemName}\s+%\]/$item/g if @{$tplLoopInfo->{itemAttr}} == 0;
+                $ret .= $tmp_t;
+            }
+
+            $loopStr = '';
+        }
+        else {
+            $loopStr .= $line;
+            if( $line =~ /\[%\s+$tplLoopInfo->{itemName}\.?([^\s]+)?\s+%\]/ && defined $1 ){
+                push @{$tplLoopInfo->{itemAttr}}, $1;
+            }
+        }
+
+    }
+
+    # begin replace other item
+    $ret =~ s/[ ]*\[%\s+([^\s]+)\s+%\]/$data->{$1}/g;
+    return $ret;
+}
+
+$ENV{'LC_ALL'} = 'C';
+
+# get squid configure 
+open $fh, '<', $SQUID_CONF or do {
+    print "open file $SQUID_CONF fail:$!\n";
+    exit 1
+};
+
+while($line = <$fh>){
+    # skip the comment
+    next if $line =~ /^\s*#.*$/;
+
+    if( $line =~ /^\s*http_port\s+(\d+)/){
+        $squidPortMap{$1} = 1;
+    }
+
+}
+
+close $fh;
+
+# create lscs conf if not exists
+if( ! -e $LSCS_CONF ){
+    print "file $LSCS_CONF does not exist, create it from template\n";
+
+    open $outFH, '>', $LSCS_CONF or do {
+        print "open file $LSCS_CONF fail:$!\n";
+        exit 1;
+    };
+
+    @tmp = keys %squidPortMap;
+    $data->{ports} = \@tmp;
+    $cont = createLSCSConf(\@tpl, $data);
+    print $outFH $cont;
+    close $outFH;
+    exit 0;
+}
+
+# if lscs conf exists then compare it with squid conf
+# not matter if they are the same, we still write the new lscs conf
+open $fh, '<', $LSCS_CONF or do {
+    print "open file $LSCS_CONF fail:$!";
+    exit 1;
+};
+
+open $outFH, '>', $NEW_LSCS_CONF or do {
+    print "open file $NEW_LSCS_CONF fail:$!";
+    exit 1
+};
+
+while($line = <$fh>){
+
+    if( $status == 0 && $line =~ /^\s*lscs\s*{/ ){
+        $status = 1;
+        next;
+    }
+    elsif( $status == 0 && $line =~ /^\s*lscs\s*$/ ){
+        while($line = <$fh>){
+            next if $line =~ /^\s*#/;
+            last if $line =~ /^\s*{\s*$/;
+        }
+        $status = 1;
+        next;
+    }
+    elsif( ($status == 1 || $status == 3) && $line =~ /^\s*server\s*{/ ){
+        $status = 2;
+        $tmp_other .= $line;
+        next;
+    }
+    elsif( ($status == 1 || $status == 3) && $line =~ /^\s*server\s*$/ ){
+        while($line = <$fh>){
+            next if $line =~ /^\s*#/;
+            last if $line =~ /^\s*{\s*$/;
+        }
+        $status = 2;
+        $tmp_other .= "server {\n";
+        next;
+    }
+    # faint, perl 5.8 do not support named group
+    #elsif( $status == 2 && $line =~ /^\s*listen(\s+[^:]+:)?(?<port>\d+);/ ){
+    elsif( $status == 2 && $line =~ /^\s*listen.*?(\d+);/ ){
+        $port = $1;
+        if( exists $squidPortMap{$port} ){
+            delete $squidPortMap{$port};
+        }
+        else {
+            $flag = 1;
+        } 
+        $tmp_other .= $line;
+        next;
+    }
+    elsif( $status == 2 && $line =~ /^\s*}\s*}?\s*\n$/){
+        $status = 3;
+        $other .= "$tmp_other    }\n" if $flag == 0;
+        $tmp_other = "";
+        $flag = 0;
+        $status = 4 if $line =~ /^\s*}\s*}\s*\n$/;
+        next;
+    }
+    elsif( $status == 1 && $line =~ /^\s*}\s*\n$/ ){
+        $before_server .= $line;
+        $status = 4;
+        next;
+    }
+    elsif( $status == 3 && $line =~ /^\s*}\s*\n$/ ){
+        $status = 4;
+        next;
+    }
+    elsif( $status == 1 ){
+        $before_server .= $line;
+        next;
+    }
+    if( $status == 0 ){
+        $header .= $line;
+        next;
+    }
+    elsif( $status == 2 ){
+        $tmp_other .= $line;
+        next;
+    }
+    elsif($status == 3){
+        $other .= $line;
+        next;
+    }
+    elsif($status == 4){
+        $footer .= $line;
+        next;
+    }
+    else {
+        # OOPS: bug
+        print "$line $. bug!!!!!!\n";
+    }  
+
+}
+close $fh;
+
+@tmp = keys %squidPortMap;
+$header =~ s/\n*$//;
+$footer =~ s/\n*$//;
+$before_server =~ s/\n*$//;
+$other =~ s/\n*$//;
+$data->{ports} = \@tmp;
+$data->{header} = $header;
+$data->{before_server} = $before_server;
+$data->{footer} = $footer;
+$data->{default_other_in_lscs} = $other;
+$cont = createLSCSConf(\@tpl, $data);
+print $outFH $cont;
+close $outFH;
+
+move $LSCS_CONF, $BAK_LSCS_CONF;
+move $NEW_LSCS_CONF, $LSCS_CONF;
+
+exit 0;
+__END__
+[% header %]
+lscs {
+    [% before_server %]
+    [% FOREACH p IN ports %]
+    server {
+        listen [% p %] backlog=65536;
+        hash_meth urh;
+        include default.inc;
+    }
+    [% END %]
+    [% default_other_in_lscs %]
+}
+[% footer %]

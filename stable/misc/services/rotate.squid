@@ -1,0 +1,6 @@
+/var/log/chinacache/detect.log /var/log/chinacache/digRun.log /var/log/chinacache/detectorigin_info.log /var/log/chinacache/detectorigin.log /var/log/chinacache/detectorig.log /var/log/chinacache/digRun_info.log /var/log/chinacache/ftp.err.log /var/log/chinacache/purgedir.log /var/log/chinacache/purge_execute.log /var/log/chinacache/robot.log {
+	daily
+	rotate 7
+    missingok
+    notifempty
+}

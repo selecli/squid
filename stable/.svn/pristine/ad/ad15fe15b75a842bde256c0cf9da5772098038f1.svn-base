@@ -1,0 +1,9 @@
+#central = on;
+#travel = 35;
+#savetime = 1D;
+#epollwait = 10;
+#killtime = 300;
+#rlimit = 344800;
+#result = on/off;
+#cleanup = on/off;
+#header = {"www.test.com", "User-Agent", "ChinaCache"};

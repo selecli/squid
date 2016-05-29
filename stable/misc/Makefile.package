@@ -1,0 +1,20 @@
+#!/bin/bash
+
+EXDS = detectorig/ monitor/ 
+
+install:
+
+	for i in $(EXDS); do cd $$i;make;make install;cd ..; done
+	rm -rf /usr/local/squid/sbin/
+	cp ./usr/local/squid/etc/IP2Location.h /usr/local/include/
+	cp ./usr/local/squid/etc/libIP2Location.so /lib/
+	cp -rf ./usr /
+	cp -rf ./monitor /
+	cp -rf ./services/squid_service /etc/init.d/squid
+	-mkdir -p /etc/ChinaCache/app.d/
+	cp -rf ./services/fc.amr /etc/ChinaCache/app.d/
+	
+	@cd services; /bin/bash ./Step1.prepare.sh
+	. /etc/profile
+	@cd services; /bin/bash ./Step3.setup.sh
+	@cd services; /bin/bash ./Step5.tunningServices.sh

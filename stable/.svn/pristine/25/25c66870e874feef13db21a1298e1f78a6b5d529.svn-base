@@ -1,0 +1,239 @@
+#!/bin/bash
+#
+# chkconfig: - 89 25
+# description: flexicache
+
+. /etc/rc.d/init.d/functions
+ulimit -n 500000
+RedirectConfigErrorFile="/data/proclog/log/squid/redirectConfError.log"
+DomainConfigErrorFile="/var/log/chinacache/detectorigConfigError.log"
+OrigdomainConfigErrorFile="/var/log/chinacache/digRunConfigError.log"
+FCConfigErrorFile="/data/proclog/log/squid/squidConfError.log"
+TotalConfigErrorFile="/tmp/commonte.err"
+SQUID="/usr/local/squid/sbin/squid"
+REDIRECT="/usr/local/squid/bin/redirect"
+DETECTORIG="/usr/local/detectorig/sbin/detectorig"
+DIGRUN="/usr/local/detectorig/sbin/digRun"
+APP_PATH="/usr/local/squid/bin/flexicache"
+FCConfFile="/usr/local/squid/etc/flexicache.conf"
+RedirectConfFile="/usr/local/squid/etc/redirect.conf"
+
+WarningFile=/usr/local/squid/var/squid.conf.warn
+WarningFileRedirect=/usr/local/squid/var/redirect.conf.warn
+WarningFileDetectorig=/usr/local/squid/var/domain.conf.warn
+WarningFileDigRun=/usr/local/squid/var/origdomain.conf.warn
+
+CACHE_SWAP=`sed -e 's/#.*//g' /usr/local/squid/etc/squid.conf | grep cache_dir |  awk '{ print $3 }'`
+total_squids=`[ -f $FCConfFile ] && sed -e 's/#.*//g' $FCConfFile|grep cache_processes|awk '{print $2}'`
+ConfFile=/usr/local/squid/etc/squid.conf
+RedirectStatus=`[ -f $ConfFile ] && sed -e 's/#.*//g' $ConfFile | egrep "(redirect_program)|(url_rewrite_program)"` 
+
+createdir(){
+	for adir in $CACHE_SWAP; do
+		i=1     
+		while [ $i -le $total_squids ] ; do
+			if [ ! -d ${adir}/squid${i}/00 -a ! -f ${adir}/squid${i}/stripe ]; then 
+				mkdir -p ${adir}/squid${i}
+				chown squid.squid ${adir}/squid${i}
+				echo "init_cache_dir ${adir}/squid${i}... "
+				/usr/local/squid/sbin/squid -z -F -D -A $total_squids -a $i 2>/dev/null
+			fi      
+			i=$(($i+1))
+		done    
+	done 
+}
+start(){
+	
+	createdir
+	echo -n "Starting flexicache service"
+	$APP_PATH
+	[ $? -eq 0 ] && echo_success || echo_failure
+	echo
+}
+
+stop(){
+	echo -n "Stopping flexicache service"
+	$APP_PATH -k shutdown
+	[ $? -eq 0 ] && echo_success || echo_failure
+	echo
+}
+
+mergefiles() {
+	if [ -f $FCConfigErrorFile ]; then
+		`cat $FCConfigErrorFile >> $TotalConfigErrorFile`
+	fi
+	if [ -f $RedirectConfigErrorFile ]; then
+		`cat $RedirectConfigErrorFile >> $TotalConfigErrorFile`
+	fi
+	if [ -f $DomainConfigErrorFile ]; then
+		`cat $DomainConfigErrorFile >> $TotalConfigErrorFile`
+	fi
+	if [ -f $OrigdomainConfigErrorFile ]; then
+		`cat $OrigdomainConfigErrorFile >> $TotalConfigErrorFile`
+	fi
+}
+removefiles() {
+	if [ -f $FCConfigErrorFile ]; then
+		`rm -rf $FCConfigErrorFile`
+	fi
+	if [ -f $RedirectConfigErrorFile ]; then
+		`rm -rf $RedirectConfigErrorFile`
+	fi
+	if [ -f $DomainConfigErrorFile ]; then
+		`rm -rf $DomainConfigErrorFile`
+	fi
+	if [ -f $OrigdomainConfigErrorFile ]; then
+		`rm -rf $OrigdomainConfigErrorFile`
+	fi
+	if [ -f $TotalConfigErrorFile ]; then
+		`rm -rf $TotalConfigErrorFile`
+	fi
+	if [ -f $WarningFile ]; then
+		`rm -rf $WarningFile`
+	fi
+	if [ -f $WarningFileRedirect ]; then
+		`rm -rf $WarningFileRedirect`
+	fi
+	if [ -f $WarningFileDetectorig ]; then
+		`rm -rf $WarningFileDetectorig`
+	fi
+	if [ -f $WarningFileDigRun ]; then
+		`rm -rf $WarningFileDigRun`
+	fi
+}
+reload(){
+
+	removefiles
+
+	$SQUID -k check 2>&1|tee $WarningFile 1>/dev/null
+	Status=`test -r "$WarningFile"&&cat "$WarningFile"`
+	if [[ ! -z "$Status" ]]; then
+        echo "squid.conf:$Status\n"
+	fi  
+
+	if [[ ! -z "$RedirectStatus" ]]; then 
+	$REDIRECT $RedirectConfFile check 2>&1 | tee $WarningFileRedirect 1>/dev/null
+	StatusRedirect=`test -r "$WarningFileRedirect"&&cat "$WarningFileRedirect"`
+	if [[ ! -z "$StatusRedirect" ]]; then
+		echo "redirect.conf:$StatusRedirect\n"
+	fi 
+	fi
+
+	$DETECTORIG -M check 2>&1 | tee $WarningFileDetectorig 1>/dev/null
+	StatusDeterctorig=`test -r "$WarningFileDetectorig"&&cat "$WarningFileDetectorig"`
+	if [[ ! -z "$StatusDeterctorig" ]]; then
+		echo "domain.conf:$StatusDeterctorig\n"
+    fi
+
+	$DIGRUN -k check 2>&1|tee $WarningFileDigRun 1>/dev/null
+	StatusDigRun=`test -r "$WarningFileDigRun"&&cat "$WarningFileDigRun"`
+	if [[ ! -z "$StatusDigRun" ]]; then
+		echo "origdomain.conf:$StatusDigRun\n"
+	fi
+
+    mergefiles	
+
+	#if [[ ! -z $Status ]]; then
+	#	return 1;
+	#fi
+	#if [[ ! -z $StatusRedirect]]; then
+	#	return 1;
+	#fi
+
+    #echo "begin check redirect conf..."
+	if [[ ! -z "$RedirectStatus" ]]; then
+		$REDIRECT $RedirectConfFile check
+		ret=$?
+		if [ $ret -ne 0 ] 
+		then
+			echo -n "check redirect confi done..."
+			echo_failure
+			return 1
+		fi
+	fi
+    #echo -n "check redirect conf done..."
+    #echo_success
+
+
+	echo -n "Reloading flexicache service"
+	$APP_PATH -k reconfigure
+	[ $? -eq 0 ] && echo_success || echo_failure
+	echo
+}
+
+rotate() {
+	if [ $total_squids -eq 0 ] ; then
+		$SQUID -k rotate >/dev/null 2>&1
+	else
+		i=1 
+		while [ $i -le $total_squids ] ; do
+			$SQUID -k rotate -A $total_squids -a $i 2>&1
+			i=$(($i+1))
+		done
+	fi  
+}
+
+restart(){
+	stop
+	sleep 1
+	start
+}
+
+rhstatus(){
+	status $APP_PATH
+}
+
+rotatelog(){
+	$APP_PATH -k rotatelog
+}
+
+swaplog(){
+	$SQUID -k swaplog >/dev/null 2>&1
+	i=1     
+	while [ $i -le $total_squids ] ; do
+		/usr/local/squid/sbin/squid -F -D -A $total_squids -a $i -k swaplog 2>/dev/null
+		i=$(($i+1))
+	done    
+
+}
+
+
+case "$1" in 
+start)
+    start   
+    ;;
+
+stop)
+    stop    
+    ;;
+
+reload)
+    reload  
+    ;;
+
+rotate)
+    rotate  
+    ;;
+
+restart)
+    restart 
+    ;;
+status)
+    rhstatus
+    ;;
+rotatelog)
+	rotatelog
+	;;
+createdir)
+	createdir
+	;;
+swaplog)
+	swaplog
+	;;
+*)
+    echo $"Usage: $0 {start|stop|reload|rotate|restart|status|rotatelog|swaplog|createdir}"
+    exit 1  
+esac
+
+exit $?
+
